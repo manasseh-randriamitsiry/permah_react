@@ -13,31 +13,31 @@ export function EventList() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const { user } = useAuthStore();
   const navigate = useNavigate();
-  const [selectedEventId, setSelectedEventId] = React.useState<string | null>(
-    localStorage.getItem('selectedEventId')
-  );
 
   const fetchEvents = async () => {
     try {
       setLoading(true);
       const response = await EventService.listEvents();
+      setEvents(response);
       
-      // If there's a selected event, filter to show only that event
+      // Check if we have a selected event from dashboard
+      const selectedEventId = localStorage.getItem('selectedEventId');
       if (selectedEventId) {
-        const filteredEvents = response.filter(
+        const selectedEvent = response.find(
           (event: EventData) => event.id === parseInt(selectedEventId)
         );
-        setEvents(filteredEvents);
-        setFilteredEvents(filteredEvents);
-        // Clear the selected event ID after filtering
+        if (selectedEvent) {
+          setFilteredEvents([selectedEvent]);
+          // Set the search term to the event title to maintain the filter
+          setSearchTerm(selectedEvent.title);
+        } else {
+          setFilteredEvents(response);
+        }
+        // Clear the selectedEventId after using it
         localStorage.removeItem('selectedEventId');
-        setSelectedEventId(null);
       } else {
-        setEvents(response || []);
-        setFilteredEvents(response || []);
+        setFilteredEvents(response);
       }
-      
-      setError('');
     } catch (err: any) {
       console.error('Error fetching events:', err);
       setError(err.message || 'Failed to fetch events');
@@ -48,8 +48,9 @@ export function EventList() {
 
   React.useEffect(() => {
     fetchEvents();
-  }, [selectedEventId]);
+  }, []);
 
+  // Update filtered events when search term changes
   React.useEffect(() => {
     const filtered = events.filter(event => 
       event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -141,15 +142,16 @@ export function EventList() {
                 onEdit={handleEditEvent}
               />
             ))}
-            {filteredEvents.length === 0 && (
-              <div className="col-span-full flex h-[calc(100vh-16rem)] items-center justify-center">
-                <p className="text-center text-gray-500">
-                  {searchTerm 
-                    ? "No events found matching your search."
-                    : "No events available."}
-                </p>
-              </div>
-            )}
+          </div>
+        )}
+
+        {filteredEvents.length === 0 && !loading && (
+          <div className="flex h-[calc(100vh-16rem)] items-center justify-center">
+            <p className="text-center text-gray-500">
+              {searchTerm 
+                ? "No events found matching your search."
+                : "No events available."}
+            </p>
           </div>
         )}
       </div>
