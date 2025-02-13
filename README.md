@@ -120,8 +120,7 @@ Content-Type: application/json
 }
 ```
 Response (200 OK): Updated event object
-```
-```
+```http
 "message": "Event updated successfully",
 "event": {
 "id": number,

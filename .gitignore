@@ -15,10 +15,6 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-backend/.idea
-backend/dist
-backend/node_modules
-
 .idea
 .DS_Store
 *.suo
@@ -26,3 +22,12 @@ backend/node_modules
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Docker
+.docker
+docker-compose.override.yml
