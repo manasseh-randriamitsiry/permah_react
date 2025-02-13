@@ -48,26 +48,6 @@ export const validatePassword = (password: string, isNewPassword: boolean = true
     if (password.length < 8) {
       return { isValid: false, error: 'auth.validation.password.tooShort' };
     }
-
-    // Require at least one uppercase letter
-    if (!/[A-Z]/.test(password)) {
-      return { isValid: false, error: 'auth.validation.password.requireUppercase' };
-    }
-
-    // Require at least one lowercase letter
-    if (!/[a-z]/.test(password)) {
-      return { isValid: false, error: 'auth.validation.password.requireLowercase' };
-    }
-
-    // Require at least one number
-    if (!/\d/.test(password)) {
-      return { isValid: false, error: 'auth.validation.password.requireNumber' };
-    }
-
-    // Require at least one special character
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-      return { isValid: false, error: 'auth.validation.password.requireSpecial' };
-    }
   }
 
   return { isValid: true };

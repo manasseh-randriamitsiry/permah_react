@@ -75,6 +75,8 @@
       }
     },
     "errors": {
+      "title": "Authentication Failed",
+      "description": "The email or password you entered is incorrect. Please check your credentials and try again.",
       "invalidCredentials": "Invalid email or password",
       "sessionExpired": "Your session has expired. Please log in again."
     },
@@ -83,11 +85,13 @@
         "required": "Username is required",
         "tooShort": "Username must be at least 4 characters long",
         "tooLong": "Username must be less than 50 characters long",
-        "invalid": "Username can only contain letters, numbers, spaces, and common special characters"
+        "invalid": "Username can only contain letters, numbers, spaces, and common special characters",
+        "hint": "4-50 characters, letters, numbers, and common special characters allowed"
       },
       "email": {
         "required": "Email is required",
-        "invalid": "Please enter a valid email address"
+        "invalid": "Please enter a valid email address",
+        "hint": "Enter a valid email address (e.g., user@example.com)"
       },
       "password": {
         "required": "Password is required",
@@ -95,12 +99,17 @@
         "requireUppercase": "Password must contain at least one uppercase letter",
         "requireLowercase": "Password must contain at least one lowercase letter",
         "requireNumber": "Password must contain at least one number",
-        "requireSpecial": "Password must contain at least one special character"
+        "requireSpecial": "Password must contain at least one special character",
+        "hint": "At least 8 characters with uppercase, lowercase, number, and special character"
       },
       "passwordConfirmation": {
         "required": "Please confirm your password",
-        "mismatch": "Passwords do not match"
+        "mismatch": "Passwords do not match",
+        "hint": "Re-enter your password exactly as above"
       }
+    },
+    "signup": {
+      "success": "Account created successfully! Please log in."
     }
   },
   "common": {

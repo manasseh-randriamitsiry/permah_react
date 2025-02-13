@@ -59,7 +59,7 @@
       "confirmPassword": "Confirmer le mot de passe",
       "submit": "S'inscrire",
       "loading": "Inscription en cours...",
-      "success": "Inscription réussie",
+      "success": "Compte créé avec succès ! Veuillez vous connecter.",
       "errors": {
         "emailExists": "Cette adresse e-mail est déjà utilisée",
         "passwordMismatch": "Les mots de passe ne correspondent pas",
@@ -92,6 +92,8 @@
       }
     },
     "errors": {
+      "title": "Échec de l'authentification",
+      "description": "L'adresse e-mail ou le mot de passe que vous avez saisi est incorrect. Veuillez vérifier vos identifiants et réessayer.",
       "invalidCredentials": "Email ou mot de passe invalide",
       "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
     },

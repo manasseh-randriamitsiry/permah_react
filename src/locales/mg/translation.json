@@ -59,7 +59,7 @@
       "confirmPassword": "Hamarino ny teny miafina",
       "submit": "Hisoratra anarana",
       "loading": "Eo am-pisoratana anarana...",
-      "success": "Voasoratra anarana soa aman-tsara",
+      "success": "Voaforona soa aman-tsara ny kaontinao! Azafady, midira.",
       "errors": {
         "emailExists": "Efa misy mampiasa io adiresy mailaka io",
         "passwordMismatch": "Tsy mitovy ny teny miafina",
@@ -68,6 +68,8 @@
       }
     },
     "errors": {
+      "title": "Tsy nahomby ny fidirana",
+      "description": "Diso ny mailaka na teny miafina nampidirinao. Azafady, hamarino ny fampidirana ary andramo indray.",
       "invalidCredentials": "Hamarino ny mailaka na teny miafina fa misy diso",
       "sessionExpired": "Tapitra ny fe-potoana. Azafady, midira indray."
     },
@@ -100,11 +102,13 @@
         "required": "Tsy maintsy fenoina ny anarana",
         "tooShort": "Tsy maintsy mihoatra ny 4 ny isan'ny soratra amin'ny anarana",
         "tooLong": "Tsy tokony hihoatra ny 50 ny isan'ny soratra amin'ny anarana",
-        "invalid": "Ny anarana dia tsy maintsy ahitana litera, isa, elanelana ary marika fanampiny mahazatra ihany"
+        "invalid": "Ny anarana dia tsy maintsy ahitana litera, isa, elanelana ary marika fanampiny mahazatra ihany",
+        "hint": "Soratra 4-50, litera, isa ary marika fanampiny azo ampiasaina"
       },
       "email": {
         "required": "Tsy maintsy fenoina ny mailaka",
-        "invalid": "Azafady, ampidiro mailaka marina"
+        "invalid": "Azafady, ampidiro mailaka marina",
+        "hint": "Ampidiro mailaka marina (oh: mpampiasa@ohatra.com)"
       },
       "password": {
         "required": "Tsy maintsy fenoina ny tenimiafina",
@@ -112,11 +116,13 @@
         "requireUppercase": "Tsy maintsy misy litera lehibe iray farafahakeliny ny tenimiafina",
         "requireLowercase": "Tsy maintsy misy litera kely iray farafahakeliny ny tenimiafina",
         "requireNumber": "Tsy maintsy misy isa iray farafahakeliny ny tenimiafina",
-        "requireSpecial": "Tsy maintsy misy marika manokana iray farafahakeliny ny tenimiafina"
+        "requireSpecial": "Tsy maintsy misy marika manokana iray farafahakeliny ny tenimiafina",
+        "hint": "Farafahakeliny soratra 8 misy litera lehibe, litera kely, isa ary marika manokana"
       },
       "passwordConfirmation": {
         "required": "Azafady, hamarino ny tenimiafina",
-        "mismatch": "Tsy mitovy ny tenimiafina"
+        "mismatch": "Tsy mitovy ny tenimiafina",
+        "hint": "Avereno ampidirina mitovy amin'ny teo ambony ny tenimiafina"
       }
     }
   },

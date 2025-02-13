@@ -70,6 +70,8 @@ export function SignupFields({ isLoading, onValidationChange }: SignupFieldsProp
         required
         onChange={handleInputChange('username')}
         error={errors.username}
+        hint={t('auth.validation.username.hint')}
+        placeholder="John Doe"
       />
 
       <Input
@@ -80,6 +82,8 @@ export function SignupFields({ isLoading, onValidationChange }: SignupFieldsProp
         required
         onChange={handleInputChange('email')}
         error={errors.email}
+        hint={t('auth.validation.email.hint')}
+        placeholder="user@example.com"
       />
 
       <Input
@@ -91,6 +95,8 @@ export function SignupFields({ isLoading, onValidationChange }: SignupFieldsProp
         required
         onChange={handleInputChange('password')}
         error={errors.password}
+        hint={t('auth.validation.password.hint')}
+        placeholder="••••••••"
       />
 
       <Input
@@ -102,6 +108,8 @@ export function SignupFields({ isLoading, onValidationChange }: SignupFieldsProp
         required
         onChange={handleInputChange('confirmPassword')}
         error={errors.confirmPassword}
+        hint={t('auth.validation.passwordConfirmation.hint')}
+        placeholder="••••••••"
       />
 
       <Button 

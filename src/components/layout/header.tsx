@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
 import { useAuthStore } from '../../store/auth-store';
+import { LanguageSelector } from './LanguageSelector';
 
 export function Header() {
   const { t } = useTranslation();
@@ -25,23 +26,27 @@ export function Header() {
             <span className="text-xl font-bold text-blue-600">{t('brand.name')}</span>
           </Link>
 
-          <Button
-            variant="outline"
-            size="sm"
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label={isMenuOpen ? t('nav.menu.close') : t('nav.menu.open')}
-          >
-            <Menu className="h-6 w-6" />
-          </Button>
+          <div className="flex items-center space-x-4">
+            <LanguageSelector />
+            
+            <Button
+              variant="outline"
+              size="sm"
+              className="md:hidden p-2"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? t('nav.menu.close') : t('nav.menu.open')}
+            >
+              <Menu className="h-6 w-6" />
+            </Button>
 
-          <DesktopNav isAuthenticated={isAuthenticated} onLogout={handleLogout} />
-          <MobileNav
-            isAuthenticated={isAuthenticated}
-            isMenuOpen={isMenuOpen}
-            onLogout={handleLogout}
-            onCloseMenu={() => setIsMenuOpen(false)}
-          />
+            <DesktopNav isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+            <MobileNav
+              isAuthenticated={isAuthenticated}
+              isMenuOpen={isMenuOpen}
+              onLogout={handleLogout}
+              onCloseMenu={() => setIsMenuOpen(false)}
+            />
+          </div>
         </div>
       </div>
     </header>

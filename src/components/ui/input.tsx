@@ -1,24 +1,28 @@
 import React from 'react';
 import { cn } from '../../lib/utils';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  hint?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className = '', ...props }, ref) => {
+  ({ className, label, error, hint, ...props }, ref) => {
     return (
-      <div className="relative">
+      <div className="relative mb-6">
         {label && (
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label 
+            htmlFor={props.name} 
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             {label}
           </label>
         )}
         <input
-          {...props}
           ref={ref}
-          className={`
+          id={props.name}
+          className={cn(`
             block w-full rounded-md
             border-gray-200
             bg-white
@@ -37,12 +41,33 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             disabled:bg-gray-50
             disabled:text-gray-500
             ${error ? 'border-red-300 focus:border-red-300 focus:ring-red-100' : ''}
-            ${className}
-          `}
+          `, className)}
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={
+            error ? `${props.name}-error` : 
+            hint ? `${props.name}-hint` : 
+            undefined
+          }
+          {...props}
         />
-        {error && (
-          <p className="mt-1 text-sm text-red-600">{error}</p>
-        )}
+        <div className="min-h-[20px] mt-1">
+          {error ? (
+            <p 
+              className="text-sm text-red-600" 
+              id={`${props.name}-error`}
+              role="alert"
+            >
+              {error}
+            </p>
+          ) : hint ? (
+            <p 
+              className="text-sm text-gray-500"
+              id={`${props.name}-hint`}
+            >
+              {hint}
+            </p>
+          ) : null}
+        </div>
       </div>
     );
   }
