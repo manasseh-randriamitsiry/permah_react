@@ -1,27 +1,37 @@
 import React from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useModal } from '../../contexts/modal-context';
 
 interface PasswordVerificationModalProps {
     isOpen: boolean;
     onVerify: (password: string) => Promise<void>;
     onClose: () => void;
     error?: string;
+    isVerifying?: boolean;
 }
 
 export function PasswordVerificationModal({ 
     isOpen, 
     onVerify, 
     onClose,
-    error 
+    error,
+    isVerifying = false
 }: PasswordVerificationModalProps) {
     const [password, setPassword] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(false);
     const [localError, setLocalError] = React.useState('');
+    const { openModal, closeModal } = useModal();
+
+    React.useEffect(() => {
+        if (isOpen) {
+            openModal();
+        } else {
+            closeModal();
+        }
+    }, [isOpen, openModal, closeModal]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setIsLoading(true);
         setLocalError('');
         
         try {
@@ -29,8 +39,6 @@ export function PasswordVerificationModal({
             setPassword(''); // Clear password on success
         } catch (err: any) {
             setLocalError(err.message);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -42,8 +50,12 @@ export function PasswordVerificationModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div 
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+                onClick={onClose}
+            ></div>
+            <div className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
                 <h2 className="mb-4 text-xl font-bold">Verify Your Identity</h2>
                 <p className="mb-4 text-gray-600">
                     Please enter your current password to access profile settings
@@ -68,7 +80,7 @@ export function PasswordVerificationModal({
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            disabled={isLoading}
+                            disabled={isVerifying}
                             required
                             autoFocus
                             className="w-full"
@@ -80,15 +92,15 @@ export function PasswordVerificationModal({
                             type="button"
                             variant="outline"
                             onClick={onClose}
-                            disabled={isLoading}
+                            disabled={isVerifying}
                         >
                             Cancel
                         </Button>
                         <Button
                             type="submit"
-                            disabled={isLoading || !password}
+                            disabled={isVerifying || !password}
                         >
-                            {isLoading ? 'Verifying...' : 'Continue'}
+                            {isVerifying ? 'Verifying...' : 'Continue'}
                         </Button>
                     </div>
                 </form>

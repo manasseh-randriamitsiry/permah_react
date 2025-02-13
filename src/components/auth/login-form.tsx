@@ -1,77 +1,45 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { useAuthStore } from '../../store/auth-store';
-import { SecurityService } from '../../services/auth.service';
+import { useLocation } from 'react-router-dom';
+import { useLogin } from './login-form/useLogin';
+import { LoginHeader } from './login-form/LoginHeader';
+import { LoginError } from './login-form/LoginError';
+import { LoginFields } from './login-form/LoginFields';
+
+interface LocationState {
+  message?: string;
+  email?: string;
+}
 
 export function LoginForm() {
-  const navigate = useNavigate();
-  const [error, setError] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const location = useLocation();
+  const state = location.state as LocationState;
+  const { error, isLoading, emailRef, passwordRef, handleSubmit } = useLogin();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      // Clear any existing auth state first
-      useAuthStore.getState().logout();
-      
-      const response = await SecurityService.login(
-        emailRef.current?.value || '',
-        passwordRef.current?.value || ''
-      );
-
-      useAuthStore.getState().login(response.user,response.token);
-      navigate('/dashboard');
-    } catch (err: any) {
-      console.error('Login error:', err);
-      setError(err.message || 'Failed to login');
-    } finally {
-      setIsLoading(false);
+  // Pre-fill email if provided from signup
+  React.useEffect(() => {
+    if (state?.email && emailRef.current) {
+      emailRef.current.value = state.email;
     }
-  };
+  }, [state?.email, emailRef]);
 
   return (
     <div className="mx-auto max-w-md space-y-8">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold">Welcome back</h2>
-        <p className="mt-2 text-gray-600">Please sign in to your account</p>
-      </div>
+      <LoginHeader />
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {error && (
-          <div className="rounded-md bg-red-50 p-4 text-sm text-red-700">
-            <p className="font-medium">Error: {error}</p>
-            <p className="mt-1">Please check your credentials and try again.</p>
+        {state?.message && (
+          <div className="rounded-md bg-green-50 p-4 text-sm text-green-700">
+            {state.message}
           </div>
         )}
-
-        <Input
-          ref={emailRef}
-          label="Email address"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
+        
+        <LoginError error={error} />
+        
+        <LoginFields
+          emailRef={emailRef}
+          passwordRef={passwordRef}
+          isLoading={isLoading}
         />
-
-        <Input
-          ref={passwordRef}
-          label="Password"
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          required
-        />
-
-        <Button type="submit" className="w-full" size="xl" disabled={isLoading}>
-          {isLoading ? 'Signing in...' : 'Sign in'}
-        </Button>
       </form>
     </div>
   );

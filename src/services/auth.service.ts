@@ -53,14 +53,31 @@ export class SecurityService {
         }
     }
 
-    // Add this new method to get auth headers
     static getAuthHeaders() {
         const token = localStorage.getItem('token');
+        if (!token) {
+            console.warn('No authentication token found');
+            throw new Error('No authentication token found');
+        }
+        
+        console.log('Using token for authentication:', `Bearer ${token.substring(0, 10)}...`);
+        
         return {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': token ? `Bearer ${token}` : ''
+            'Authorization': `Bearer ${token}`
         };
+    }
+
+    static isAuthenticated(): boolean {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+        return !!(token && user);
+    }
+
+    static clearAuth() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
     }
 
     static async signup(data: { name: string; email: string; password: string }): Promise<SignupResponse> {
@@ -95,10 +112,7 @@ export class SecurityService {
             
             const response = await fetch(`${this.API_URL}/api/auth/profile`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
+                headers: this.getAuthHeaders(),
                 credentials: 'include',
                 body: JSON.stringify(this.sanitizeProfileData(data))
             });
@@ -112,6 +126,9 @@ export class SecurityService {
             console.log('Profile update successful');
             return result;
         } catch (error: any) {
+            if (error.message === 'No authentication token found') {
+                this.clearAuth();
+            }
             console.error('Profile update failed:', error);
             throw error;
         }
@@ -178,19 +195,15 @@ export class SecurityService {
 
     static async logout(): Promise<void> {
         try {
-            await axios.post(
-                `${this.API_URL}/api/auth/logout`,
-                {},
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
-            );
+            await fetch(`${this.API_URL}/api/auth/logout`, {
+                method: 'POST',
+                headers: this.getAuthHeaders(),
+                credentials: 'include'
+            });
         } catch (error) {
-            throw error;
+            console.error('Logout error:', error);
+        } finally {
+            this.clearAuth();
         }
     }
 
@@ -241,13 +254,15 @@ export class SecurityService {
 
     static async verifyPassword(password: string): Promise<void> {
         try {
-            const userJson = localStorage.getItem('user');
-            if (!userJson) {
-                throw new Error('No user found');
+            console.log('Verifying password locally...');
+            const user = localStorage.getItem('user');
+            if (!user) {
+                throw new Error('No user found. Please log in again.');
             }
+
+            const parsedUser = JSON.parse(user);
             
-            const user = JSON.parse(userJson);
-            
+            // Verify password by trying to login with current credentials
             const response = await fetch(`${this.API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -256,17 +271,20 @@ export class SecurityService {
                 },
                 credentials: 'include',
                 body: JSON.stringify({
-                    email: user.email,
+                    email: parsedUser.email,
                     password: password
                 })
             });
 
             if (!response.ok) {
-                throw new Error('Invalid password. Please try again.');
+                const error = await response.json();
+                throw new Error(error.message || 'Invalid password');
             }
+
+            console.log('Password verification successful');
         } catch (error: any) {
             console.error('Password verification failed:', error);
-            throw new Error('Invalid password. Please try again.');
+            throw new Error('Invalid password');
         }
     }
 }

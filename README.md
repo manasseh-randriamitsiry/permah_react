@@ -94,11 +94,13 @@ Content-Type: application/json
 {
     "title": "New Event",
     "description": "Event description",
-    "date": "2024-12-31T00:00:00Z",
+    "startDate": "2024-12-31T18:00:00Z",
+    "endDate": "2024-12-31T22:00:00Z",
     "location": "Event Location",
     "available_places": 100,
     "price": 0,
     "image_url": "https://example.com/image.jpg"
+
 }
 ```
 
@@ -107,9 +109,10 @@ Content-Type: application/json
 UT /api/events/{id}
 Content-Type: application/json
 {
-    "title": "Updated Title", // Optional
+     "title": "Updated Title", // Optional
     "description": "Updated desc", // Optional
-    "date": "2024-12-31T00:00:00Z", // Optional
+    "startDate": "2024-12-31T18:00:00Z", // Optional
+    "endDate": "2024-12-31T22:00:00Z", // Optional
     "location": "New Location", // Optional
     "available_places": 150, // Optional
     "price": 25.99, // Optional
@@ -118,7 +121,25 @@ Content-Type: application/json
 ```
 Response (200 OK): Updated event object
 ```
-
+```
+"message": "Event updated successfully",
+"event": {
+"id": number,
+"title": "Updated Title",
+"description": "Updated desc",
+"startDate": "2024-12-31T18:00:00Z",
+"endDate": "2024-12-31T22:00:00Z",
+"location": "New Location",
+"available_places": 150,
+"price": 25.99,
+"image_url": "https://...",
+"creator": {
+"id": 1,
+"name": "Creator Name"
+},
+"created_at": "2024-02-13T00:00:00Z",
+"updated_at": "2024-02-13T00:00:00Z"
+```
 #### Delete Event
 ```http
 DELETE /api/events/{id}
