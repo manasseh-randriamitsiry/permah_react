@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { User, LoginResponse, SignupResponse } from '../types';
+import type { LoginResponse, SignupResponse } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -36,6 +36,15 @@ export class SecurityService {
             }
 
             const data = await response.json();
+            // Store the token if it's in the response
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
+            // Store the user data
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+            }
+            
             console.log('Login successful:', data);
             return data;
         } catch (error: any) {
@@ -44,27 +53,33 @@ export class SecurityService {
         }
     }
 
-    static async signup(data: { email: string; password: string; name: string }): Promise<SignupResponse> {
-        try {
-            const response = await fetch(`${this.API_URL}/api/auth/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify(data)
-            });
+    // Add this new method to get auth headers
+    static getAuthHeaders() {
+        const token = localStorage.getItem('token');
+        return {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+        };
+    }
 
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Signup failed');
-            }
+    static async signup(data: { name: string; email: string; password: string }): Promise<SignupResponse> {
+        const response = await fetch(`${this.API_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
 
-            return await response.json();
-        } catch (error) {
-            throw error;
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Registration failed');
         }
+
+        const responseData = await response.json();
+        return responseData;
     }
 
     static async updateProfile(data: UpdateProfileData): Promise<LoginResponse> {

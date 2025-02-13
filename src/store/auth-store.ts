@@ -6,10 +6,9 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   isInitialized: boolean;
-  loginWithCredentials: (email: string, password: string) => Promise<void>;
-  loginWithUser: (user: User) => void;
-  logout: () => Promise<void>;
-  initialize: () => Promise<void>;
+  login: (user: User, token: string) => void;
+  logout: () => void;
+  initialize: () => void;
   updateProfile: (data: {
     name?: string;
     email?: string;
@@ -23,42 +22,16 @@ export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
   isInitialized: false,
 
-  loginWithCredentials: async (email: string, password: string) => {
-    try {
-      const response = await SecurityService.login(email, password);
-      const { user } = response;
-      
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      set({
-        user,
-        isAuthenticated: true,
-      });
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  loginWithUser: (user: User) => {
-    // Store user data
+  login: (user: User, token: string) => {
+    localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    
-    set({
-      user,
-      isAuthenticated: true,
-    });
+    set({ user, isAuthenticated: true });
   },
 
-  logout: async () => {
-    try {
-      await SecurityService.logout();
-    } finally {
-      localStorage.removeItem('user');
-      set({
-        user: null,
-        isAuthenticated: false,
-      });
-    }
+  logout: () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    set({ user: null, isAuthenticated: false });
   },
 
   updateProfile: async (data) => {
@@ -77,16 +50,21 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  initialize: async () => {
-    try {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
+  initialize: () => {
+    const token = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+    
+    if (token && storedUser) {
+      try {
         const user = JSON.parse(storedUser);
-        set({ user, isAuthenticated: true });
+        set({ user, isAuthenticated: true, isInitialized: true });
+      } catch (e) {
+        // If there's an error parsing the stored user, clear everything
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        set({ user: null, isAuthenticated: false, isInitialized: true });
       }
-    } catch (error) {
-      localStorage.removeItem('user');
-    } finally {
+    } else {
       set({ isInitialized: true });
     }
   },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { EventForm } from './event-form';
-import { eventApi } from '../../services/api';
+import { EventService } from '../../services/event.service';
 import { useAuthStore } from '../../store/auth-store';
 import type { CreateEventRequest,EventData } from '../../types';
 
@@ -15,24 +15,35 @@ export function EditEvent() {
 
   React.useEffect(() => {
     const fetchEvent = async () => {
-      if (!id) return;
+      if (!id) {
+        console.error('No event ID provided');
+        navigate('/events');
+        return;
+      }
       
       try {
         setLoading(true);
-        const response = await eventApi.getById(parseInt(id));
-        const eventData = response.data;
+        console.log('Fetching event:', id);
+        const response = await EventService.getEvent(parseInt(id));
+        console.log('Event data:', response);
         
+        // Check if we got valid data
+        if (!response) {
+          throw new Error('Event not found');
+        }
+
         // Check if user is the owner
-        if (eventData.user_id !== user?.id) {
+        if (response.creator?.email !== user?.email) {
           setError('You do not have permission to edit this event');
           navigate('/events');
           return;
         }
         
-        setEvent(eventData);
+        setEvent(response);
       } catch (err: any) {
         console.error('Error fetching event:', err);
         setError(err.message || 'Failed to fetch event');
+        navigate('/events');
       } finally {
         setLoading(false);
       }
@@ -46,11 +57,11 @@ export function EditEvent() {
     
     try {
       setLoading(true);
-      await eventApi.update(parseInt(id), eventData);
+      await EventService.updateEvent(parseInt(id), eventData);
       navigate('/events');
     } catch (err: any) {
       console.error('Error updating event:', err);
-      throw new Error(err.message || 'Failed to update event');
+      setError(err.message || 'Failed to update event');
     } finally {
       setLoading(false);
     }
@@ -58,34 +69,28 @@ export function EditEvent() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
-          <p className="mt-2 text-gray-600">Loading event...</p>
-        </div>
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="rounded-md bg-red-50 p-4 text-center">
-        <p className="text-sm text-red-700">{error}</p>
+      <div className="text-center py-8">
+        <div className="bg-red-50 text-red-600 p-4 rounded-md">
+          <p>{error}</p>
+        </div>
       </div>
     );
   }
 
   if (!event) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-gray-600">Event not found</p>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Edit Event</h1>
+    <div className="max-w-2xl mx-auto">
       <EventForm event={event} onSubmit={handleSubmit} />
     </div>
   );

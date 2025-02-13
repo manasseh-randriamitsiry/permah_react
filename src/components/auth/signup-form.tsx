@@ -7,7 +7,6 @@ import { SecurityService } from '../../services/auth.service';
 
 export function SignupForm() {
   const navigate = useNavigate();
-  const loginWithUser = useAuthStore((state) => state.loginWithUser);
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -28,10 +27,14 @@ export function SignupForm() {
         password,
       });
       
-      const { user } = response;
-      loginWithUser(user);
-      navigate('/dashboard');
+      if (response.user && response.token) {
+        useAuthStore.getState().login(response.user, response.token);
+        navigate('/dashboard');
+      } else {
+        throw new Error('Invalid signup response');
+      }
     } catch (err: any) {
+      console.error('Signup error:', err);
       setError(err.message || 'Failed to create account');
     } finally {
       setIsLoading(false);

@@ -10,16 +10,21 @@ export interface EventData {
   description: string;
   date: string;
   location: string;
-  image_url: string;
+  image_url?: string;
   available_places: number;
   price: number;
-  user_id: number;
-  organizer_id?: number;
+  user_id?: number;
+  creator?: {
+    id: number;
+    email: string;
+    name: string;
+  };
+  organizer_id?: number;    // Optional organizer ID
   created_at: string;
   updated_at: string;
-  user: User;
+  user: User;               // User object of the creator
   attendees?: User[];
-  participants?: User[];  // Some APIs might use participants instead of attendees
+  participants?: User[];
 }
 
 export interface SignupRequest {
@@ -30,7 +35,8 @@ export interface SignupRequest {
 
 export interface SignupResponse {
   user: User;
-  message?: string;
+  message: string;
+  token: string;
 }
 
 export interface LoginRequest {
@@ -40,6 +46,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   user: User;
+  token: string;
   message?: string;
 }
 
@@ -61,7 +68,7 @@ export interface CreateEventRequest {
   description: string;
   date: string;
   location: string;
-  image_url: string;
+  image_url?: string;
   available_places: number;
   price: number;
 }

@@ -4,12 +4,12 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
 import { useAuthStore } from '../../store/auth-store';
-import type { CreateEventRequest,EventData } from '../../types';
+import type { EventData } from '../../types';
 
 
 interface EventFormProps {
   event?: EventData;
-  onSubmit: (data: CreateEventRequest) => Promise<void>;
+  onSubmit: (eventData: Omit<EventData, 'id' | 'creator' | 'created_at' | 'updated_at' | 'user' | 'attendees' | 'participants'>) => Promise<void>;
 }
 
 export function EventForm({ event, onSubmit }: EventFormProps) {
@@ -41,7 +41,7 @@ export function EventForm({ event, onSubmit }: EventFormProps) {
       if (descriptionRef.current) descriptionRef.current.value = event.description;
       if (dateRef.current) dateRef.current.value = formatDateForInput(new Date(event.date));
       if (locationRef.current) locationRef.current.value = event.location;
-      if (imageUrlRef.current) imageUrlRef.current.value = event.image_url;
+      if (imageUrlRef.current) imageUrlRef.current.value = event.image_url || '';
       if (availablePlacesRef.current) availablePlacesRef.current.value = event.available_places.toString();
       if (priceRef.current) priceRef.current.value = event.price.toString();
     }

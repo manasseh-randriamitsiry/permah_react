@@ -7,12 +7,11 @@ import { ProfileEditForm } from './components/auth/profile-edit-form';
 import { EventList } from './components/events/event-list';
 import { EventForm } from './components/events/event-form';
 import { useAuthStore } from './store/auth-store';
-import type { CreateEventRequest } from './types';
-import { eventApi } from './services/api';
+import type { EventData } from './types';
+import { EventService } from './services/event.service';
 import { Dashboard } from './components/dashboard/dashboard';
 import { EditEvent } from './components/events/edit-event';
-
-console.log('App.tsx loaded');
+import { useNavigate } from 'react-router-dom';
 
 // Protected Route wrapper component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -129,10 +128,14 @@ function Home() {
 }
 
 function CreateEvent() {
-  const handleSubmit = async (eventData: CreateEventRequest) => {
+  const navigate = useNavigate();
+  
+  const handleSubmit = async (eventData: Omit<EventData, 'id' | 'creator' | 'created_at' | 'updated_at' | 'user' | 'attendees' | 'participants'>) => {
     try {
-      await eventApi.create(eventData);
+      await EventService.createEvent(eventData);
+      navigate('/events');
     } catch (error) {
+      console.error('Error creating event:', error);
       throw error;
     }
   };

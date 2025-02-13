@@ -1,11 +1,17 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAuthStore } from '../../store/auth-store';
+import { useNavigate } from 'react-router-dom';
 
 export function Header() {
   const { isAuthenticated, logout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <header className="border-b bg-white">
@@ -28,7 +34,7 @@ export function Header() {
                 <User className="h-4 w-4 inline-block mr-1" />
                 Profile
               </Link>
-              <Button variant="outline" onClick={logout}>
+              <Button variant="outline" onClick={handleLogout}>
                 Logout
               </Button>
             </>

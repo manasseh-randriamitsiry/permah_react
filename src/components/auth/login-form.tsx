@@ -3,36 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useAuthStore } from '../../store/auth-store';
+import { SecurityService } from '../../services/auth.service';
 
 export function LoginForm() {
   const navigate = useNavigate();
-  const loginWithCredentials = useAuthStore((state) => state.loginWithCredentials);
   const [error, setError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+  const emailRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+    setIsLoading(true);
 
     try {
-        console.log('Form data:', { email });
-        await loginWithCredentials(email, password);
-        navigate('/events');
+      // Clear any existing auth state first
+      useAuthStore.getState().logout();
+      
+      const response = await SecurityService.login(
+        emailRef.current?.value || '',
+        passwordRef.current?.value || ''
+      );
+
+      useAuthStore.getState().login(response.user,response.token);
+      navigate('/dashboard');
     } catch (err: any) {
-        console.error('Login error:', err);
-        
-        if (err.message) {
-            setError(err.message);
-        } else {
-            setError('Login failed. Please check your credentials.');
-        }
+      console.error('Login error:', err);
+      setError(err.message || 'Failed to login');
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -52,6 +52,7 @@ export function LoginForm() {
         )}
 
         <Input
+          ref={emailRef}
           label="Email address"
           name="email"
           type="email"
@@ -60,6 +61,7 @@ export function LoginForm() {
         />
 
         <Input
+          ref={passwordRef}
           label="Password"
           name="password"
           type="password"
