@@ -4,6 +4,7 @@ import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../store/auth-store';
+import { validateUsername, validateEmail, validatePassword, validatePasswordConfirmation } from '../../../lib/validation';
 
 interface ProfileFieldsProps {
   usernameRef: React.RefObject<HTMLInputElement>;
@@ -27,13 +28,52 @@ export function ProfileFields({
   const [isChangingPassword, setIsChangingPassword] = React.useState(false);
   const { user } = useAuthStore();
 
+  const [errors, setErrors] = React.useState<{
+    username?: string;
+    email?: string;
+    currentPassword?: string;
+    newPassword?: string;
+    confirmPassword?: string;
+  }>({});
+
+  const validateField = (field: string, value: string) => {
+    switch (field) {
+      case 'username':
+        return validateUsername(value);
+      case 'email':
+        return validateEmail(value);
+      case 'currentPassword':
+        return validatePassword(value, false);
+      case 'newPassword':
+        return validatePassword(value);
+      case 'confirmPassword':
+        return validatePasswordConfirmation(newPasswordRef.current?.value || '', value);
+      default:
+        return { isValid: true };
+    }
+  };
+
+  const handleInputChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const result = validateField(field, e.target.value);
+    setErrors(prev => ({
+      ...prev,
+      [field]: result.isValid ? undefined : t(result.error || '')
+    }));
+  };
+
   const handlePasswordToggle = () => {
     setIsChangingPassword(!isChangingPassword);
-    // Clear password fields when canceling password change
+    // Clear password fields and errors when canceling password change
     if (isChangingPassword) {
       if (currentPasswordRef.current) currentPasswordRef.current.value = '';
       if (newPasswordRef.current) newPasswordRef.current.value = '';
       if (confirmPasswordRef.current) confirmPasswordRef.current.value = '';
+      setErrors(prev => ({
+        ...prev,
+        currentPassword: undefined,
+        newPassword: undefined,
+        confirmPassword: undefined
+      }));
     }
   };
 
@@ -46,6 +86,8 @@ export function ProfileFields({
         ref={usernameRef}
         autoComplete="name"
         defaultValue={user?.name || ''}
+        onChange={handleInputChange('username')}
+        error={errors.username}
       />
 
       <Input
@@ -55,6 +97,8 @@ export function ProfileFields({
         ref={emailRef}
         autoComplete="email"
         defaultValue={user?.email || ''}
+        onChange={handleInputChange('email')}
+        error={errors.email}
       />
 
       <div className="space-y-4">
@@ -80,6 +124,8 @@ export function ProfileFields({
               ref={currentPasswordRef}
               autoComplete="current-password"
               required={isChangingPassword}
+              onChange={handleInputChange('currentPassword')}
+              error={errors.currentPassword}
             />
             <Input
               label={t('auth.profile.newPassword')}
@@ -89,6 +135,8 @@ export function ProfileFields({
               autoComplete="new-password"
               required={isChangingPassword}
               placeholder={t('auth.profile.passwordHint')}
+              onChange={handleInputChange('newPassword')}
+              error={errors.newPassword}
             />
             <Input
               label={t('auth.profile.confirmPassword')}
@@ -98,6 +146,8 @@ export function ProfileFields({
               autoComplete="new-password"
               required={isChangingPassword}
               placeholder={t('auth.profile.confirmPasswordHint')}
+              onChange={handleInputChange('confirmPassword')}
+              error={errors.confirmPassword}
             />
           </div>
         )}
@@ -111,7 +161,10 @@ export function ProfileFields({
         >
           {t('common.cancel')}
         </Button>
-        <Button type="submit" disabled={isLoading}>
+        <Button 
+          type="submit" 
+          disabled={isLoading || Object.keys(errors).some(key => errors[key as keyof typeof errors])}
+        >
           {isLoading ? t('auth.profile.loading') : t('auth.profile.save')}
         </Button>
       </div>

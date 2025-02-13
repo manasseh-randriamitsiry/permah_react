@@ -94,10 +94,40 @@
     "errors": {
       "invalidCredentials": "Email ou mot de passe invalide",
       "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+    },
+    "validation": {
+      "username": {
+        "required": "Le nom d'utilisateur est requis",
+        "minLength": "Le nom d'utilisateur doit contenir au moins {{min}} caractères",
+        "maxLength": "Le nom d'utilisateur ne doit pas dépasser {{max}} caractères",
+        "invalidCharacters": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des tirets"
+      },
+      "email": {
+        "required": "L'adresse e-mail est requise",
+        "invalid": "Veuillez entrer une adresse e-mail valide"
+      },
+      "password": {
+        "required": "Le mot de passe est requis",
+        "minLength": "Le mot de passe doit contenir au moins {{min}} caractères",
+        "requireUppercase": "Le mot de passe doit contenir au moins une lettre majuscule",
+        "requireLowercase": "Le mot de passe doit contenir au moins une lettre minuscule",
+        "requireNumber": "Le mot de passe doit contenir au moins un chiffre",
+        "requireSpecial": "Le mot de passe doit contenir au moins un caractère spécial"
+      },
+      "confirmPassword": {
+        "required": "La confirmation du mot de passe est requise",
+        "mismatch": "Les mots de passe ne correspondent pas"
+      }
     }
   },
   "common": {
-    "loading": "Chargement...",
+    "loading": {
+      "screenReader": {
+        "default": "Chargement en cours",
+        "withProgress": "Chargement en cours : {{progress}}%",
+        "complete": "Chargement terminé"
+      }
+    },
     "error": "Une erreur est survenue",
     "retry": "Réessayer",
     "noResults": "Aucun résultat trouvé",
@@ -215,7 +245,11 @@
       "alreadyJoined": "Vous êtes déjà inscrit à cet événement",
       "eventFull": "Cet événement est déjà complet",
       "pastEvent": "Impossible de participer aux événements passés",
-      "ownEvent": "Vous ne pouvez pas participer à votre propre événement"
+      "ownEvent": "Vous ne pouvez pas participer à votre propre événement",
+      "fetchFailed": "Impossible de récupérer les événements",
+      "createFailed": "Impossible de créer l'événement",
+      "updateFailed": "Impossible de mettre à jour l'événement",
+      "deleteFailed": "Impossible de supprimer l'événement"
     },
     "form": {
       "title": "Titre",

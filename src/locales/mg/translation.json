@@ -94,6 +94,30 @@
         "invalidCurrentPassword": "Diso ny teny miafina ankehitriny",
         "noChanges": "Tsy nisy zavatra niova"
       }
+    },
+    "validation": {
+      "username": {
+        "required": "Tsy maintsy fenoina ny anarana",
+        "tooShort": "Tsy maintsy mihoatra ny 4 ny isan'ny soratra amin'ny anarana",
+        "tooLong": "Tsy tokony hihoatra ny 50 ny isan'ny soratra amin'ny anarana",
+        "invalid": "Ny anarana dia tsy maintsy ahitana litera, isa, elanelana ary marika fanampiny mahazatra ihany"
+      },
+      "email": {
+        "required": "Tsy maintsy fenoina ny mailaka",
+        "invalid": "Azafady, ampidiro mailaka marina"
+      },
+      "password": {
+        "required": "Tsy maintsy fenoina ny tenimiafina",
+        "tooShort": "Tsy maintsy mihoatra ny 8 ny isan'ny soratra amin'ny tenimiafina",
+        "requireUppercase": "Tsy maintsy misy litera lehibe iray farafahakeliny ny tenimiafina",
+        "requireLowercase": "Tsy maintsy misy litera kely iray farafahakeliny ny tenimiafina",
+        "requireNumber": "Tsy maintsy misy isa iray farafahakeliny ny tenimiafina",
+        "requireSpecial": "Tsy maintsy misy marika manokana iray farafahakeliny ny tenimiafina"
+      },
+      "passwordConfirmation": {
+        "required": "Azafady, hamarino ny tenimiafina",
+        "mismatch": "Tsy mitovy ny tenimiafina"
+      }
     }
   },
   "common": {

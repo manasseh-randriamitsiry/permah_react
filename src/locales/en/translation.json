@@ -77,10 +77,33 @@
     "errors": {
       "invalidCredentials": "Invalid email or password",
       "sessionExpired": "Your session has expired. Please log in again."
+    },
+    "validation": {
+      "username": {
+        "required": "Username is required",
+        "tooShort": "Username must be at least 4 characters long",
+        "tooLong": "Username must be less than 50 characters long",
+        "invalid": "Username can only contain letters, numbers, spaces, and common special characters"
+      },
+      "email": {
+        "required": "Email is required",
+        "invalid": "Please enter a valid email address"
+      },
+      "password": {
+        "required": "Password is required",
+        "tooShort": "Password must be at least 8 characters long",
+        "requireUppercase": "Password must contain at least one uppercase letter",
+        "requireLowercase": "Password must contain at least one lowercase letter",
+        "requireNumber": "Password must contain at least one number",
+        "requireSpecial": "Password must contain at least one special character"
+      },
+      "passwordConfirmation": {
+        "required": "Please confirm your password",
+        "mismatch": "Passwords do not match"
+      }
     }
   },
   "common": {
-    "loading": "Loading...",
     "error": "An error occurred",
     "retry": "Try Again",
     "noResults": "No results found",
