@@ -105,11 +105,10 @@ export class EventService {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Failed to delete event');
+            throw new Error('Failed to delete event');
         }
 
-        return await response.json();
+        return response;
     }
 
     static async joinEvent(id: number) {

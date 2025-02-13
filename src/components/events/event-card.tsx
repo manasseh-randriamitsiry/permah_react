@@ -138,11 +138,20 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
           <div className="flex items-center text-sm text-gray-600">
             <Users className="h-4 w-4 mr-2 text-gray-400" />
             <div className="flex items-center space-x-1">
-              <span>{event.available_places} spots available</span>
+              <span>
+                {event.available_places - (event.attendees?.length || event.participants?.length || 0)} spots left
+              </span>
               {event.attendees && (
-                <span className="text-gray-400">
-                  • {event.attendees.length} attending
-                </span>
+                <>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-400">
+                    {event.attendees.length} joined
+                  </span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-gray-400">
+                    {event.available_places} total spots
+                  </span>
+                </>
               )}
             </div>
           </div>
@@ -169,11 +178,11 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
             <Button 
               onClick={handleAction}
               variant="outline"
-              disabled={isLoading || (!isAttending && event.available_places === 0)}
+              disabled={isLoading || (!isAttending && (event.available_places <= (event.attendees?.length || event.participants?.length || 0)))}
               className={`w-full font-medium ${
                 isAttending
                   ? "bg-red-50 text-red-600 hover:bg-red-100 border-red-200"
-                  : event.available_places > 0
+                  : event.available_places > (event.attendees?.length || event.participants?.length || 0)
                     ? "bg-green-50 text-green-600 hover:bg-green-100 border-green-200"
                     : "bg-gray-50 text-gray-400 cursor-not-allowed"
               }`}
@@ -182,7 +191,7 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
                 ? 'Processing...' 
                 : isAttending 
                   ? 'Leave Event' 
-                  : event.available_places > 0 
+                  : event.available_places > (event.attendees?.length || event.participants?.length || 0)
                     ? 'Join Event' 
                     : 'Event Full'
               }

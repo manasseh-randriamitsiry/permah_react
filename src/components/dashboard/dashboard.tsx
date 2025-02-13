@@ -35,72 +35,117 @@ function StatCard({ title, value, icon, className = '' }: StatCardProps) {
   );
 }
 
-function DashboardEventRow({ event, onClick }: { event: EventData; onClick: (eventId: number) => void }) {
+function DashboardEventRow({ 
+  event, 
+  onClick, 
+  onEdit,
+  onDelete 
+}: { 
+  event: EventData; 
+  onClick: (eventId: number) => void;
+  onEdit: (eventId: number) => void;
+  onDelete: (eventId: number) => void;
+}) {
   const { t } = useTranslation();
   
   const isUpcoming = new Date(event.date) > new Date();
-  const attendeeCount = event.attendees?.length || event.participants?.length || 0;
-  const availableSpots = event.available_places - attendeeCount;
-
+  const joinedCount = event.attendees?.length || event.participants?.length || 0;
+  const totalPlaces = event.available_places || 0;
+  const freePlaces = totalPlaces - joinedCount;
+  
   return (
     <div 
       onClick={() => onClick(event.id)}
-      className="cursor-pointer border-b border-gray-200 bg-white p-4 transition-all hover:bg-gray-50"
+      className="group cursor-pointer border-b border-gray-200 bg-white px-6 py-4 transition-all hover:bg-gray-50"
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center">
+        <div className="flex w-8 items-center">
+          <input
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+        
         <div className="flex flex-1 items-center space-x-4">
-          {event.image_url && (
-            <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded">
-              <img 
-                src={event.image_url} 
-                alt={event.title}
-                className="h-full w-full object-cover"
-              />
+          {event.image_url ? (
+            <img 
+              src={event.image_url} 
+              alt={event.title}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
+              <span className="text-sm text-gray-600">
+                {event.title.charAt(0).toUpperCase()}
+              </span>
             </div>
           )}
           
           <div className="min-w-0 flex-1">
-            <h3 className="truncate text-lg font-semibold text-gray-900">{event.title}</h3>
-            <div className="mt-1 flex items-center space-x-4 text-sm text-gray-500">
-              <div className="flex items-center">
-                <svg className="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {new Date(event.date).toLocaleDateString()}
-              </div>
-              <div className="flex items-center">
-                <svg className="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                </svg>
-                {event.location}
-              </div>
-              <div className="flex items-center">
-                <svg className="mr-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" 
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                {attendeeCount} {t('attendees')}
-              </div>
-            </div>
+            <h3 className="text-sm font-medium text-gray-900">{event.title}</h3>
           </div>
         </div>
-        
-        <div className="ml-4 flex items-center space-x-4">
-          <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-            isUpcoming ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-          }`}>
-            {isUpcoming ? t('Upcoming') : t('Past')}
-          </span>
-          {event.price > 0 && (
-            <span className="text-sm font-medium text-gray-900">
-              {new Intl.NumberFormat(undefined, {
-                style: 'currency',
-                currency: 'USD'
-              }).format(event.price)}
+
+        <div className="flex items-center space-x-12">
+          <div className="text-sm text-gray-500">
+            {new Date(event.date).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+            <span className="ml-1 text-xs text-gray-400">
+              ({new Date(event.date).toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+              })})
             </span>
-          )}
+          </div>
+
+          <div className="w-24 text-center text-sm text-gray-500">
+            {totalPlaces}
+          </div>
+
+          <div className="w-24 text-center text-sm text-gray-500">
+            {joinedCount}
+          </div>
+
+          <div className="w-24 text-center text-sm text-gray-500">
+            {freePlaces}
+          </div>
+
+          <div className="w-24">
+            <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
+              isUpcoming ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+            }`}>
+              {isUpcoming ? t('Ongoing') : t('Closed')}
+            </span>
+          </div>
+
+          <div className="flex w-20 justify-end space-x-2 opacity-0 transition-opacity group-hover:opacity-100">
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(event.id);
+              }}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(event.id);
+              }}
+              className="text-gray-400 hover:text-red-600"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -116,6 +161,8 @@ export function Dashboard() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
+  const [eventToDelete, setEventToDelete] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     const fetchEvents = async () => {
@@ -156,8 +203,36 @@ export function Dashboard() {
     navigate('/events');
   };
 
+  const handleEditEvent = (eventId: number) => {
+    navigate(`/events/${eventId}/edit`);
+  };
+
   const handleCreateEvent = () => {
-    navigate('/events/create');
+    navigate('/events/new');
+  };
+
+  const handleDeleteEvent = (eventId: number) => {
+    setEventToDelete(eventId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!eventToDelete) return;
+    
+    try {
+      const response = await EventService.deleteEvent(eventToDelete);
+      if (response.ok) {
+        setEvents(events.filter(event => event.id !== eventToDelete));
+        setFilteredEvents(filteredEvents.filter(event => event.id !== eventToDelete));
+        setShowDeleteModal(false);
+        setEventToDelete(null);
+      } else {
+        throw new Error('Failed to delete event');
+      }
+    } catch (err) {
+      console.error('Error deleting event:', err);
+      setError(err instanceof Error ? err : new Error('Failed to delete event'));
+    }
   };
 
   if (!user) {
@@ -268,11 +343,54 @@ export function Dashboard() {
         </div>
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+          {/* Table Header */}
+          <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+            <div className="flex items-center">
+              <div className="flex w-8 items-center">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300"
+                />
+              </div>
+              <div className="flex flex-1 items-center space-x-4">
+                <div className="w-10"></div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs font-medium uppercase text-gray-500">
+                    {t('Event Name')}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-12">
+                <div className="w-32 text-xs font-medium uppercase text-gray-500">
+                  {t('Date')}
+                </div>
+                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
+                  {t('Total Places')}
+                </div>
+                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
+                  {t('Joined')}
+                </div>
+                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
+                  {t('Free Places')}
+                </div>
+                <div className="w-24 text-xs font-medium uppercase text-gray-500">
+                  {t('Status')}
+                </div>
+                <div className="w-20 text-right text-xs font-medium uppercase text-gray-500">
+                  {t('Action')}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Event Rows */}
           {filteredEvents.map((event: EventData) => (
             <DashboardEventRow
               key={event.id}
               event={event}
               onClick={handleEventClick}
+              onEdit={handleEditEvent}
+              onDelete={handleDeleteEvent}
             />
           ))}
         </div>
@@ -285,6 +403,59 @@ export function Dashboard() {
               ? t('No events found matching your search.')
               : t('You haven\'t created any events yet.')}
           </p>
+        </div>
+      )}
+
+      {showDeleteModal && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="flex min-h-screen items-end justify-center px-4 pb-20 pt-4 text-center sm:block sm:p-0">
+            {/* Background overlay */}
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            {/* Modal panel */}
+            <div className="inline-block transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
+              <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <h3 className="text-lg font-medium leading-6 text-gray-900">
+                      {t('Delete Event')}
+                    </h3>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">
+                        {t('Are you sure you want to delete this event? This action cannot be undone.')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  type="button"
+                  onClick={confirmDelete}
+                  className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                >
+                  {t('Delete')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setEventToDelete(null);
+                  }}
+                  className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
+                >
+                  {t('Cancel')}
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
