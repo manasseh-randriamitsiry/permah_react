@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/auth-store';
 import type { EventData } from '../../types';
 import { EventImage } from './event-card/EventImage';
@@ -13,6 +14,7 @@ interface EventCardProps {
 }
 
 export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
+  const { t } = useTranslation();
   const { user } = useAuthStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState('');
@@ -32,7 +34,7 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
 
   const handleAction = async () => {
     if (!user) {
-      setError('You must be logged in to join events');
+      setError(t('events.errors.loginRequired'));
       return;
     }
     
@@ -47,7 +49,7 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
       }
     } catch (err: any) {
       console.error('Action error:', err);
-      setError(err.message || 'Failed to process request');
+      setError(err.message || t('events.errors.actionFailed'));
     } finally {
       setIsLoading(false);
     }

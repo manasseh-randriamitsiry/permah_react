@@ -9,12 +9,9 @@ export function LanguageSelector() {
 
   const handleLanguageChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value;
-    console.log('Changing language to:', newLang);
-    
     try {
       await i18n.changeLanguage(newLang);
       localStorage.setItem('preferredLanguage', newLang);
-      console.log('Language changed successfully to:', i18n.language);
     } catch (error) {
       console.error('Error changing language:', error);
     }
@@ -33,17 +30,25 @@ export function LanguageSelector() {
 
   return (
     <div className="flex items-center space-x-2">
-      <div className="text-sm text-gray-500">
+      <label htmlFor="language-select" className="text-sm text-gray-500">
         {currentLanguage?.nativeName || t('common.language')}
-      </div>
+      </label>
       <select
+        id="language-select"
         value={i18n.language}
         onChange={handleLanguageChange}
         className="rounded-md border-gray-300 py-1 pl-2 pr-8 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        aria-label={t('common.language')}
+        aria-label={t('common.language.select')}
       >
         {languages.map(lang => (
-          <option key={lang.code} value={lang.code}>
+          <option 
+            key={lang.code} 
+            value={lang.code}
+            aria-label={t('common.language.option', { 
+              native: lang.nativeName, 
+              english: lang.name 
+            })}
+          >
             {lang.nativeName} ({lang.name})
           </option>
         ))}

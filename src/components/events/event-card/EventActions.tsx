@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '../../ui/button';
 import type { EventData } from '../../../types';
@@ -22,6 +23,8 @@ export function EventActions({
   onJoin, 
   onEdit 
 }: EventActionsProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="mt-auto pt-4">
       {isOwner && (
@@ -45,7 +48,7 @@ export function EventActions({
               d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" 
             />
           </svg>
-          Edit
+          {t('events.actions.edit')}
         </Button>
       )}
       {user && !isOwner && (
@@ -62,12 +65,12 @@ export function EventActions({
           }`}
         >
           {isLoading 
-            ? 'Processing...' 
+            ? t('events.actions.processing')
             : isAttending 
-              ? 'Leave Event' 
+              ? t('events.actions.leave')
               : event.available_places > (event.attendees?.length || event.participants?.length || 0)
-                ? 'Join Event' 
-                : 'Event Full'
+                ? t('events.actions.join')
+                : t('events.actions.full')
           }
         </Button>
       )}
@@ -75,7 +78,7 @@ export function EventActions({
       {!user && (
         <Link to="/login" className="block">
           <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-            Login to Join
+            {t('events.actions.loginToJoin')}
           </Button>
         </Link>
       )}

@@ -52,15 +52,25 @@ const dateFormats = {
     time: { hour: '2-digit' as const, minute: '2-digit' as const }
   },
   mg: {
-    short: { year: 'numeric' as const, month: 'short' as const, day: 'numeric' as const },
+    short: { 
+      year: 'numeric' as const, 
+      month: 'long' as const, 
+      day: 'numeric' as const,
+      hour12: false as const
+    },
     long: { 
       year: 'numeric' as const, 
       month: 'long' as const, 
       day: 'numeric' as const, 
       hour: '2-digit' as const, 
-      minute: '2-digit' as const 
+      minute: '2-digit' as const,
+      hour12: false as const
     },
-    time: { hour: '2-digit' as const, minute: '2-digit' as const }
+    time: { 
+      hour: '2-digit' as const, 
+      minute: '2-digit' as const,
+      hour12: false as const
+    }
   }
 } as const;
 
@@ -82,7 +92,6 @@ i18n
     react: {
       useSuspense: false, // Disable suspense
       bindI18n: 'languageChanged loaded', // Trigger re-render on language change and loading
-      bindStore: 'added removed', // Trigger re-render when resources are added or removed
       transEmptyNodeValue: '', // Return empty string for empty nodes
       transSupportBasicHtmlNodes: true, // Support basic HTML nodes
       transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p'], // Keep these HTML nodes
@@ -111,6 +120,25 @@ i18n.services.formatter?.add('date', (value, lng, options) => {
   const date = value instanceof Date ? value : new Date(value);
   
   try {
+    if (language === 'mg') {
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      
+      switch (format) {
+        case 'short':
+          return `${day}-${month}-${year}`;
+        case 'long':
+          return `${day}-${month}-${year} ${hours}:${minutes}`;
+        case 'time':
+          return `${hours}:${minutes}`;
+        default:
+          return `${day}-${month}-${year}`;
+      }
+    }
+    
     return new Intl.DateTimeFormat(
       language, 
       dateFormats[language as keyof typeof dateFormats][format as keyof typeof dateFormats['en']]

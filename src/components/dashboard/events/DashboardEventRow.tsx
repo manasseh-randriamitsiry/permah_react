@@ -38,9 +38,14 @@ export function DashboardEventRow({
   const totalEarnings = (event.price || 0) * joinedCount;
   
   const formatDate = (date: Date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
     return {
-      date: t('{{date}}', { date, format: 'date', formatParams: { format: 'short' } }),
-      time: t('{{date}}', { date, format: 'date', formatParams: { format: 'time' } })
+      date: `${day}-${month}-${year}`,
+      time: `${hours}:${minutes}`
     };
   };
 

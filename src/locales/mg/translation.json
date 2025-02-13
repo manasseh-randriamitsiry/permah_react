@@ -7,17 +7,17 @@
       "eventName": "Anaran'ny Hetsika",
       "startDate": "Daty Fanombohana",
       "endDate": "Daty Famaranana",
-      "total": "Totaliny",
-      "joined": "Mpandray Anjara",
-      "free": "Toerana Malalaka",
-      "earnings": "Vola Miditra",
-      "status": "Toe-javatra",
-      "action": "Asa",
+      "total": "Totaly",
+      "joined": "Mpandray anjara",
+      "free": "Toerana sisa",
+      "earnings": "Vola azo",
+      "status": "mombamomba",
+      "action": "Hetsika",
       "edit": "Hanova",
       "delete": "Hamafa",
-      "selectAll": "Hifidy ny hetsika rehetra",
+      "selectAll": "Hifidy ny rehetra",
       "deleteSelected": "Hamafa ny voafidy",
-      "showing": "Mampiseho hetsika {{count}}",
+      "showing": "Mampiseho {{count}}",
       "selected": "Voafidy {{count}}"
     },
     "status": {
@@ -33,55 +33,116 @@
       "totalIncome": "Vola miditra rehetra"
     },
     "deleteModal": {
-      "title": "Hamafa Hetsika",
-      "message": "Tena te-hamafa ity hetsika ity ve ianao? Tsy azo averina intsony ity asa ity.",
-      "confirm": "Hamafa",
-      "cancel": "Hanafoana"
+      "title": "Hamafa hetsika",
+      "message": "Tena te-hamafa ity hetsika ity ve ianao? Tsy azo averina intsony anie ity.",
+      "confirm": "Eny",
+      "cancel": "Tsia",
+      "confirmAriaLabel": "Manaiky: {{title}}",
+      "cancelAriaLabel": "Manda"
     }
   },
   "auth": {
     "login": {
-      "title": "Tonga soa indray",
+      "title": "Tonga soa",
       "subtitle": "Azafady, midira amin'ny kaontinao",
       "email": "Adiresy mailaka",
       "password": "Teny miafina",
       "submit": "Hiditra",
       "loading": "Eo am-pidirana..."
     },
+    "signup": {
+      "title": "Hisoratra anarana",
+      "subtitle": "Hisoratra anarana mba hanomboka",
+      "fullName": "Anarana feno",
+      "email": "Adiresy mailaka",
+      "password": "Teny miafina",
+      "confirmPassword": "Hamarino ny teny miafina",
+      "submit": "Hisoratra anarana",
+      "loading": "Eo am-pisoratana anarana...",
+      "success": "Voasoratra anarana soa aman-tsara",
+      "errors": {
+        "emailExists": "Efa misy mampiasa io adiresy mailaka io",
+        "passwordMismatch": "Tsy mitovy ny teny miafina",
+        "invalidEmail": "Tsy mety io adiresy mailaka io",
+        "weakPassword": "Ny teny miafina dia tsy maintsy ahitana farafahakeliny soratra 8"
+      }
+    },
     "errors": {
-      "invalidCredentials": "Mailaka na teny miafina diso",
-      "sessionExpired": "Tapitra ny fotoana. Azafady, midira indray."
+      "invalidCredentials": "Hamarino ny mailaka na teny miafina fa misy diso",
+      "sessionExpired": "Tapitra ny fe-potoana. Azafady, midira indray."
+    },
+    "profile": {
+      "title": "Ny mombamomba",
+      "subtitle": "Hanavao ny kaontinao",
+      "password": "Teny miafina",
+      "currentPassword": "Teny miafina ankehitriny",
+      "newPassword": "Teny miafina vaovao",
+      "confirmPassword": "Hamarino ny teny miafina vaovao",
+      "changePassword": "Hanova teny miafina",
+      "cancelPasswordChange": "Aoka aloha",
+      "passwordHint": "Farafahakeliny zanantsoratra 8",
+      "confirmPasswordHint": "Avereno ampidirina ny teny miafina vaovao",
+      "save": "Hitahiry",
+      "loading": "Mitahiry fanovana...",
+      "success": "Voaova soa aman-tsara ny mombamomba",
+      "verifyIdentity": "Hamarino ny maha-ianao anao",
+      "verifyMessage": "Azafady, ampidiro ny teny miafina ankehitriny",
+      "continue": "Hanohy",
+      "errors": {
+        "passwordMismatch": "Tsy mitovy ny teny miafina vaovao sy ny fanamarinana",
+        "currentPasswordRequired": "Tsy maintsy ampidirina ny teny miafina ankehitriny",
+        "invalidCurrentPassword": "Diso ny teny miafina ankehitriny",
+        "noChanges": "Tsy nisy zavatra niova"
+      }
     }
   },
   "common": {
-    "loading": "Eo am-pampisehoana...",
+    "loading": {
+      "screenReader": {
+        "auth": "Andraso kely azafady mandra-pahamarinana ny fankatoavanao",
+        "data": "Andraso kely azafady mandra-pampidirana ny votoatiny",
+        "submission": "Andraso kely azafady mandra-pamaranana ny fangatahana"
+      }
+    },
     "error": "Nisy olana nitranga",
-    "retry": "Andramo indray",
-    "noResults": "Tsy misy valiny hita",
+    "retry": "Avereno indray",
+    "noResults": "Tsy misy",
     "required": "Tsy maintsy fenoina",
     "save": "Hitahiry",
     "cancel": "Hanafoana",
-    "confirm": "Hanamarina",
+    "confirm": "Eny",
     "back": "Hiverina",
     "next": "Manaraka",
     "search": "Hikaroka",
     "filter": "Hanasokajy",
     "sort": "Handahatra",
-    "actions": "Asa",
+    "actions": "Hetsika",
     "success": "Vita soa aman-tsara",
     "warning": "Fampitandremana",
     "info": "Fampahalalana",
     "close": "Hanidy",
-    "language": "Fiteny",
+    "language": {
+      "title": "Fiteny",
+      "select": "Hifidy fiteny",
+      "option": "{{native}} ({{english}})",
+      "current": "Fiteny ampiasaina: {{language}}"
+    },
     "currency": "Vola",
-    "dateFormat": "Endrika daty"
+    "dateFormat": "Endrika daty",
+    "empty": {
+      "title": "Tsy misy",
+      "message": "Tsy misy zavatra azo aseho amin'izao fotoana izao."
+    }
   },
   "errors": {
     "unknown": "Nisy olana tsy fantatra nitranga",
     "network": "Tsy afaka mifandray amin'ny serveur. Hamarino ny fifandraisana internet.",
     "unauthorized": "Tapitra ny fotoana. Azafady, midira indray.",
     "forbidden": "Tsy manana alalana hijery ireo hetsika ireo ianao.",
-    "notFound": "Tsy hita ireo hetsika notadiavina.",
+    "notFound": {
+      "title": "Pejy Tsy Hita",
+      "message": "Ny pejy tadiavinareo dia tsy misy na efa nafindra."
+    },
     "server": "Nisy olana tamin'ny serveur. Azafady, andramo indray."
   },
   "formats": {
@@ -97,6 +158,124 @@
     "currency": {
       "symbol": "Ar",
       "format": "{{amount}} {{symbol}}"
+    }
+  },
+  "events": {
+    "actions": {
+      "edit": "Hanova",
+      "join": "Handray anjara",
+      "leave": "Hiala",
+      "processing": "Eo am-panatanterahana...",
+      "full": "Feno",
+      "loginToJoin": "Midira mba handray anjara"
+    },
+    "details": {
+      "from": "Manomboka",
+      "to": "Hatramin'ny",
+      "spotsLeft": "Toerana {{count}} sisa",
+      "joined": "Mpandray anjara {{count}}",
+      "totalSpots": "Toerana rehetra {{count}}",
+      "location": "Toerana",
+      "price": "Vidiny",
+      "description": "Fanazavana"
+    },
+    "errors": {
+      "loginRequired": "Tsy maintsy miditra ianao vao afaka mandray anjara amin'ny hetsika",
+      "actionFailed": "Tsy tanteraka ny fangatahana",
+      "alreadyJoined": "Efa misoratra anarana amin'ity hetsika ity ianao",
+      "eventFull": "Efa feno ity hetsika ity",
+      "pastEvent": "Tsy afaka mandray anjara amin'ny hetsika efa lasa",
+      "ownEvent": "Tsy afaka mandray anjara amin'ny hetsika nataonao"
+    },
+    "form": {
+      "title": "Anaran'ny hetsika",
+      "description": "Fanazavana",
+      "startDate": "Daty fanombohana",
+      "endDate": "Daty famaranana",
+      "location": "Toerana",
+      "imageUrl": "URL sary",
+      "availablePlaces": "Isan'ny toerana",
+      "price": "Vidi-pidirana",
+      "create": "Hamorona",
+      "update": "Hanova",
+      "saving": "Eo am-pitahirizana...",
+      "errors": {
+        "title": "Tsy maintsy fenoina ny anaran'ny hetsika",
+        "description": "Tsy maintsy fenoina ny fanazavana",
+        "dates": "Ny daty fanombohana dia tsy maintsy alohan'ny daty famaranana",
+        "location": "Tsy maintsy fenoina ny toerana",
+        "places": "Ny isan'ny toerana dia tsy maintsy mihoatra ny 1",
+        "price": "Ny vidiny dia tsy maintsy 0 na mihoatra",
+        "createFailed": "Tsy tanteraka ny famoronana hetsika. Azafady, andramo indray.",
+        "updateFailed": "Tsy tanteraka ny fanovana hetsika. Azafady, andramo indray.",
+        "invalidDates": "Daty tsy mety",
+        "invalidPrice": "Vidi-pidirana tsy mety",
+        "invalidPlaces": "Isan'ny toerana tsy mety",
+        "requiredFields": "Azafady, fenoy ny saha rehetra ilaina"
+      }
+    },
+    "list": {
+      "title": "Hetsika",
+      "searchPlaceholder": "Hikaroka hetsika...",
+      "noEvents": "Tsy misy hetsika",
+      "noSearchResults": "Tsy misy hetsika mifanaraka amin'ny fikarohana",
+      "tryDifferentSearch": "Andramo ovaina ny teny fikarohana na jereo ny hetsika rehetra",
+      "createFirstEvent": "Atombohy amin'ny famoronana ny hetsika voalohany",
+      "loadMore": "Hampiseho bebe kokoa",
+      "loading": "Mampiditra hetsika..."
+    }
+  },
+  "loading": {
+    "auth": "Manamarina ny fidirana...",
+    "data": "Maka ny angona...",
+    "submission": "Eo am-panatanterahana..."
+  },
+  "nav": {
+    "events": "Hetsika",
+    "dashboard": "Tabilao",
+    "profile": "Mombamomba",
+    "login": "Hiditra",
+    "logout": "Hivoaka",
+    "signup": "Hisoratra anarana",
+    "menu": {
+      "open": "Manokatra",
+      "close": "Manidy"
+    }
+  },
+  "home": {
+    "title": "Andao hikarakara hetsika",
+    "subtitle": "Mamorona, mitantana ary mandray anjara amin'ny hetsika mora foana amin'ny alalan'ny sehatra misy anao. Mety ho an'ny mpikarakara sy ny mpandray anjara.",
+    "browseEvents": "Hijery ireo Hetsika",
+    "createEvent": "Hamorona Hetsika"
+  },
+  "brand": {
+    "name": "EventManager",
+    "description": "Manao ny fitantanana hetsika ho mora sy mahafinaritra. Mamorona, mitantana ary mandray anjara amin'ny hetsika mora foana."
+  },
+  "footer": {
+    "quickLinks": {
+      "title": "Rohy malaky",
+      "browseEvents": "Hijery ireo hetsika",
+      "createEvent": "Hamorona hetsika",
+      "dashboard": "Tabilao"
+    },
+    "resources": {
+      "title": "Loharanom-pitaovana",
+      "helpCenter": "Ivon-toerana fanampiana",
+      "guidelines": "Torolalana ho an'ny mpikambana",
+      "privacy": "Politikan'ny tsiambaratelo"
+    },
+    "newsletter": {
+      "title": "Maharaha vaovao",
+      "placeholder": "Ampidiro ny mailakao",
+      "subscribe": "Hisoratra anarana amin'ny newsletter",
+      "description": "Misorata anarana amin'ny newsletter mba hahazoana vaovao sy tolotra manokana."
+    },
+    "copyright": "© {{year}} EventManager. Zo rehetra voatokana.",
+    "social": {
+      "github": "Tsidiho ao amin'ny GitHub",
+      "twitter": "Araho ao amin'ny Twitter",
+      "linkedin": "Midira ao amin'ny LinkedIn"
     }
   }
 } 

@@ -36,7 +36,9 @@
       "title": "Supprimer l'événement",
       "message": "Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.",
       "confirm": "Supprimer",
-      "cancel": "Annuler"
+      "cancel": "Annuler",
+      "confirmAriaLabel": "Supprimer l'événement : {{title}}",
+      "cancelAriaLabel": "Annuler la suppression"
     }
   },
   "auth": {
@@ -47,6 +49,47 @@
       "password": "Mot de passe",
       "submit": "Se connecter",
       "loading": "Connexion en cours..."
+    },
+    "signup": {
+      "title": "Créer un compte",
+      "subtitle": "Inscrivez-vous pour commencer",
+      "fullName": "Nom complet",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "submit": "S'inscrire",
+      "loading": "Inscription en cours...",
+      "success": "Inscription réussie",
+      "errors": {
+        "emailExists": "Cette adresse e-mail est déjà utilisée",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "invalidEmail": "Adresse e-mail invalide",
+        "weakPassword": "Le mot de passe doit contenir au moins 8 caractères"
+      }
+    },
+    "profile": {
+      "title": "Modifier le profil",
+      "subtitle": "Mettre à jour les informations de votre compte",
+      "password": "Mot de passe",
+      "currentPassword": "Mot de passe actuel",
+      "newPassword": "Nouveau mot de passe",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "changePassword": "Changer le mot de passe",
+      "cancelPasswordChange": "Annuler le changement",
+      "passwordHint": "Au moins 8 caractères",
+      "confirmPasswordHint": "Saisissez à nouveau le nouveau mot de passe",
+      "save": "Enregistrer les modifications",
+      "loading": "Enregistrement en cours...",
+      "success": "Profil mis à jour avec succès",
+      "verifyIdentity": "Vérifiez votre identité",
+      "verifyMessage": "Veuillez saisir votre mot de passe actuel pour continuer",
+      "continue": "Continuer",
+      "errors": {
+        "passwordMismatch": "Le nouveau mot de passe et sa confirmation ne correspondent pas",
+        "currentPasswordRequired": "Le mot de passe actuel est requis",
+        "invalidCurrentPassword": "Le mot de passe actuel est incorrect",
+        "noChanges": "Aucune modification n'a été apportée"
+      }
     },
     "errors": {
       "invalidCredentials": "Email ou mot de passe invalide",
@@ -72,7 +115,12 @@
     "warning": "Avertissement",
     "info": "Information",
     "close": "Fermer",
-    "language": "Langue",
+    "language": {
+      "title": "Langue",
+      "select": "Sélectionner la langue",
+      "option": "{{native}} ({{english}})",
+      "current": "Langue actuelle : {{language}}"
+    },
     "currency": "Devise",
     "dateFormat": "Format de date",
     "empty": {
@@ -85,7 +133,10 @@
     "network": "Impossible de se connecter au serveur. Veuillez vérifier votre connexion internet.",
     "unauthorized": "Votre session a expiré. Veuillez vous reconnecter.",
     "forbidden": "Vous n'avez pas la permission de voir ces événements.",
-    "notFound": "Les événements demandés n'ont pas été trouvés.",
+    "notFound": {
+      "title": "Page Non Trouvée",
+      "message": "La page que vous recherchez n'existe pas ou a été déplacée."
+    },
     "server": "Une erreur serveur est survenue. Veuillez réessayer plus tard."
   },
   "formats": {
@@ -137,6 +188,88 @@
       "github": "Visitez-nous sur GitHub",
       "twitter": "Suivez-nous sur Twitter",
       "linkedin": "Rejoignez-nous sur LinkedIn"
+    }
+  },
+  "events": {
+    "actions": {
+      "edit": "Modifier",
+      "join": "Participer",
+      "leave": "Se désinscrire",
+      "processing": "En cours...",
+      "full": "Complet",
+      "loginToJoin": "Connectez-vous pour participer"
+    },
+    "details": {
+      "from": "Du",
+      "to": "Au",
+      "spotsLeft": "{{count}} places restantes",
+      "joined": "{{count}} inscrits",
+      "totalSpots": "{{count}} places au total",
+      "location": "Lieu",
+      "price": "Prix",
+      "description": "Description"
+    },
+    "errors": {
+      "loginRequired": "Vous devez être connecté pour participer aux événements",
+      "actionFailed": "La demande n'a pas pu être traitée",
+      "alreadyJoined": "Vous êtes déjà inscrit à cet événement",
+      "eventFull": "Cet événement est déjà complet",
+      "pastEvent": "Impossible de participer aux événements passés",
+      "ownEvent": "Vous ne pouvez pas participer à votre propre événement"
+    },
+    "form": {
+      "title": "Titre",
+      "description": "Description",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "location": "Lieu",
+      "imageUrl": "URL de l'image",
+      "availablePlaces": "Places disponibles",
+      "price": "Prix",
+      "create": "Créer l'événement",
+      "update": "Mettre à jour l'événement",
+      "saving": "Enregistrement...",
+      "errors": {
+        "title": "Le titre est requis",
+        "description": "La description est requise",
+        "dates": "La date de début doit être antérieure à la date de fin",
+        "location": "Le lieu est requis",
+        "places": "Le nombre de places disponibles doit être d'au moins 1",
+        "price": "Le prix doit être égal ou supérieur à 0",
+        "createFailed": "Échec de la création de l'événement. Veuillez réessayer.",
+        "updateFailed": "Échec de la mise à jour de l'événement. Veuillez réessayer.",
+        "invalidDates": "Plage de dates invalide",
+        "invalidPrice": "Prix invalide",
+        "invalidPlaces": "Nombre de places invalide",
+        "requiredFields": "Veuillez remplir tous les champs obligatoires"
+      }
+    },
+    "list": {
+      "title": "Événements",
+      "searchPlaceholder": "Rechercher des événements...",
+      "noEvents": "Aucun événement disponible",
+      "noSearchResults": "Aucun événement ne correspond à votre recherche",
+      "tryDifferentSearch": "Essayez d'ajuster vos termes de recherche ou parcourez tous les événements",
+      "createFirstEvent": "Commencez par créer votre premier événement",
+      "loadMore": "Charger plus d'événements",
+      "loading": "Chargement des événements..."
+    }
+  },
+  "loading": {
+    "auth": "Vérification de l'authentification...",
+    "data": "Chargement des données...",
+    "submission": "Traitement en cours..."
+  },
+  "nav": {
+    "events": "Événements",
+    "dashboard": "Tableau de bord",
+    "profile": "Profil",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "signup": "S'inscrire",
+    "menu": {
+      "open": "Ouvrir le menu",
+      "close": "Fermer le menu"
     }
   }
 } 

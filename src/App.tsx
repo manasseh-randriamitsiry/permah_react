@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Header } from './components/layout/header';
 import { Footer } from './components/layout/footer';
 import { LoginForm } from './components/auth/login-form';
@@ -13,8 +14,10 @@ import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Home } from './components/home/Home';
 import { CreateEvent } from './components/events/CreateEvent';
 import { ModalProvider } from './contexts/modal-context';
+import { LoadingState } from './components/common/LoadingState';
 
 function App() {
+  const { t } = useTranslation();
   const { initialize, isInitialized } = useAuthStore();
 
   React.useEffect(() => {
@@ -28,7 +31,7 @@ function App() {
   }, [initialize]);
 
   if (!isInitialized) {
-    return <div>Loading...</div>;
+    return <LoadingState type="auth" />;
   }
 
   return (
@@ -50,7 +53,12 @@ function App() {
               <Route path="/events/:id/edit" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
               
               {/* Catch-all route for 404 */}
-              <Route path="*" element={<div>Page not found</div>} />
+              <Route path="*" element={
+                <div className="text-center py-16">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('errors.notFound.title')}</h2>
+                  <p className="text-gray-600">{t('errors.notFound.message')}</p>
+                </div>
+              } />
             </Routes>
           </main>
           <Footer />

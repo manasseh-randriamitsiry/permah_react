@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { EventService } from '../../services/event.service';
 import { EventForm } from './event-form';
 import type { EventData } from '../../types';
@@ -8,7 +9,9 @@ type CreateEventData = Required<Omit<EventData, 'id' | 'creator' | 'created_at' 
 
 export function CreateEvent() {
   const navigate = useNavigate();
-  
+  const { t } = useTranslation();
+  const [error, setError] = React.useState('');
+
   const handleSubmit = async (eventData: Partial<CreateEventData>) => {
     try {
       // Log the raw form data
@@ -35,21 +38,20 @@ export function CreateEvent() {
       const response = await EventService.createEvent(eventData as CreateEventData);
       console.log('Event created successfully:', response);
       navigate('/events');
-    } catch (error: any) {
-      console.error('Error creating event:', error);
-      // Log the actual error response if available
-      if (error.response) {
-        try {
-          const errorData = await error.response.json();
-          console.error('Server error details:', errorData);
-        } catch (parseError) {
-          console.error('Error parsing error response:', parseError);
-          console.error('Raw error response:', await error.response.text());
-        }
-      }
-      throw error;
+    } catch (err: any) {
+      console.error('Create event error:', err);
+      setError(err.message || t('events.form.errors.createFailed'));
     }
   };
 
-  return <EventForm onSubmit={handleSubmit} />;
+  return (
+    <div className="container mx-auto px-4 py-8">
+      {error && (
+        <div className="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
+          {error}
+        </div>
+      )}
+      <EventForm onSubmit={handleSubmit} />
+    </div>
+  );
 } 

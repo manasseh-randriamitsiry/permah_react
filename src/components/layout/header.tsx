@@ -1,64 +1,49 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Menu, X } from 'lucide-react';
-import { useAuthStore } from '../../store/auth-store';
-import { useNavigate } from 'react-router-dom';
+import { Menu } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '../ui/button';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
-import { LanguageSelector } from './LanguageSelector';
+import { useAuthStore } from '../../store/auth-store';
 
 export function Header() {
+  const { t } = useTranslation();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { isAuthenticated, logout } = useAuthStore();
-  const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
-    setIsMenuOpen(false);
-  };
-
-  const closeMenu = () => {
     setIsMenuOpen(false);
   };
 
   return (
-    <header className="relative border-b bg-white">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link to="/" className="flex items-center space-x-2" onClick={closeMenu}>
-          <Calendar className="h-6 w-6 text-blue-600" />
-          <span className="text-xl font-bold">EventManager</span>
-        </Link>
+    <header className="bg-white shadow-sm">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          <Link to="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold text-blue-600">{t('brand.name')}</span>
+          </Link>
 
-        <div className="flex items-center space-x-4">
-          <LanguageSelector />
-
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden rounded-lg p-2 hover:bg-gray-100"
+          <Button
+            variant="outline"
+            size="sm"
+            className="md:hidden p-2"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={isMenuOpen ? t('nav.menu.close') : t('nav.menu.open')}
           >
-            {isMenuOpen ? (
-              <X className="h-6 w-6 text-gray-600" />
-            ) : (
-              <Menu className="h-6 w-6 text-gray-600" />
-            )}
-          </button>
+            <Menu className="h-6 w-6" />
+          </Button>
 
-          <DesktopNav 
-            isAuthenticated={isAuthenticated} 
-            onLogout={handleLogout} 
+          <DesktopNav isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+          <MobileNav
+            isAuthenticated={isAuthenticated}
+            isMenuOpen={isMenuOpen}
+            onLogout={handleLogout}
+            onCloseMenu={() => setIsMenuOpen(false)}
           />
         </div>
       </div>
-
-      <MobileNav 
-        isAuthenticated={isAuthenticated}
-        isMenuOpen={isMenuOpen}
-        onLogout={handleLogout}
-        onCloseMenu={closeMenu}
-      />
     </header>
   );
 }

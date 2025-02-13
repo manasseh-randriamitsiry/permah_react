@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
 import type { EventData } from '../../types';
 import { useEventForm } from './event-form/useEventForm';
@@ -10,6 +11,7 @@ interface EventFormProps {
 }
 
 export function EventForm({ event, onSubmit }: EventFormProps) {
+  const { t } = useTranslation();
   const {
     isSubmitting,
     error,
@@ -28,7 +30,7 @@ export function EventForm({ event, onSubmit }: EventFormProps) {
   return (
     <div className="mx-auto max-w-2xl">
       <h2 className="mb-6 text-2xl font-bold">
-        {event ? 'Edit Event' : 'Create New Event'}
+        {event ? t('events.form.update') : t('events.form.create')}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -57,7 +59,12 @@ export function EventForm({ event, onSubmit }: EventFormProps) {
             disabled={isSubmitting}
             className="bg-blue-600 text-white hover:bg-blue-700"
           >
-            {isSubmitting ? 'Saving...' : event ? 'Update Event' : 'Create Event'}
+            {isSubmitting 
+              ? t('events.form.saving')
+              : event 
+                ? t('events.form.update')
+                : t('events.form.create')
+            }
           </Button>
         </div>
       </form>

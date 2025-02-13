@@ -17,10 +17,11 @@ export function useProfileEdit() {
   const newPasswordRef = React.useRef<HTMLInputElement>(null);
   const confirmPasswordRef = React.useRef<HTMLInputElement>(null);
 
+  // Populate fields immediately when component loads
   React.useEffect(() => {
     if (user) {
-      if (usernameRef.current) usernameRef.current.value = user.name;
-      if (emailRef.current) emailRef.current.value = user.email;
+      if (usernameRef.current) usernameRef.current.value = user.name || '';
+      if (emailRef.current) emailRef.current.value = user.email || '';
     }
   }, [user]);
 
@@ -29,38 +30,24 @@ export function useProfileEdit() {
     setError('');
 
     try {
-      console.log('Starting password verification...');
-      
       if (!password) {
         throw new Error('Current password is required');
       }
 
-      // Check if we have a valid token
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('No authentication token found. Please log in again.');
       }
 
-      console.log('Calling SecurityService.verifyPassword...');
       await SecurityService.verifyPassword(password);
       
-      console.log('Password verification successful');
       if (currentPasswordRef.current) {
         currentPasswordRef.current.value = password;
-      }
-      
-      // Set the form fields with user data after successful verification
-      const userData = localStorage.getItem('user');
-      if (userData) {
-        const user = JSON.parse(userData);
-        if (usernameRef.current) usernameRef.current.value = user.name;
-        if (emailRef.current) emailRef.current.value = user.email;
       }
       
       setIsPasswordVerified(true);
     } catch (err: any) {
       console.error('Password verification error:', err);
-      // Check if it's an authentication error
       if (err.message.includes('No authentication token found') || err.message.includes('Invalid credentials')) {
         SecurityService.clearAuth();
         navigate('/login');
@@ -92,7 +79,6 @@ export function useProfileEdit() {
         throw new Error('Current password is required');
       }
 
-      // Validate new password and confirmation match
       if (newPassword && newPassword !== confirmPassword) {
         throw new Error('New password and confirmation do not match');
       }
@@ -104,13 +90,10 @@ export function useProfileEdit() {
         new_password: newPassword || undefined,
       });
 
-      // Get current token
       const token = localStorage.getItem('token');
       if (!token) throw new Error('Authentication token not found');
 
-      // Re-login with updated user data
       login(response.user, token);
-      
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to update profile');

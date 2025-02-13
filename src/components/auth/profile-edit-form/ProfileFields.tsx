@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../../../store/auth-store';
 
 interface ProfileFieldsProps {
   usernameRef: React.RefObject<HTMLInputElement>;
@@ -24,6 +25,7 @@ export function ProfileFields({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [isChangingPassword, setIsChangingPassword] = React.useState(false);
+  const { user } = useAuthStore();
 
   const handlePasswordToggle = () => {
     setIsChangingPassword(!isChangingPassword);
@@ -43,6 +45,7 @@ export function ProfileFields({
         type="text"
         ref={usernameRef}
         autoComplete="name"
+        defaultValue={user?.name || ''}
       />
 
       <Input
@@ -51,6 +54,7 @@ export function ProfileFields({
         type="email"
         ref={emailRef}
         autoComplete="email"
+        defaultValue={user?.email || ''}
       />
 
       <div className="space-y-4">

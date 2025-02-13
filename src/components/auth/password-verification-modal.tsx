@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { useModal } from '../../contexts/modal-context';
@@ -18,6 +19,7 @@ export function PasswordVerificationModal({
     error,
     isVerifying = false
 }: PasswordVerificationModalProps) {
+    const { t } = useTranslation();
     const [password, setPassword] = React.useState('');
     const [localError, setLocalError] = React.useState('');
     const { openModal, closeModal } = useModal();
@@ -56,9 +58,9 @@ export function PasswordVerificationModal({
                 onClick={onClose}
             ></div>
             <div className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
-                <h2 className="mb-4 text-xl font-bold">Verify Your Identity</h2>
+                <h2 className="mb-4 text-xl font-bold">{t('auth.profile.verifyIdentity')}</h2>
                 <p className="mb-4 text-gray-600">
-                    Please enter your current password to access profile settings
+                    {t('auth.profile.verifyMessage')}
                 </p>
                 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -73,7 +75,7 @@ export function PasswordVerificationModal({
                             htmlFor="current-password" 
                             className="block text-sm font-medium text-gray-700"
                         >
-                            Current Password
+                            {t('auth.profile.currentPassword')}
                         </label>
                         <Input
                             id="current-password"
@@ -94,13 +96,13 @@ export function PasswordVerificationModal({
                             onClick={onClose}
                             disabled={isVerifying}
                         >
-                            Cancel
+                            {t('common.cancel')}
                         </Button>
                         <Button
                             type="submit"
                             disabled={isVerifying || !password}
                         >
-                            {isVerifying ? 'Verifying...' : 'Continue'}
+                            {isVerifying ? t('auth.profile.loading') : t('auth.profile.continue')}
                         </Button>
                     </div>
                 </form>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '../../ui/input';
 import { Textarea } from '../../ui/textarea';
 
@@ -27,11 +28,13 @@ export function FormFields({
   minDate,
   isUpdate = false,
 }: FormFieldsProps) {
+  const { t } = useTranslation();
+
   return (
     <>
       <div>
         <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-          Title {!isUpdate && '*'}
+          {t('events.form.title')} {!isUpdate && '*'}
         </label>
         <Input
           id="title"
@@ -44,7 +47,7 @@ export function FormFields({
 
       <div>
         <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-          Description {!isUpdate && '*'}
+          {t('events.form.description')} {!isUpdate && '*'}
         </label>
         <Textarea
           id="description"
@@ -59,7 +62,7 @@ export function FormFields({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
-            Start Date and Time {!isUpdate && '*'}
+            {t('events.form.startDate')} {!isUpdate && '*'}
           </label>
           <Input
             type="datetime-local"
@@ -74,7 +77,7 @@ export function FormFields({
 
         <div>
           <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
-            End Date and Time {!isUpdate && '*'}
+            {t('events.form.endDate')} {!isUpdate && '*'}
           </label>
           <Input
             type="datetime-local"
@@ -90,7 +93,7 @@ export function FormFields({
 
       <div>
         <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-          Location {!isUpdate && '*'}
+          {t('events.form.location')} {!isUpdate && '*'}
         </label>
         <Input
           id="location"
@@ -103,7 +106,7 @@ export function FormFields({
 
       <div>
         <label htmlFor="image_url" className="block text-sm font-medium text-gray-700">
-          Image URL {!isUpdate && '*'}
+          {t('events.form.imageUrl')} {!isUpdate && '*'}
         </label>
         <Input
           type="url"
@@ -119,7 +122,7 @@ export function FormFields({
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="available_places" className="block text-sm font-medium text-gray-700">
-            Available Places {!isUpdate && '*'}
+            {t('events.form.availablePlaces')} {!isUpdate && '*'}
           </label>
           <Input
             type="number"
@@ -134,7 +137,7 @@ export function FormFields({
 
         <div>
           <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-            Price {!isUpdate && '*'}
+            {t('events.form.price')} {!isUpdate && '*'}
           </label>
           <Input
             type="number"
