@@ -18,12 +18,14 @@ export function EventList() {
     try {
       setLoading(true);
       const response = await EventService.listEvents();
-      setEvents(response);
+      // Filter out closed events
+      const openEvents = response.filter((event: EventData) => new Date(event.date) > new Date());
+      setEvents(openEvents);
       
       // Check if we have a selected event from dashboard
       const selectedEventId = localStorage.getItem('selectedEventId');
       if (selectedEventId) {
-        const selectedEvent = response.find(
+        const selectedEvent = openEvents.find(
           (event: EventData) => event.id === parseInt(selectedEventId)
         );
         if (selectedEvent) {
@@ -31,12 +33,12 @@ export function EventList() {
           // Set the search term to the event title to maintain the filter
           setSearchTerm(selectedEvent.title);
         } else {
-          setFilteredEvents(response);
+          setFilteredEvents(openEvents);
         }
         // Clear the selectedEventId after using it
         localStorage.removeItem('selectedEventId');
       } else {
-        setFilteredEvents(response);
+        setFilteredEvents(openEvents);
       }
     } catch (err: any) {
       console.error('Error fetching events:', err);
@@ -93,33 +95,19 @@ export function EventList() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-6 flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold">Events</h1>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search events..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-64 rounded-lg border border-gray-300 p-2 pl-8 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <svg 
-              className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
-              />
-            </svg>
-          </div>
+    <div>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <h1 className="text-2xl font-bold">Events</h1>
+        <div className="w-full max-w-md">
+          <input
+            type="search"
+            placeholder="Search events..."
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
+        <div className="flex-1"></div> {/* Spacer */}
       </div>
 
       <div className="min-h-[calc(100vh-12rem)]">
@@ -132,7 +120,7 @@ export function EventList() {
             <p>{error}</p>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {filteredEvents.map((event: EventData) => (
               <EventCard
                 key={event.id}

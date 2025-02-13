@@ -12,6 +12,7 @@ import { EventService } from './services/event.service';
 import { Dashboard } from './components/dashboard/dashboard';
 import { EditEvent } from './components/events/edit-event';
 import { useNavigate } from 'react-router-dom';
+import { Footer } from './components/layout/footer';
 
 // Protected Route wrapper component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -47,9 +48,9 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen flex flex-col bg-gray-50">
         <Header />
-        <main className="mx-auto max-w-7xl px-4 py-8">
+        <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 py-8">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
@@ -98,6 +99,7 @@ function App() {
             />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

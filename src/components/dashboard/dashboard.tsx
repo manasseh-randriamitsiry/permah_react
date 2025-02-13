@@ -35,6 +35,11 @@ function StatCard({ title, value, icon, className = '' }: StatCardProps) {
   );
 }
 
+interface SortConfig {
+  key: 'date' | 'totalPlaces' | 'joinedCount' | 'status' | 'title' | 'earnings';
+  direction: 'asc' | 'desc';
+}
+
 function DashboardEventRow({ 
   event, 
   onClick, 
@@ -52,14 +57,114 @@ function DashboardEventRow({
   const joinedCount = event.attendees?.length || event.participants?.length || 0;
   const totalPlaces = event.available_places || 0;
   const freePlaces = totalPlaces - joinedCount;
+  const totalEarnings = (event.price || 0) * joinedCount;
+  
+  const formatDate = (date: string) => {
+    const d = new Date(date);
+    return {
+      date: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      time: d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    };
+  };
+
+  const dateInfo = formatDate(event.date);
   
   return (
-    <div 
-      onClick={() => onClick(event.id)}
-      className="group cursor-pointer border-b border-gray-200 bg-white px-6 py-4 transition-all hover:bg-gray-50"
-    >
-      <div className="flex items-center">
-        <div className="flex w-8 items-center">
+    <div className="border-b border-gray-200 hover:bg-gray-50">
+      {/* Mobile view */}
+      <div className="flex flex-col p-4 md:hidden">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-gray-300"
+              onClick={(e) => e.stopPropagation()}
+            />
+            {event.image_url ? (
+              <img 
+                src={event.image_url} 
+                alt={event.title}
+                className="h-10 w-10 rounded-lg object-cover"
+              />
+            ) : (
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200">
+                <span className="text-sm text-gray-600">
+                  {event.title.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+            <div>
+              <h3 className="font-medium text-gray-900">{event.title}</h3>
+              <p className="text-sm text-gray-500">{dateInfo.date} at {dateInfo.time}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-3 flex justify-between text-sm">
+          <div className="grid grid-cols-4 gap-4">
+            <div>
+              <span className="text-gray-500">Total</span>
+              <p className="font-medium">{totalPlaces}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">Joined</span>
+              <p className="font-medium">{joinedCount}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">Free</span>
+              <p className="font-medium">{freePlaces}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">Earnings</span>
+              <p className="font-medium">
+                {new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(totalEarnings)}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
+              isUpcoming ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+            }`}>
+              {isUpcoming ? t('Ongoing') : t('Closed')}
+            </span>
+          </div>
+        </div>
+        
+        <div className="mt-3 flex justify-end space-x-2">
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(event.id);
+            }}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+          </button>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(event.id);
+            }}
+            className="text-gray-400 hover:text-red-600"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop view */}
+      <div 
+        onClick={() => onClick(event.id)}
+        className="hidden cursor-pointer items-center px-6 py-3 md:flex"
+      >
+        <div className="flex w-8">
           <input
             type="checkbox"
             className="h-4 w-4 rounded border-gray-300"
@@ -72,57 +177,37 @@ function DashboardEventRow({
             <img 
               src={event.image_url} 
               alt={event.title}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-lg object-cover"
             />
           ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-200">
               <span className="text-sm text-gray-600">
                 {event.title.charAt(0).toUpperCase()}
               </span>
             </div>
           )}
-          
-          <div className="min-w-0 flex-1">
-            <h3 className="text-sm font-medium text-gray-900">{event.title}</h3>
-          </div>
+          <span className="font-medium text-gray-900">{event.title}</span>
         </div>
 
-        <div className="flex items-center space-x-12">
-          <div className="text-sm text-gray-500">
-            {new Date(event.date).toLocaleDateString('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            })}
-            <span className="ml-1 text-xs text-gray-400">
-              ({new Date(event.date).toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: '2-digit',
-              })})
-            </span>
+        <div className="flex items-center">
+          <div className="w-40 text-sm text-gray-500">{dateInfo.date}</div>
+          <div className="w-24 text-center text-sm text-gray-500">{totalPlaces}</div>
+          <div className="w-24 text-center text-sm text-gray-500">{joinedCount}</div>
+          <div className="w-24 text-center text-sm text-gray-500">{freePlaces}</div>
+          <div className="w-32 text-center text-sm text-gray-500">
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD'
+            }).format(totalEarnings)}
           </div>
-
-          <div className="w-24 text-center text-sm text-gray-500">
-            {totalPlaces}
-          </div>
-
-          <div className="w-24 text-center text-sm text-gray-500">
-            {joinedCount}
-          </div>
-
-          <div className="w-24 text-center text-sm text-gray-500">
-            {freePlaces}
-          </div>
-
-          <div className="w-24">
+          <div className="w-28">
             <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
               isUpcoming ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
             }`}>
               {isUpcoming ? t('Ongoing') : t('Closed')}
             </span>
           </div>
-
-          <div className="flex w-20 justify-end space-x-2 opacity-0 transition-opacity group-hover:opacity-100">
+          <div className="ml-8 flex w-20 justify-end space-x-2">
             <button 
               onClick={(e) => {
                 e.stopPropagation();
@@ -163,6 +248,10 @@ export function Dashboard() {
   const [error, setError] = React.useState<Error | null>(null);
   const [showDeleteModal, setShowDeleteModal] = React.useState<boolean>(false);
   const [eventToDelete, setEventToDelete] = React.useState<number | null>(null);
+  const [sortConfig, setSortConfig] = React.useState<SortConfig>({ 
+    key: 'date', 
+    direction: 'desc' 
+  });
 
   React.useEffect(() => {
     const fetchEvents = async () => {
@@ -233,6 +322,86 @@ export function Dashboard() {
       console.error('Error deleting event:', err);
       setError(err instanceof Error ? err : new Error('Failed to delete event'));
     }
+  };
+
+  const sortEvents = (events: EventData[]) => {
+    return [...events].sort((a, b) => {
+      const getJoinedCount = (event: EventData) => 
+        event.attendees?.length || event.participants?.length || 0;
+
+      switch (sortConfig.key) {
+        case 'date':
+          const dateA = new Date(a.date).getTime();
+          const dateB = new Date(b.date).getTime();
+          return sortConfig.direction === 'asc' ? dateA - dateB : dateB - dateA;
+        
+        case 'totalPlaces':
+          const totalA = a.available_places || 0;
+          const totalB = b.available_places || 0;
+          return sortConfig.direction === 'asc' ? totalA - totalB : totalB - totalA;
+        
+        case 'joinedCount':
+          const joinedA = getJoinedCount(a);
+          const joinedB = getJoinedCount(b);
+          return sortConfig.direction === 'asc' ? joinedA - joinedB : joinedB - joinedA;
+        
+        case 'status':
+          const statusA = new Date(a.date) > new Date() ? 1 : 0;
+          const statusB = new Date(b.date) > new Date() ? 1 : 0;
+          return sortConfig.direction === 'asc' ? statusA - statusB : statusB - statusA;
+
+        case 'title':
+          return sortConfig.direction === 'asc' 
+            ? a.title.localeCompare(b.title)
+            : b.title.localeCompare(a.title);
+        
+        case 'earnings':
+          const earningsA = (a.price || 0) * getJoinedCount(a);
+          const earningsB = (b.price || 0) * getJoinedCount(b);
+          return sortConfig.direction === 'asc' ? earningsA - earningsB : earningsB - earningsA;
+        
+        default:
+          return 0;
+      }
+    });
+  };
+
+  const handleSort = (key: SortConfig['key']) => {
+    setSortConfig(prevConfig => ({
+      key,
+      direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  const SortHeader = ({ label, sortKey }: { label: string; sortKey: SortConfig['key'] }) => {
+    const isActive = sortConfig.key === sortKey;
+    
+    return (
+      <button
+        onClick={() => handleSort(sortKey)}
+        className={`group inline-flex items-center space-x-1 text-xs font-medium uppercase text-gray-500 hover:text-gray-700`}
+      >
+        <span>{label}</span>
+        <span className="inline-flex flex-col">
+          <svg 
+            className={`h-3 w-3 ${isActive && sortConfig.direction === 'asc' ? 'text-blue-500' : 'text-gray-400'}`}
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path d="M4 8l4-4" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+          <svg 
+            className={`h-3 w-3 -mt-1.5 ${isActive && sortConfig.direction === 'desc' ? 'text-blue-500' : 'text-gray-400'}`}
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path d="M8 4l-4 4" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </span>
+      </button>
+    );
   };
 
   if (!user) {
@@ -344,47 +513,43 @@ export function Dashboard() {
       ) : (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
           {/* Table Header */}
-          <div className="border-b border-gray-200 bg-gray-50 px-6 py-3">
+          <div className="hidden border-b border-gray-200 bg-gray-50 px-6 py-3 md:flex items-center">
+            <div className="flex w-8">
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-gray-300"
+              />
+            </div>
+            <div className="flex-1">
+              <SortHeader label={t('Event Name')} sortKey="title" />
+            </div>
             <div className="flex items-center">
-              <div className="flex w-8 items-center">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300"
-                />
+              <div className="w-40">
+                <SortHeader label={t('Date')} sortKey="date" />
               </div>
-              <div className="flex flex-1 items-center space-x-4">
-                <div className="w-10"></div>
-                <div className="min-w-0 flex-1">
-                  <span className="text-xs font-medium uppercase text-gray-500">
-                    {t('Event Name')}
-                  </span>
-                </div>
+              <div className="w-24 text-center">
+                <SortHeader label={t('Total')} sortKey="totalPlaces" />
               </div>
-              <div className="flex items-center space-x-12">
-                <div className="w-32 text-xs font-medium uppercase text-gray-500">
-                  {t('Date')}
-                </div>
-                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
-                  {t('Total Places')}
-                </div>
-                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
-                  {t('Joined')}
-                </div>
-                <div className="w-24 text-center text-xs font-medium uppercase text-gray-500">
-                  {t('Free Places')}
-                </div>
-                <div className="w-24 text-xs font-medium uppercase text-gray-500">
-                  {t('Status')}
-                </div>
-                <div className="w-20 text-right text-xs font-medium uppercase text-gray-500">
-                  {t('Action')}
-                </div>
+              <div className="w-24 text-center">
+                <SortHeader label={t('Joined')} sortKey="joinedCount" />
+              </div>
+              <div className="w-24 text-center">
+                <div className="text-xs font-medium uppercase text-gray-500">{t('Free')}</div>
+              </div>
+              <div className="w-32 text-center">
+                <SortHeader label={t('Earnings')} sortKey="earnings" />
+              </div>
+              <div className="w-28">
+                <SortHeader label={t('Status')} sortKey="status" />
+              </div>
+              <div className="ml-8 w-20 text-right">
+                <div className="text-xs font-medium uppercase text-gray-500">{t('Action')}</div>
               </div>
             </div>
           </div>
 
           {/* Event Rows */}
-          {filteredEvents.map((event: EventData) => (
+          {sortEvents(filteredEvents).map((event: EventData) => (
             <DashboardEventRow
               key={event.id}
               event={event}
