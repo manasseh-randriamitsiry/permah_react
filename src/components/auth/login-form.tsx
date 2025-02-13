@@ -20,27 +20,19 @@ export function LoginForm() {
     const password = formData.get('password') as string;
 
     try {
-      console.log('Form data:', { email, password });
-      await loginWithCredentials(email, password);
-      navigate('/events');
+        console.log('Form data:', { email });
+        await loginWithCredentials(email, password);
+        navigate('/events');
     } catch (err: any) {
-      console.error('Login error details:', {
-        status: err.response?.status,
-        data: err.response?.data,
-        message: err.message
-      });
-      
-      if (err.response?.data?.message) {
-        setError(err.response.data.message);
-      } else if (err.response?.data?.error) {
-        setError(err.response.data.error);
-      } else if (err.message === 'Network Error') {
-        setError('Unable to connect to the server. Please check if the server is running.');
-      } else {
-        setError('Login failed. Please check your credentials.');
-      }
+        console.error('Login error:', err);
+        
+        if (err.message) {
+            setError(err.message);
+        } else {
+            setError('Login failed. Please check your credentials.');
+        }
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
   };
 

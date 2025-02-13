@@ -17,47 +17,51 @@ export class SecurityService {
         try {
             console.log('Attempting login with:', { email });
             
-            const response = await axios.post<LoginResponse>(
-                `${this.API_URL}/api/auth/login`,
-                {
-                    username: email,
-                    password: password
+            const response = await fetch(`${this.API_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
-            );
-            
-            console.log('Login successful:', response.data);
-            return response.data;
-        } catch (error: any) {
-            console.error('Login failed:', {
-                status: error.response?.status,
-                data: error.response?.data,
-                message: error.message
+                credentials: 'include',
+                body: JSON.stringify({
+                    email,
+                    password
+                })
             });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Login failed');
+            }
+
+            const data = await response.json();
+            console.log('Login successful:', data);
+            return data;
+        } catch (error: any) {
+            console.error('Login failed:', error);
             throw error;
         }
     }
 
     static async signup(data: { email: string; password: string; name: string }): Promise<SignupResponse> {
         try {
-            const response = await axios.post<SignupResponse>(
-                `${this.API_URL}/api/auth/register`,
-                data,
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
-            );
-            return response.data;
+            const response = await fetch(`${this.API_URL}/api/auth/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Signup failed');
+            }
+
+            return await response.json();
         } catch (error) {
             throw error;
         }
@@ -74,25 +78,26 @@ export class SecurityService {
                 new_password: data.new_password ? '********' : undefined
             });
             
-            const response = await axios.put<LoginResponse>(
-                `${this.API_URL}/api/auth/profile`,
-                this.sanitizeProfileData(data),
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
-            );
-            
-            console.log('Profile update successful');
-            return response.data;
-        } catch (error: any) {
-            console.error('Profile update failed:', {
-                status: error.response?.status,
-                message: error.response?.data?.message || error.message
+            const response = await fetch(`${this.API_URL}/api/auth/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include',
+                body: JSON.stringify(this.sanitizeProfileData(data))
             });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to update profile');
+            }
+            
+            const result = await response.json();
+            console.log('Profile update successful');
+            return result;
+        } catch (error: any) {
+            console.error('Profile update failed:', error);
             throw error;
         }
     }
@@ -221,7 +226,6 @@ export class SecurityService {
 
     static async verifyPassword(password: string): Promise<void> {
         try {
-            // Get the current user's email from the store
             const userJson = localStorage.getItem('user');
             if (!userJson) {
                 throw new Error('No user found');
@@ -229,26 +233,24 @@ export class SecurityService {
             
             const user = JSON.parse(userJson);
             
-            // Use the login endpoint to verify credentials
-            await axios.post(
-                `${this.API_URL}/api/auth/login`,
-                {
-                    username: user.email,  // Using username as we did for login
-                    password: password
+            const response = await fetch(`${this.API_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                {
-                    withCredentials: true,
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                }
-            );
-        } catch (error: any) {
-            console.error('Password verification failed:', {
-                status: error.response?.status,
-                message: error.response?.data?.message || error.message
+                credentials: 'include',
+                body: JSON.stringify({
+                    email: user.email,
+                    password: password
+                })
             });
+
+            if (!response.ok) {
+                throw new Error('Invalid password. Please try again.');
+            }
+        } catch (error: any) {
+            console.error('Password verification failed:', error);
             throw new Error('Invalid password. Please try again.');
         }
     }

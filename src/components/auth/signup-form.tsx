@@ -28,12 +28,11 @@ export function SignupForm() {
         password,
       });
       
-      const { user } = response.data;
-      
+      const { user } = response;
       loginWithUser(user);
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to create account');
+      setError(err.message || 'Failed to create account');
     } finally {
       setIsLoading(false);
     }

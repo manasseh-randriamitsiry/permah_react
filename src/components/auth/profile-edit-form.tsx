@@ -79,13 +79,12 @@ export function ProfileEditForm() {
       setIsChangingPassword(false);
       
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message;
+      const errorMessage = err.message || 'Failed to update profile';
       setError(errorMessage);
       
       // Log error for debugging (without sensitive data)
       console.error('Profile update error:', {
-        message: errorMessage,
-        status: err.response?.status
+        message: errorMessage
       });
     } finally {
       setIsLoading(false);

@@ -1,53 +1,9 @@
 # Event Manager API
-
-A RESTful API for managing events, built with Symfony 6. This API allows users to create, manage, and participate in events.
-
-## Features
-
-- User Authentication (JWT)
-- Event Management
-- Event Participation
-- Secure Cookie Handling
-- Role-based Access Control
-
-## Prerequisites
-
-- PHP 8.1 or higher
-- Composer
-- Symfony CLI
-- Database (MySQL/PostgreSQL)
-- OpenSSL for JWT keys
-
-## Installation
-
-1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd event_manager
+ cd permah_react
+ npm install
+ npm run dev or npm run
 ```
-
-2. Install dependencies:
-```bash
-composer install
-```
-
-3. Generate JWT keys:
-```bash
-php bin/console lexik:jwt:generate-keypair
-```
-
-4. Configure your environment variables:
-```bash
-cp .env .env.local
-```
-Edit `.env.local` with your database and other configuration settings.
-
-5. Create database and run migrations:
-```bash
-php bin/console doctrine:database:create
-php bin/console doctrine:migrations:migrate
-```
-
 ## API Endpoints
 
 ### Authentication
@@ -171,58 +127,6 @@ POST /api/events/{id}/join
 ```http
 DELETE /api/events/{id}/leave
 ```
-
-## Frontend Integration Examples
-
-### Authentication Service
-```typescript
-// src/services/auth.service.ts
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8000/api';
-
-export class AuthService {
-  static async login(email: string, password: string) {
-    const response = await axios.post(`${API_URL}/auth/login`, {
-      email,
-      password
-    });
-    if (response.data.token) {
-      localStorage.setItem('token', response.data.token);
-    }
-    return response.data;
-  }
-
-  static getAuthHeader() {
-    const token = localStorage.getItem('token');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-}
-```
-
-### Event Service
-```typescript
-// src/services/event.service.ts
-import axios from 'axios';
-import { AuthService } from './auth.service';
-b
-const API_URL = 'http://localhost:8000/api';
-
-export class EventService {
-  static async getEvents() {
-    return axios.get(`${API_URL}/events`, {
-      headers: AuthService.getAuthHeader()
-    });
-  }
-
-  static async joinEvent(eventId: number) {
-    return axios.post(`${API_URL}/events/${eventId}/join`, {}, {
-      headers: AuthService.getAuthHeader()
-    });
-  }
-}
-```
-
 ## Error Handling
 
 The API returns standard HTTP status codes:
