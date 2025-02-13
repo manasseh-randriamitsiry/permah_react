@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 
@@ -7,10 +8,12 @@ interface SignupFieldsProps {
 }
 
 export function SignupFields({ isLoading }: SignupFieldsProps) {
+  const { t } = useTranslation();
+  
   return (
     <>
       <Input
-        label="Full name"
+        label={t('auth.signup.fullName')}
         name="username"
         type="text"
         autoComplete="name"
@@ -18,7 +21,7 @@ export function SignupFields({ isLoading }: SignupFieldsProps) {
       />
 
       <Input
-        label="Email address"
+        label={t('auth.signup.email')}
         name="email"
         type="email"
         autoComplete="email"
@@ -26,7 +29,7 @@ export function SignupFields({ isLoading }: SignupFieldsProps) {
       />
 
       <Input
-        label="Password"
+        label={t('auth.signup.password')}
         name="password"
         type="password"
         autoComplete="new-password"
@@ -34,7 +37,7 @@ export function SignupFields({ isLoading }: SignupFieldsProps) {
       />
 
       <Button type="submit" className="w-full" size="xl" disabled={isLoading}>
-        {isLoading ? 'Creating account...' : 'Create account'}
+        {isLoading ? t('auth.signup.loading') : t('auth.signup.submit')}
       </Button>
     </>
   );

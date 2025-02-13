@@ -26,9 +26,9 @@ export function DashboardEventRow({
   const endDate = new Date(event.endDate);
   
   const getEventStatus = () => {
-    if (now > endDate) return { label: t('Closed'), classes: 'bg-gray-100 text-gray-800' };
-    if (now >= startDate && now <= endDate) return { label: t('Ongoing'), classes: 'bg-green-100 text-green-800' };
-    return { label: t('Upcoming'), classes: 'bg-blue-100 text-blue-600' };
+    if (now > endDate) return { label: t('dashboard.status.closed'), classes: 'bg-gray-100 text-gray-800' };
+    if (now >= startDate && now <= endDate) return { label: t('dashboard.status.ongoing'), classes: 'bg-green-100 text-green-800' };
+    return { label: t('dashboard.status.upcoming'), classes: 'bg-blue-100 text-blue-600' };
   };
 
   const status = getEventStatus();
@@ -39,8 +39,8 @@ export function DashboardEventRow({
   
   const formatDate = (date: Date) => {
     return {
-      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      time: date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+      date: t('{{date}}', { date, format: 'date', formatParams: { format: 'short' } }),
+      time: t('{{date}}', { date, format: 'date', formatParams: { format: 'time' } })
     };
   };
 

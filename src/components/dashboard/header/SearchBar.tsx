@@ -13,7 +13,7 @@ export function SearchBar({ searchTerm, onSearchChange }: SearchBarProps) {
     <div className="relative">
       <input
         type="text"
-        placeholder={t('Search events...')}
+        placeholder={t('dashboard.search')}
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
         className="w-64 rounded-lg border border-gray-300 p-2 pl-8 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"

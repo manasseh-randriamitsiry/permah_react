@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,7 @@ export function ProfileFields({
   confirmPasswordRef,
   isLoading,
 }: ProfileFieldsProps) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isChangingPassword, setIsChangingPassword] = React.useState(false);
 
@@ -36,7 +38,7 @@ export function ProfileFields({
   return (
     <>
       <Input
-        label="Full name"
+        label={t('auth.signup.fullName')}
         name="name"
         type="text"
         ref={usernameRef}
@@ -44,7 +46,7 @@ export function ProfileFields({
       />
 
       <Input
-        label="Email address"
+        label={t('auth.signup.email')}
         name="email"
         type="email"
         ref={emailRef}
@@ -53,20 +55,22 @@ export function ProfileFields({
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-sm font-medium text-gray-700">Password</span>
+          <span className="text-sm font-medium text-gray-700">{t('auth.profile.password')}</span>
           <Button
             type="button"
             variant="secondary"
             onClick={handlePasswordToggle}
           >
-            {isChangingPassword ? 'Cancel password change' : 'Change password'}
+            {isChangingPassword 
+              ? t('auth.profile.cancelPasswordChange')
+              : t('auth.profile.changePassword')}
           </Button>
         </div>
 
         {isChangingPassword && (
           <div className="space-y-4">
             <Input
-              label="Current Password"
+              label={t('auth.profile.currentPassword')}
               name="currentPassword"
               type="password"
               ref={currentPasswordRef}
@@ -74,22 +78,22 @@ export function ProfileFields({
               required={isChangingPassword}
             />
             <Input
-              label="New Password"
+              label={t('auth.profile.newPassword')}
               name="newPassword"
               type="password"
               ref={newPasswordRef}
               autoComplete="new-password"
               required={isChangingPassword}
-              placeholder="At least 8 characters"
+              placeholder={t('auth.profile.passwordHint')}
             />
             <Input
-              label="Confirm New Password"
+              label={t('auth.profile.confirmPassword')}
               name="confirmPassword"
               type="password"
               ref={confirmPasswordRef}
               autoComplete="new-password"
               required={isChangingPassword}
-              placeholder="Re-enter new password"
+              placeholder={t('auth.profile.confirmPasswordHint')}
             />
           </div>
         )}
@@ -101,10 +105,10 @@ export function ProfileFields({
           variant="outline"
           onClick={() => navigate('/dashboard')}
         >
-          Cancel
+          {t('common.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
-          {isLoading ? 'Saving...' : 'Save Changes'}
+          {isLoading ? t('auth.profile.loading') : t('auth.profile.save')}
         </Button>
       </div>
     </>

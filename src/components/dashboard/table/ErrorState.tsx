@@ -10,23 +10,23 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
   const { t } = useTranslation();
 
   const getErrorMessage = (error: Error | null) => {
-    if (!error) return t('An unknown error occurred');
+    if (!error) return t('errors.unknown');
 
     // Handle specific error types
     if (error.message.includes('Failed to fetch')) {
-      return t('Unable to connect to the server. Please check your internet connection.');
+      return t('errors.network');
     }
     if (error.message.includes('401') || error.message.includes('unauthorized')) {
-      return t('Your session has expired. Please log in again.');
+      return t('errors.unauthorized');
     }
     if (error.message.includes('403')) {
-      return t('You do not have permission to view these events.');
+      return t('errors.forbidden');
     }
     if (error.message.includes('404')) {
-      return t('The requested events could not be found.');
+      return t('errors.notFound');
     }
     if (error.message.includes('500')) {
-      return t('A server error occurred. Please try again later.');
+      return t('errors.server');
     }
 
     return error.message;
@@ -51,7 +51,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
           </svg>
         </div>
         <div className="ml-3">
-          <h3 className="text-lg font-medium">{t('Error Loading Dashboard')}</h3>
+          <h3 className="text-lg font-medium">{t('common.error')}</h3>
           <p className="mt-2 text-sm">{getErrorMessage(error)}</p>
         </div>
       </div>
@@ -74,7 +74,7 @@ export function ErrorState({ error, onRetry }: ErrorStateProps) {
                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
               />
             </svg>
-            {t('Try Again')}
+            {t('common.retry')}
           </button>
         </div>
       )}

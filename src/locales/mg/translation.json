@@ -1,0 +1,102 @@
+{
+  "dashboard": {
+    "title": "Ireo Hetsika",
+    "createEvent": "Hamorona Hetsika",
+    "search": "Hikaroka hetsika...",
+    "table": {
+      "eventName": "Anaran'ny Hetsika",
+      "startDate": "Daty Fanombohana",
+      "endDate": "Daty Famaranana",
+      "total": "Totaliny",
+      "joined": "Mpandray Anjara",
+      "free": "Toerana Malalaka",
+      "earnings": "Vola Miditra",
+      "status": "Toe-javatra",
+      "action": "Asa",
+      "edit": "Hanova",
+      "delete": "Hamafa",
+      "selectAll": "Hifidy ny hetsika rehetra",
+      "deleteSelected": "Hamafa ny voafidy",
+      "showing": "Mampiseho hetsika {{count}}",
+      "selected": "Voafidy {{count}}"
+    },
+    "status": {
+      "closed": "Tapitra",
+      "ongoing": "Mandeha",
+      "upcoming": "Ho avy"
+    },
+    "stats": {
+      "upcomingEvents": "Hetsika ho avy",
+      "next7Days": "7 andro ho avy",
+      "pastEvents": "Hetsika teo aloha",
+      "totalParticipants": "Mpandray anjara rehetra",
+      "totalIncome": "Vola miditra rehetra"
+    },
+    "deleteModal": {
+      "title": "Hamafa Hetsika",
+      "message": "Tena te-hamafa ity hetsika ity ve ianao? Tsy azo averina intsony ity asa ity.",
+      "confirm": "Hamafa",
+      "cancel": "Hanafoana"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Tonga soa indray",
+      "subtitle": "Azafady, midira amin'ny kaontinao",
+      "email": "Adiresy mailaka",
+      "password": "Teny miafina",
+      "submit": "Hiditra",
+      "loading": "Eo am-pidirana..."
+    },
+    "errors": {
+      "invalidCredentials": "Mailaka na teny miafina diso",
+      "sessionExpired": "Tapitra ny fotoana. Azafady, midira indray."
+    }
+  },
+  "common": {
+    "loading": "Eo am-pampisehoana...",
+    "error": "Nisy olana nitranga",
+    "retry": "Andramo indray",
+    "noResults": "Tsy misy valiny hita",
+    "required": "Tsy maintsy fenoina",
+    "save": "Hitahiry",
+    "cancel": "Hanafoana",
+    "confirm": "Hanamarina",
+    "back": "Hiverina",
+    "next": "Manaraka",
+    "search": "Hikaroka",
+    "filter": "Hanasokajy",
+    "sort": "Handahatra",
+    "actions": "Asa",
+    "success": "Vita soa aman-tsara",
+    "warning": "Fampitandremana",
+    "info": "Fampahalalana",
+    "close": "Hanidy",
+    "language": "Fiteny",
+    "currency": "Vola",
+    "dateFormat": "Endrika daty"
+  },
+  "errors": {
+    "unknown": "Nisy olana tsy fantatra nitranga",
+    "network": "Tsy afaka mifandray amin'ny serveur. Hamarino ny fifandraisana internet.",
+    "unauthorized": "Tapitra ny fotoana. Azafady, midira indray.",
+    "forbidden": "Tsy manana alalana hijery ireo hetsika ireo ianao.",
+    "notFound": "Tsy hita ireo hetsika notadiavina.",
+    "server": "Nisy olana tamin'ny serveur. Azafady, andramo indray."
+  },
+  "formats": {
+    "date": {
+      "short": "D MMM YYYY",
+      "long": "D MMMM YYYY HH:mm",
+      "time": "HH:mm"
+    },
+    "number": {
+      "decimal": ",",
+      "thousand": " "
+    },
+    "currency": {
+      "symbol": "Ar",
+      "format": "{{amount}} {{symbol}}"
+    }
+  }
+} 

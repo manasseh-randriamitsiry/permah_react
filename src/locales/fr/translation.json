@@ -1,0 +1,142 @@
+{
+  "dashboard": {
+    "title": "Vos Événements",
+    "createEvent": "Créer un Événement",
+    "search": "Rechercher des événements...",
+    "table": {
+      "eventName": "Nom de l'événement",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "total": "Total",
+      "joined": "Inscrits",
+      "free": "Disponible",
+      "earnings": "Gains",
+      "status": "Statut",
+      "action": "Action",
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "selectAll": "Sélectionner tous les événements",
+      "deleteSelected": "Supprimer la sélection",
+      "showing": "Affichage de {{count}} événements",
+      "selected": "{{count}} sélectionnés"
+    },
+    "status": {
+      "closed": "Terminé",
+      "ongoing": "En cours",
+      "upcoming": "À venir"
+    },
+    "stats": {
+      "upcomingEvents": "Événements à venir",
+      "next7Days": "7 prochains jours",
+      "pastEvents": "Événements passés",
+      "totalParticipants": "Total des participants",
+      "totalIncome": "Revenu total"
+    },
+    "deleteModal": {
+      "title": "Supprimer l'événement",
+      "message": "Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.",
+      "confirm": "Supprimer",
+      "cancel": "Annuler"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Veuillez vous connecter à votre compte",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "loading": "Connexion en cours..."
+    },
+    "errors": {
+      "invalidCredentials": "Email ou mot de passe invalide",
+      "sessionExpired": "Votre session a expiré. Veuillez vous reconnecter."
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "noResults": "Aucun résultat trouvé",
+    "required": "Requis",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "actions": "Actions",
+    "success": "Succès",
+    "warning": "Avertissement",
+    "info": "Information",
+    "close": "Fermer",
+    "language": "Langue",
+    "currency": "Devise",
+    "dateFormat": "Format de date",
+    "empty": {
+      "title": "Aucun élément trouvé",
+      "message": "Il n'y a aucun élément à afficher pour le moment."
+    }
+  },
+  "errors": {
+    "unknown": "Une erreur inconnue est survenue",
+    "network": "Impossible de se connecter au serveur. Veuillez vérifier votre connexion internet.",
+    "unauthorized": "Votre session a expiré. Veuillez vous reconnecter.",
+    "forbidden": "Vous n'avez pas la permission de voir ces événements.",
+    "notFound": "Les événements demandés n'ont pas été trouvés.",
+    "server": "Une erreur serveur est survenue. Veuillez réessayer plus tard."
+  },
+  "formats": {
+    "date": {
+      "short": "D MMM YYYY",
+      "long": "D MMMM YYYY HH:mm",
+      "time": "HH:mm"
+    },
+    "number": {
+      "decimal": ",",
+      "thousand": " "
+    },
+    "currency": {
+      "symbol": "€",
+      "format": "{{amount}} {{symbol}}"
+    }
+  },
+  "home": {
+    "title": "Gérez vos événements facilement",
+    "subtitle": "Créez, gérez et participez aux événements en toute simplicité. Parfait pour les organisateurs et les participants.",
+    "browseEvents": "Parcourir les événements",
+    "createEvent": "Créer un événement"
+  },
+  "brand": {
+    "name": "EventManager",
+    "description": "Rendez la gestion d'événements simple et agréable. Créez, gérez et participez aux événements en toute simplicité."
+  },
+  "footer": {
+    "quickLinks": {
+      "title": "Liens rapides",
+      "browseEvents": "Parcourir les événements",
+      "createEvent": "Créer un événement",
+      "dashboard": "Tableau de bord"
+    },
+    "resources": {
+      "title": "Ressources",
+      "helpCenter": "Centre d'aide",
+      "guidelines": "Règles de la communauté",
+      "privacy": "Politique de confidentialité"
+    },
+    "newsletter": {
+      "title": "Restez informé",
+      "placeholder": "Entrez votre email",
+      "subscribe": "S'abonner à la newsletter",
+      "description": "Abonnez-vous à notre newsletter pour recevoir nos actualités et offres exclusives."
+    },
+    "copyright": "© {{year}} EventManager. Tous droits réservés.",
+    "social": {
+      "github": "Visitez-nous sur GitHub",
+      "twitter": "Suivez-nous sur Twitter",
+      "linkedin": "Rejoignez-nous sur LinkedIn"
+    }
+  }
+} 

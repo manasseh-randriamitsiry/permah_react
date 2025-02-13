@@ -34,13 +34,13 @@ export function TableHeader({
               }
             }}
             onChange={onSelectAll}
-            aria-label={t('Select all events')}
+            aria-label={t('dashboard.table.selectAll')}
           />
         </div>
       </th>
       <th scope="col" className="px-6 py-3 text-left">
         <SortHeader 
-          label={t('Event Name')} 
+          label={t('dashboard.table.eventName')} 
           sortKey="title" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -48,7 +48,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-left">
         <SortHeader 
-          label={t('Start Date')} 
+          label={t('dashboard.table.startDate')} 
           sortKey="startDate" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -56,7 +56,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-left">
         <SortHeader 
-          label={t('End Date')} 
+          label={t('dashboard.table.endDate')} 
           sortKey="endDate" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -64,7 +64,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <SortHeader 
-          label={t('Total')} 
+          label={t('dashboard.table.total')} 
           sortKey="totalPlaces" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -72,7 +72,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <SortHeader 
-          label={t('Joined')} 
+          label={t('dashboard.table.joined')} 
           sortKey="joinedCount" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -80,12 +80,12 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <span className="text-xs font-medium uppercase text-gray-500">
-          {t('Free')}
+          {t('dashboard.table.free')}
         </span>
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <SortHeader 
-          label={t('Earnings')} 
+          label={t('dashboard.table.earnings')} 
           sortKey="earnings" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -93,7 +93,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <SortHeader 
-          label={t('Status')} 
+          label={t('dashboard.table.status')} 
           sortKey="status" 
           sortConfig={sortConfig}
           onSort={onSort}
@@ -101,7 +101,7 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-right">
         <span className="text-xs font-medium uppercase text-gray-500">
-          {t('Action')}
+          {t('dashboard.table.action')}
         </span>
       </th>
     </tr>

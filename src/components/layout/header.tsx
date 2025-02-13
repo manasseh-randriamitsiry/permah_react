@@ -5,6 +5,7 @@ import { useAuthStore } from '../../store/auth-store';
 import { useNavigate } from 'react-router-dom';
 import { DesktopNav } from './DesktopNav';
 import { MobileNav } from './MobileNav';
+import { LanguageSelector } from './LanguageSelector';
 
 export function Header() {
   const { isAuthenticated, logout } = useAuthStore();
@@ -29,23 +30,27 @@ export function Header() {
           <span className="text-xl font-bold">EventManager</span>
         </Link>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden rounded-lg p-2 hover:bg-gray-100"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? (
-            <X className="h-6 w-6 text-gray-600" />
-          ) : (
-            <Menu className="h-6 w-6 text-gray-600" />
-          )}
-        </button>
+        <div className="flex items-center space-x-4">
+          <LanguageSelector />
 
-        <DesktopNav 
-          isAuthenticated={isAuthenticated} 
-          onLogout={handleLogout} 
-        />
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden rounded-lg p-2 hover:bg-gray-100"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6 text-gray-600" />
+            ) : (
+              <Menu className="h-6 w-6 text-gray-600" />
+            )}
+          </button>
+
+          <DesktopNav 
+            isAuthenticated={isAuthenticated} 
+            onLogout={handleLogout} 
+          />
+        </div>
       </div>
 
       <MobileNav 
