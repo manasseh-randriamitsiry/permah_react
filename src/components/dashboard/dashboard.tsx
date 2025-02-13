@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth-store';
 import { eventApi } from '../../services/api';
-import type { EventWithUser } from '../../types';
+import type { EventData } from '../../types';
 import { PlusIcon } from '@heroicons/react/24/solid';
 
 export function Dashboard() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const user = useAuthStore(state => state.user);
-  const [events, setEvents] = React.useState<EventWithUser[]>([]);
+  const [events, setEvents] = React.useState<EventData[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
 
@@ -112,7 +112,9 @@ export function Dashboard() {
         />
         <StatCard
           title="Total Participants"
-          value={events.reduce((acc, event) => acc + (event.number_place || 0), 0)}
+          value={events.reduce((acc, event) => 
+            acc + (event.attendees?.length || event.participants?.length || 0), 
+          0)}
           icon="👥"
           className="bg-purple-50"
         />
@@ -138,7 +140,7 @@ export function Dashboard() {
                   {event.title}
                 </span>
                 <span className="text-sm text-gray-500">
-                  {event.number_place || 0} participants
+                  {event.attendees?.length || event.participants?.length || 0} participants
                 </span>
               </div>
             </div>

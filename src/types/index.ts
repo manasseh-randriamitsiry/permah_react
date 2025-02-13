@@ -1,32 +1,25 @@
 export interface User {
   id: number;
-  email: string;
   name: string;
-  type?: string;
-  created_at?: string;
-  events?: Event[];
+  email: string;
 }
 
-export interface Event {
+export interface EventData {
   id: number;
   title: string;
   description: string;
   date: string;
   location: string;
-  number_place: number;
-  price: number;
-  organizer_name: string;
-  user_id: number;
   image_url: string;
-  creation_date: string;
-}
-
-export interface EventWithUser extends Omit<Event, 'user_id'> {
+  available_places: number;
+  price: number;
+  user_id: number;
+  organizer_id?: number;
   created_at: string;
-  User: {
-    username: string;
-    email: string;
-  }
+  updated_at: string;
+  user: User;
+  attendees?: User[];
+  participants?: User[];  // Some APIs might use participants instead of attendees
 }
 
 export interface SignupRequest {
@@ -37,7 +30,7 @@ export interface SignupRequest {
 
 export interface SignupResponse {
   user: User;
-  token: string;
+  message?: string;
 }
 
 export interface LoginRequest {
@@ -47,7 +40,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   user: User;
-  token: string;
+  message?: string;
 }
 
 export interface ApiResponse<T> {
@@ -68,8 +61,9 @@ export interface CreateEventRequest {
   description: string;
   date: string;
   location: string;
-  number_place: number;
-  price: number;
-  organizer_name: string;
   image_url: string;
+  available_places: number;
+  price: number;
 }
+
+export interface UpdateEventRequest extends Partial<CreateEventRequest> {}

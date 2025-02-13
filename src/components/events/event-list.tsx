@@ -49,6 +49,10 @@ export function EventList() {
     await fetchEvents();
   };
 
+  const handleEditEvent = (eventId: number) => {
+    navigate(`/events/${eventId}/edit`);
+  };
+
   if (loading) return <div className="text-center py-8">Loading events...</div>;
   if (error) return <div className="text-red-500 text-center py-8">{error}</div>;
 
@@ -67,6 +71,7 @@ export function EventList() {
               event={event}
               onJoin={() => handleJoinEvent(event.id)}
               onLeave={() => handleLeaveEvent(event.id)}
+              onEdit={() => handleEditEvent(event.id)}
             />
           ))}
         </div>

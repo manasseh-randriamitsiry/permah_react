@@ -7,9 +7,10 @@ import { ProfileEditForm } from './components/auth/profile-edit-form';
 import { EventList } from './components/events/event-list';
 import { EventForm } from './components/events/event-form';
 import { useAuthStore } from './store/auth-store';
-import type { Event, CreateEventRequest } from './types';
+import type { CreateEventRequest } from './types';
 import { eventApi } from './services/api';
 import { Dashboard } from './components/dashboard/dashboard';
+import { EditEvent } from './components/events/edit-event';
 
 console.log('App.tsx loaded');
 
@@ -85,6 +86,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <ProfileEditForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/:id/edit"
+              element={
+                <ProtectedRoute>
+                  <EditEvent />
                 </ProtectedRoute>
               }
             />

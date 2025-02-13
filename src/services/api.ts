@@ -1,7 +1,6 @@
 import axios from 'axios';
 import type { 
-  Event, 
-  EventWithUser,
+  EventData,
   User, 
   LoginRequest,
   LoginResponse, 
@@ -122,7 +121,7 @@ export const eventApi = {
   },
   
   getAll: () =>
-    api.get<EventWithUser[]>('/api/events'),
+    api.get<EventData[]>('/api/events'),
 
   getUserEvents: () =>
     api.get<Event[]>('/api/events/user'),
@@ -132,4 +131,13 @@ export const eventApi = {
   
   delete: (id: number) => 
     api.delete<{ message: string }>(`/api/events/${id}`),
+
+  getById: (id: number) =>
+    api.get<EventData>(`/api/events/${id}`),
+
+  join: (eventId: number) =>
+    api.post<{ message: string }>(`/api/events/${eventId}/join`),
+
+  leave: (eventId: number) =>
+    api.delete<{ message: string }>(`/api/events/${eventId}/leave`),
 };

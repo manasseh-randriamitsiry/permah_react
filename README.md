@@ -104,13 +104,19 @@ Content-Type: application/json
 
 #### Update Event
 ```http
-PUT /api/events/{id}
+UT /api/events/{id}
 Content-Type: application/json
-
 {
-    "title": "Updated Title",
-    "description": "Updated description"
+    "title": "Updated Title", // Optional
+    "description": "Updated desc", // Optional
+    "date": "2024-12-31T00:00:00Z", // Optional
+    "location": "New Location", // Optional
+    "available_places": 150, // Optional
+    "price": 25.99, // Optional
+    "image_url": "https://..." // Optional
 }
+```
+Response (200 OK): Updated event object
 ```
 
 #### Delete Event
