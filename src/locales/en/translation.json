@@ -109,6 +109,14 @@
       }
     },
     "signup": {
+      "title": "Create Account",
+      "subtitle": "Sign up to get started",
+      "fullName": "Full Name",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "submit": "Sign up",
+      "loading": "Signing up...",
       "success": "Account created successfully! Please log in."
     }
   },
