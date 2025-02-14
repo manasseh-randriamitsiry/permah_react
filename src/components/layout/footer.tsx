@@ -78,7 +78,7 @@ export function Footer() {
           </p>
           <div className="flex space-x-6">
             <a
-              href="https://github.com"
+              href="https://github.com/manassehrandriamitsiry"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 hover:text-gray-900"
