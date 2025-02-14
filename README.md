@@ -1,6 +1,6 @@
 # Permah - Event Management Platform
 
-A modern event management platform built with React, TypeScript, and Docker. Supporting multiple languages (English, French, and Malagasy), this application helps you create, manage, and participate in events easily.
+A modern event management platform built with React TypeScript frontend and Symfony backend. Supporting multiple languages (English, French, and Malagasy), this application helps you create, manage, and participate in events easily.
 
 ## 🌟 Features
 
@@ -14,6 +14,19 @@ A modern event management platform built with React, TypeScript, and Docker. Sup
 - 🐳 Docker support for both development and production
 
 ## 🚀 Quick Start
+
+### Backend link
+```bash
+https://github.com/manasseh-randriamitsiry/event_symfony
+```
+
+### Prerequisites
+
+- Node.js >= 18
+- PHP >= 8.1
+- Composer
+- Docker (optional)
+- Symfony CLI (optional)
 
 ### Using Docker (Recommended)
 
@@ -102,45 +115,18 @@ The application supports three languages:
 
 Translation files are located in `src/locales/`.
 
-## 🔒 Authentication
-
-### Login
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-    "email": "user@example.com",
-    "password": "password123"
-}
-```
-
-### Register
-```http
-POST /api/auth/register
-Content-Type: application/json
-
-{
-    "email": "user@example.com",
-    "password": "password123",
-    "name": "John Doe"
-}
-```
-
-See API documentation section for more endpoints.
-
-## 🔧 Configuration
-
-### Environment Variables
-
-- `VITE_API_URL` - Backend API URL
-- `NODE_ENV` - Environment (development/production)
-
 ## 📚 API Documentation
 
-## API Endpoints
+The API is built with Symfony 6+ and follows REST conventions.
+
+### Base URL
+```
+http://localhost:8000/api
+```
 
 ### Authentication
+
+Authentication is handled via JWT tokens. After login, the token should be included in all subsequent requests in the Authorization header.
 
 #### Login
 ```http
@@ -148,33 +134,19 @@ POST /api/auth/login
 Content-Type: application/json
 
 {
-    "email": "user@example.com",
+    "username": "user@example.com",  # Symfony security expects 'username'
     "password": "password123"
 }
 
 Response:
 {
+    "token": "eyJ0eXAiOiJKV1QiLC...",
     "user": {
         "id": 1,
         "email": "user@example.com",
+        "roles": ["ROLE_USER"],
         "name": "User Name"
-    },
-    "token": "jwt_token_here"
-}
-
-Note: A secure HTTP-only cookie (BEARER) will also be set containing the JWT token
-```
-#### Update Profile
-```
-http
-PUT /api/auth/profile
-Authorization: Bearer <token>
-Content-Type: application/json
-{
-"name": "Updated Name", // Optional
-"email": "new@example.com", // Optional
-"current_password": "old_password", // Required only when changing password
-"new_password": "new_password" // Required only when changing password
+    }
 }
 ```
 
@@ -188,36 +160,117 @@ Content-Type: application/json
     "password": "password123",
     "name": "John Doe"
 }
+
+Response:
+{
+    "message": "User registered successfully",
+    "user": {
+        "id": 1,
+        "email": "user@example.com",
+        "roles": ["ROLE_USER"],
+        "name": "John Doe"
+    }
+}
 ```
 
-#### Edit Profile
+#### Update Profile
 ```http
-PUT /api/auth/profile
-Authorization: Bearer <your_jwt_token>
+PUT /api/users/{id}
+Authorization: Bearer <token>
 Content-Type: application/json
+
 {
-"name": "Updated Name", // Optional
-"email": "new@example.com", // Optional
-"current_password": "old123", // Required only when changing password
-"new_password": "new123" // Required only when changing password
+    "name": "Updated Name",
+    "email": "new@example.com",
+    "currentPassword": "old_password",  # Required for password change
+    "newPassword": "new_password"      # Optional
+}
+
+Response:
+{
+    "message": "Profile updated successfully",
+    "user": {
+        "id": 1,
+        "email": "new@example.com",
+        "roles": ["ROLE_USER"],
+        "name": "Updated Name"
+    }
 }
 ```
 
 ### Event Endpoints
 
-All event endpoints require JWT authentication header:
+All event endpoints require authentication:
 ```http
-Authorization: Bearer <your_jwt_token>
+Authorization: Bearer <token>
 ```
 
 #### List Events
 ```http
 GET /api/events
+
+Query Parameters:
+- page (int, default: 1)
+- limit (int, default: 10)
+- sort (string, e.g., "startDate:desc")
+- search (string)
+
+Response:
+{
+    "items": [
+        {
+            "id": 1,
+            "title": "Event Title",
+            "description": "Event description",
+            "startDate": "2024-12-31T18:00:00+00:00",
+            "endDate": "2024-12-31T22:00:00+00:00",
+            "location": "Event Location",
+            "availablePlaces": 100,
+            "price": 0,
+            "imageUrl": "https://example.com/image.jpg",
+            "creator": {
+                "id": 1,
+                "name": "Creator Name"
+            },
+            "createdAt": "2024-02-13T00:00:00+00:00",
+            "updatedAt": "2024-02-13T00:00:00+00:00"
+        }
+    ],
+    "total": 50,
+    "page": 1,
+    "limit": 10,
+    "pages": 5
+}
 ```
 
 #### Get Single Event
 ```http
 GET /api/events/{id}
+
+Response:
+{
+    "id": 1,
+    "title": "Event Title",
+    "description": "Event description",
+    "startDate": "2024-12-31T18:00:00+00:00",
+    "endDate": "2024-12-31T22:00:00+00:00",
+    "location": "Event Location",
+    "availablePlaces": 100,
+    "price": 0,
+    "imageUrl": "https://example.com/image.jpg",
+    "creator": {
+        "id": 1,
+        "name": "Creator Name"
+    },
+    "participants": [
+        {
+            "id": 2,
+            "name": "Participant Name"
+        }
+    ],
+    "createdAt": "2024-02-13T00:00:00+00:00",
+    "updatedAt": "2024-02-13T00:00:00+00:00"
+}
 ```
 
 #### Create Event
@@ -228,75 +281,102 @@ Content-Type: application/json
 {
     "title": "New Event",
     "description": "Event description",
-    "startDate": "2024-12-31T18:00:00Z",
-    "endDate": "2024-12-31T22:00:00Z",
+    "startDate": "2024-12-31T18:00:00+00:00",
+    "endDate": "2024-12-31T22:00:00+00:00",
     "location": "Event Location",
-    "available_places": 100,
+    "availablePlaces": 100,
     "price": 0,
-    "image_url": "https://example.com/image.jpg"
+    "imageUrl": "https://example.com/image.jpg"
+}
 
+Response:
+{
+    "message": "Event created successfully",
+    "event": {
+        "id": 1,
+        ...
+    }
 }
 ```
 
 #### Update Event
 ```http
-UT /api/events/{id}
+PUT /api/events/{id}
 Content-Type: application/json
+
 {
-     "title": "Updated Title", // Optional
-    "description": "Updated desc", // Optional
-    "startDate": "2024-12-31T18:00:00Z", // Optional
-    "endDate": "2024-12-31T22:00:00Z", // Optional
-    "location": "New Location", // Optional
-    "available_places": 150, // Optional
-    "price": 25.99, // Optional
-    "image_url": "https://..." // Optional
-}
-```
-Response (200 OK): Updated event object
-```http
-"message": "Event updated successfully",
-"event": {
-    "id": "number",
     "title": "Updated Title",
-    "description": "Updated desc",
-    "startDate": "2024-12-31T18:00:00Z",
-    "endDate": "2024-12-31T22:00:00Z",
+    "description": "Updated description",
+    "startDate": "2024-12-31T18:00:00+00:00",
+    "endDate": "2024-12-31T22:00:00+00:00",
     "location": "New Location",
-    "available_places": 150,
+    "availablePlaces": 150,
     "price": 25.99,
-    "image_url": "https://...",
-    "creator": {
-    "id": 1,
-    "name": "Creator Name"
-    },
-    "created_at": "2024-02-13T00:00:00Z",
-    "updated_at": "2024-02-13T00:00:00Z"
+    "imageUrl": "https://..."
+}
+
+Response:
+{
+    "message": "Event updated successfully",
+    "event": {
+        "id": 1,
+        ...
+    }
 }
 ```
+
 #### Delete Event
 ```http
 DELETE /api/events/{id}
+
+Response:
+{
+    "message": "Event deleted successfully"
+}
 ```
 
 #### Join Event
 ```http
 POST /api/events/{id}/join
+
+Response:
+{
+    "message": "Successfully joined the event"
+}
 ```
 
 #### Leave Event
 ```http
 DELETE /api/events/{id}/leave
-```
-## Error Handling
 
-The API returns standard HTTP status codes:
+Response:
+{
+    "message": "Successfully left the event"
+}
+```
+
+### Error Responses
+
+The API uses standard HTTP status codes and returns error messages in a consistent format:
+
+```json
+{
+    "status": 400,
+    "message": "Validation failed",
+    "errors": {
+        "title": ["This value should not be blank."],
+        "startDate": ["This value should be a valid datetime."]
+    }
+}
+```
+
+Common status codes:
 - 200: Success
 - 201: Created
 - 204: No Content
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
+- 400: Bad Request (validation errors)
+- 401: Unauthorized (missing or invalid token)
+- 403: Forbidden (insufficient permissions)
 - 404: Not Found
 - 409: Conflict
 - 500: Internal Server Error
