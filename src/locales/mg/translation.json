@@ -296,6 +296,10 @@
       "maxPrice": "Vidiny ambony indrindra",
       "onlyAvailable": "Asehoy ny hetsika mbola misy toerana ihany",
       "reset": "Hamerina ny sivana"
+    },
+    "participants": {
+      "title": "Mpandray anjara",
+      "empty": "Tsy misy mpandray anjara"
     }
   },
   "loading": {

@@ -148,8 +148,7 @@ export function useDashboard() {
   }, [loadEventData]);
 
   const handleEventClick = (eventId: number) => {
-    localStorage.setItem('selectedEventId', eventId.toString());
-    navigate('/events');
+    navigate(`/events/${eventId}`);
   };
 
   const handleEditEvent = (eventId: number) => {

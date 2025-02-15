@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import type { EventData } from '../../../types';
+import { ParticipantsList } from './ParticipantsList';
 
 interface EventDetailsProps {
   event: EventData;
@@ -9,6 +10,7 @@ interface EventDetailsProps {
 
 export function EventDetails({ event }: EventDetailsProps) {
   const { t } = useTranslation();
+  const [showParticipants, setShowParticipants] = React.useState(false);
 
   const formatDate = (date: Date) => {
     const day = date.getDate().toString().padStart(2, '0');
@@ -54,9 +56,12 @@ export function EventDetails({ event }: EventDetailsProps) {
             {event.attendees && (
               <>
                 <span className="text-gray-400">•</span>
-                <span>
+                <button
+                  onClick={() => setShowParticipants(true)}
+                  className="text-blue-600 hover:text-blue-700 hover:underline"
+                >
                   {t('events.details.joined', { count: event.attendees.length })}
-                </span>
+                </button>
                 <span className="text-gray-400">•</span>
                 <span>
                   {t('events.details.totalSpots', { count: event.available_places })}
@@ -74,6 +79,13 @@ export function EventDetails({ event }: EventDetailsProps) {
         </svg>
         <span className="ml-3 text-sm font-medium text-gray-900">{formatCurrency(event.price)}</span>
       </div>
+
+      {/* Participants List Modal */}
+      <ParticipantsList
+        eventId={event.id}
+        isOpen={showParticipants}
+        onClose={() => setShowParticipants(false)}
+      />
     </div>
   );
 } 

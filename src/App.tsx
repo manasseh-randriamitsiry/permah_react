@@ -7,6 +7,7 @@ import { LoginForm } from './components/auth/login-form';
 import { SignupForm } from './components/auth/signup-form';
 import { ProfileEditForm } from './components/auth/profile-edit-form';
 import { EventList } from './components/events/event-list';
+import { EventView } from './components/events/event-view';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { EditEvent } from './components/events/edit-event';
 import { useAuthStore } from './store/auth-store';
@@ -48,6 +49,7 @@ function App() {
               {/* Protected Routes */}
               <Route path="/events" element={<ProtectedRoute><EventList /></ProtectedRoute>} />
               <Route path="/events/new" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
+              <Route path="/events/:id" element={<ProtectedRoute><EventView /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
               <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditForm /></ProtectedRoute>} />
               <Route path="/events/:id/edit" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />

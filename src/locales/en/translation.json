@@ -319,6 +319,10 @@
         "invalidPlaces": "Invalid number of places",
         "requiredFields": "Please fill in all required fields"
       }
+    },
+    "participants": {
+      "title": "Event Participants",
+      "empty": "No participants yet"
     }
   },
   "loading": {

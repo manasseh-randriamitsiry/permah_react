@@ -340,6 +340,10 @@
       "maxPrice": "Prix maximum",
       "onlyAvailable": "Afficher uniquement les événements avec des places disponibles",
       "reset": "Réinitialiser les filtres"
+    },
+    "participants": {
+      "title": "Participants à l'événement",
+      "empty": "Aucun participant pour le moment"
     }
   },
   "loading": {

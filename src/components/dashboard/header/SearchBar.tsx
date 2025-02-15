@@ -67,12 +67,12 @@ export function SearchBar({
   return (
     <div className="relative" ref={filterRef}>
       <div className="flex items-center gap-2">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder={t('dashboard.search')}
-            value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
+    <div className="relative">
+      <input
+        type="text"
+        placeholder={t('dashboard.search')}
+        value={searchTerm}
+        onChange={(e) => onSearchChange(e.target.value)}
             className="w-64 rounded-lg border border-gray-300 p-2 pl-9 pr-4 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
