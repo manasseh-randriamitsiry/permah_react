@@ -1,17 +1,26 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SearchBar } from './SearchBar';
+import type { SortConfig } from '../types';
 
 interface DashboardHeaderProps {
   searchTerm: string;
   onSearchChange: (value: string) => void;
   onCreateEvent: () => void;
+  sortConfig: SortConfig;
+  onSort: (key: SortConfig['key']) => void;
+  activeFilters: string[];
+  onFiltersChange: (filters: string[]) => void;
 }
 
 export function DashboardHeader({ 
   searchTerm, 
   onSearchChange, 
-  onCreateEvent 
+  onCreateEvent,
+  sortConfig,
+  onSort,
+  activeFilters,
+  onFiltersChange
 }: DashboardHeaderProps) {
   const { t } = useTranslation();
 
@@ -21,7 +30,11 @@ export function DashboardHeader({
         <h1 className="text-2xl font-bold">{t('dashboard.title')}</h1>
         <SearchBar 
           searchTerm={searchTerm} 
-          onSearchChange={onSearchChange} 
+          onSearchChange={onSearchChange}
+          sortConfig={sortConfig}
+          onSort={onSort}
+          activeFilters={activeFilters}
+          onFiltersChange={onFiltersChange}
         />
       </div>
       <button

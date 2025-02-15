@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import type { EventData } from '../../../types';
+import type { EventData, EventStatistics } from '../../../types';
 import type { SortConfig } from '../types';
 import { TableHeader } from '../table/TableHeader';
 import { DashboardEventRow } from './DashboardEventRow';
 import { LoadingState } from '../table/LoadingState';
 import { ErrorState } from '../table/ErrorState';
 import { EmptyState } from '../table/EmptyState';
+import { EventService } from '../../../services/event.service';
 
 interface DashboardEventTableProps {
   events: EventData[];
@@ -35,6 +36,33 @@ export function DashboardEventTable({
 }: DashboardEventTableProps) {
   const { t } = useTranslation();
   const [selectedEvents, setSelectedEvents] = React.useState<number[]>([]);
+  const [eventStats, setEventStats] = React.useState<Record<number, EventStatistics>>({});
+  const [loadingStats, setLoadingStats] = React.useState<Record<number, boolean>>({});
+
+  React.useEffect(() => {
+    const fetchEventStats = async () => {
+      const newStats: Record<number, EventStatistics> = {};
+      const newLoadingStats: Record<number, boolean> = {};
+      
+      for (const event of events) {
+        if (!eventStats[event.id] && !loadingStats[event.id]) {
+          newLoadingStats[event.id] = true;
+          try {
+            const stats = await EventService.getEventStatistics(event.id);
+            newStats[event.id] = stats;
+          } catch (error) {
+            console.error(`Failed to fetch stats for event ${event.id}:`, error);
+          }
+          newLoadingStats[event.id] = false;
+        }
+      }
+      
+      setEventStats(prev => ({ ...prev, ...newStats }));
+      setLoadingStats(prev => ({ ...prev, ...newLoadingStats }));
+    };
+
+    fetchEventStats();
+  }, [events]);
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -102,6 +130,8 @@ export function DashboardEventTable({
                 <DashboardEventRow
                   key={event.id}
                   event={event}
+                  stats={eventStats[event.id]}
+                  isLoadingStats={loadingStats[event.id]}
                   onClick={() => onEventClick(event.id)}
                   onEdit={() => onEventEdit(event.id)}
                   onDelete={() => onEventDelete(event.id)}

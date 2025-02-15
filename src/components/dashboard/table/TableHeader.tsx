@@ -72,19 +72,6 @@ export function TableHeader({
       </th>
       <th scope="col" className="px-6 py-3 text-center">
         <SortHeader 
-          label={t('dashboard.table.joined')} 
-          sortKey="joinedCount" 
-          sortConfig={sortConfig}
-          onSort={onSort}
-        />
-      </th>
-      <th scope="col" className="px-6 py-3 text-center">
-        <span className="text-xs font-medium uppercase text-gray-500">
-          {t('dashboard.table.free')}
-        </span>
-      </th>
-      <th scope="col" className="px-6 py-3 text-center">
-        <SortHeader 
           label={t('dashboard.table.earnings')} 
           sortKey="earnings" 
           sortConfig={sortConfig}

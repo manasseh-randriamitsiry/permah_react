@@ -11,7 +11,7 @@ export function StatsGrid({ stats }: StatsGridProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="grid gap-4 md:grid-cols-5">
+    <div className="grid gap-4 md:grid-cols-7">
       <StatCard
         title={t('dashboard.stats.upcomingEvents')}
         value={stats.upcoming}
@@ -38,9 +38,21 @@ export function StatsGrid({ stats }: StatsGridProps) {
       />
       <StatCard
         title={t('dashboard.stats.totalIncome')}
-        value={stats.totalIncome}
+        value={`$${stats.totalIncome.toFixed(2)}`}
         icon="💰"
         className="bg-purple-50"
+      />
+      <StatCard
+        title={t('dashboard.stats.availablePlaces')}
+        value={stats.totalAvailablePlaces}
+        icon="🎟️"
+        className="bg-indigo-50"
+      />
+      <StatCard
+        title={t('dashboard.stats.averageOccupancy')}
+        value={`${stats.averageOccupancyRate.toFixed(1)}%`}
+        icon="📈"
+        className="bg-pink-50"
       />
     </div>
   );

@@ -16,6 +16,8 @@ export function Dashboard() {
     error,
     searchTerm,
     setSearchTerm,
+    activeFilters,
+    setActiveFilters,
     showDeleteModal,
     setShowDeleteModal,
     eventToDelete,
@@ -46,6 +48,10 @@ export function Dashboard() {
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
         onCreateEvent={handleCreateEvent}
+        sortConfig={sortConfig}
+        onSort={handleSort}
+        activeFilters={activeFilters}
+        onFiltersChange={setActiveFilters}
       />
 
       <StatsGrid stats={stats} />

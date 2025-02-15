@@ -1,39 +1,38 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '../../store/auth-store';
-import type { EventData } from '../../types';
+import type { EventData, User } from '../../types';
 import { EventImage } from './event-card/EventImage';
 import { EventDetails } from './event-card/EventDetails';
 import { EventActions } from './event-card/EventActions';
 
 interface EventCardProps {
   event: EventData;
+  currentUser: User | null;
   onJoin: (eventId: number) => Promise<void>;
   onLeave: (eventId: number) => Promise<void>;
   onEdit: (eventId: number) => void;
 }
 
-export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
+export function EventCard({ event, currentUser, onJoin, onLeave, onEdit }: EventCardProps) {
   const { t } = useTranslation();
-  const { user } = useAuthStore();
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState('');
 
   // Check if user is the owner
   const isOwner = React.useMemo(() => {
-    return user?.email === event.creator?.email;
-  }, [user?.email, event.creator?.email]);
+    return currentUser?.email === event.creator?.email;
+  }, [currentUser?.email, event.creator?.email]);
 
   // Check if user is attending
   const isAttending = React.useMemo(() => {
-    if (!user || (!event.attendees && !event.participants)) return false;
+    if (!currentUser || (!event.attendees && !event.participants)) return false;
     
     const attendeesList = event.attendees || event.participants || [];
-    return attendeesList.some(attendee => attendee.id === user.id);
-  }, [event.attendees, event.participants, user]);
+    return attendeesList.some(attendee => attendee.id === currentUser.id);
+  }, [event.attendees, event.participants, currentUser]);
 
   const handleAction = async () => {
-    if (!user) {
+    if (!currentUser) {
       setError(t('events.errors.loginRequired'));
       return;
     }
@@ -48,7 +47,6 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
         await onJoin(event.id);
       }
     } catch (err: any) {
-      console.error('Action error:', err);
       setError(err.message || t('events.errors.actionFailed'));
     } finally {
       setIsLoading(false);
@@ -56,30 +54,16 @@ export function EventCard({ event, onJoin, onLeave, onEdit }: EventCardProps) {
   };
 
   return (
-    <div className="flex h-[28rem] flex-col rounded-xl border bg-white shadow-sm transition-all hover:shadow-md">
+    <div className="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
       <EventImage imageUrl={event.image_url} title={event.title} />
-      
-      <div className="flex flex-1 flex-col p-5">
-        <EventDetails event={event} />
-        
-        <p className="text-sm text-gray-600 line-clamp-2 flex-grow">{event.description}</p>
-
-        {error && (
-          <div className="text-sm text-red-600 mt-2 mb-2">
-            {error}
-          </div>
-        )}
-
-        <EventActions 
-          event={event}
-          isOwner={isOwner}
-          isAttending={isAttending}
-          isLoading={isLoading}
-          user={user}
-          onJoin={handleAction}
-          onEdit={() => onEdit(event.id)}
-        />
-      </div>
+      <EventDetails event={event} />
+      <EventActions
+        isOwner={isOwner}
+        isAttending={isAttending}
+        isLoading={isLoading}
+        onJoin={handleAction}
+        onEdit={() => onEdit(event.id)}
+      />
     </div>
   );
 }

@@ -312,4 +312,139 @@ export class EventService {
             throw error;
         }
     }
+
+    static async getUpcomingEvents() {
+        try {
+            const response = await fetch(`${API_URL}/events/upcoming`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch upcoming events');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getUpcomingEvents:', error);
+            throw error;
+        }
+    }
+
+    static async getPastEvents() {
+        try {
+            const response = await fetch(`${API_URL}/events/past`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch past events');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getPastEvents:', error);
+            throw error;
+        }
+    }
+
+    static async searchEvents(params: {
+        q?: string;
+        start_date?: string;
+        end_date?: string;
+        location?: string;
+        min_price?: number;
+        max_price?: number;
+        has_available_places?: boolean;
+    }) {
+        try {
+            const queryParams = new URLSearchParams();
+            Object.entries(params).forEach(([key, value]) => {
+                if (value !== undefined) {
+                    queryParams.append(key, value.toString());
+                }
+            });
+
+            const response = await fetch(`${API_URL}/events/search?${queryParams}`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to search events');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in searchEvents:', error);
+            throw error;
+        }
+    }
+
+    static async getEventStatistics(id: number) {
+        try {
+            const response = await fetch(`${API_URL}/events/${id}/statistics`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch event statistics');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getEventStatistics:', error);
+            throw error;
+        }
+    }
+
+    static async getEventParticipants(id: number) {
+        try {
+            const response = await fetch(`${API_URL}/events/${id}/participants`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch event participants');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getEventParticipants:', error);
+            throw error;
+        }
+    }
 }

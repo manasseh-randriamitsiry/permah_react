@@ -3,6 +3,25 @@
     "title": "Your Events",
     "createEvent": "Create Event",
     "search": "Search events...",
+    "filters": {
+      "status": "Status",
+      "filter": "Filter",
+      "applied": "filters applied",
+      "upcoming": "Upcoming Events",
+      "ongoing": "Ongoing Events",
+      "past": "Past Events",
+      "full": "Full Events",
+      "available": "Available Events",
+      "sortBy": "Sort by"
+    },
+    "sort": {
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "title": "Event Name",
+      "totalPlaces": "Total Places",
+      "earnings": "Earnings",
+      "status": "Status"
+    },
     "table": {
       "eventName": "Event Name",
       "startDate": "Start Date",
@@ -18,20 +37,25 @@
       "selectAll": "Select all events",
       "deleteSelected": "Delete Selected",
       "showing": "Showing {{count}} events",
-      "selected": "{{count}} selected"
+      "selected": "{{count}} selected",
+      "occupancy": "Occupancy"
     },
     "status": {
       "closed": "Closed",
       "ongoing": "Ongoing",
-      "upcoming": "Upcoming"
+      "upcoming": "Upcoming",
+      "full": "Full"
     },
     "stats": {
       "upcomingEvents": "Upcoming Events",
       "next7Days": "Next 7 Days",
       "pastEvents": "Past Events",
       "totalParticipants": "Total Participants",
-      "totalIncome": "Total Income"
+      "totalIncome": "Total Income",
+      "availablePlaces": "Available Places",
+      "averageOccupancy": "Average Occupancy"
     },
+    "loading": "Loading...",
     "deleteModal": {
       "title": "Delete Event",
       "message": "Are you sure you want to delete this event? This action cannot be undone.",
@@ -221,6 +245,28 @@
     }
   },
   "events": {
+    "filters": {
+      "title": "Search Filters",
+      "timeframe": "Time Period",
+      "timeframes": {
+        "all": "All Events",
+        "nextWeek": "Next Week",
+        "nextMonth": "Next Month",
+        "custom": "Custom Range"
+      },
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "location": "Location",
+      "locationPlaceholder": "Enter location...",
+      "minPrice": "Minimum Price",
+      "maxPrice": "Maximum Price",
+      "onlyAvailable": "Show only events with available places",
+      "reset": "Reset Filters"
+    },
+    "list": {
+      "title": "Events",
+      "searchPlaceholder": "Search events by title, description, or location..."
+    },
     "actions": {
       "edit": "Edit",
       "join": "Join Event",
@@ -273,16 +319,6 @@
         "invalidPlaces": "Invalid number of places",
         "requiredFields": "Please fill in all required fields"
       }
-    },
-    "list": {
-      "title": "Events",
-      "searchPlaceholder": "Search events...",
-      "noEvents": "No events available",
-      "noSearchResults": "No events found matching your search",
-      "tryDifferentSearch": "Try adjusting your search terms or browse all events",
-      "createFirstEvent": "Get started by creating your first event",
-      "loadMore": "Load more events",
-      "loading": "Loading events..."
     }
   },
   "loading": {

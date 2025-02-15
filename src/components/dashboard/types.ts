@@ -1,5 +1,5 @@
 export interface SortConfig {
-  key: 'startDate' | 'endDate' | 'totalPlaces' | 'joinedCount' | 'status' | 'title' | 'earnings';
+  key: 'startDate' | 'endDate' | 'totalPlaces' | 'status' | 'title' | 'earnings';
   direction: 'asc' | 'desc';
 }
 
@@ -9,4 +9,6 @@ export interface DashboardStats {
   past: number;
   totalParticipants: number;
   totalIncome: number;
+  totalAvailablePlaces: number;
+  averageOccupancyRate: number;
 } 

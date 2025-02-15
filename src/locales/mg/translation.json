@@ -1,36 +1,61 @@
 {
   "dashboard": {
-    "title": "Ireo Hetsika",
-    "createEvent": "Hamorona Hetsika",
+    "title": "Ny Hetsika",
+    "createEvent": "Mamorona Hetsika",
     "search": "Hikaroka hetsika...",
+    "loading": "Mampiditra...",
+    "filters": {
+      "status": "Toe-javatra",
+      "filter": "Sivana",
+      "applied": "sivana ampiharina",
+      "upcoming": "Hetsika ho avy",
+      "ongoing": "Hetsika mandeha",
+      "past": "Hetsika lasa",
+      "full": "Hetsika feno",
+      "available": "Hetsika mbola misy toerana",
+      "sortBy": "Laharam-pahamehana"
+    },
+    "sort": {
+      "startDate": "Daty fanombohana",
+      "endDate": "Daty famaranana",
+      "title": "Anaran'ny hetsika",
+      "totalPlaces": "Toerana rehetra",
+      "earnings": "Vola miditra",
+      "status": "Toe-javatra"
+    },
     "table": {
       "eventName": "Anaran'ny Hetsika",
       "startDate": "Daty Fanombohana",
       "endDate": "Daty Famaranana",
       "total": "Totaly",
-      "joined": "Mpandray anjara",
-      "free": "Toerana sisa",
       "earnings": "Vola azo",
-      "status": "mombamomba",
+      "status": "Mombamomba",
       "action": "Hetsika",
       "edit": "Hanova",
       "delete": "Hamafa",
       "selectAll": "Hifidy ny rehetra",
       "deleteSelected": "Hamafa ny voafidy",
       "showing": "Mampiseho {{count}}",
-      "selected": "Voafidy {{count}}"
+      "selected": "Voafidy {{count}}",
+      "occupancy": "Tahan'ny fahatafidirana"
     },
     "status": {
       "closed": "Tapitra",
       "ongoing": "Mandeha",
-      "upcoming": "Ho avy"
+      "upcoming": "Ho avy",
+      "full": "Feno",
+      "available": "Toerana {{count}} malalaka",
+      "participants": "Mpandray anjara {{count}}",
+      "occupancyRate": "{{rate}}% ny tahan'ny fahatafidirana"
     },
     "stats": {
       "upcomingEvents": "Hetsika ho avy",
       "next7Days": "7 andro ho avy",
       "pastEvents": "Hetsika teo aloha",
       "totalParticipants": "Mpandray anjara rehetra",
-      "totalIncome": "Vola miditra rehetra"
+      "totalIncome": "Vola miditra rehetra",
+      "availablePlaces": "Toerana malalaka",
+      "averageOccupancy": "Salan'isan'ny fahatafidirana"
     },
     "deleteModal": {
       "title": "Hamafa hetsika",
@@ -246,13 +271,31 @@
     },
     "list": {
       "title": "Hetsika",
-      "searchPlaceholder": "Hikaroka hetsika...",
+      "searchPlaceholder": "Hikaroka araka ny lohateny, fanazavana na toerana...",
       "noEvents": "Tsy misy hetsika",
       "noSearchResults": "Tsy misy hetsika mifanaraka amin'ny fikarohana",
       "tryDifferentSearch": "Andramo ovaina ny teny fikarohana na jereo ny hetsika rehetra",
       "createFirstEvent": "Atombohy amin'ny famoronana ny hetsika voalohany",
       "loadMore": "Hampiseho bebe kokoa",
       "loading": "Mampiditra hetsika..."
+    },
+    "filters": {
+      "title": "Sivana fikarohana",
+      "timeframe": "Fe-potoana",
+      "timeframes": {
+        "all": "Hetsika rehetra",
+        "nextWeek": "Herinandro ho avy",
+        "nextMonth": "Volana ho avy",
+        "custom": "Fe-potoana safidy"
+      },
+      "startDate": "Daty fanombohana",
+      "endDate": "Daty famaranana",
+      "location": "Toerana",
+      "locationPlaceholder": "Ampidiro ny toerana...",
+      "minPrice": "Vidiny ambany indrindra",
+      "maxPrice": "Vidiny ambony indrindra",
+      "onlyAvailable": "Asehoy ny hetsika mbola misy toerana ihany",
+      "reset": "Hamerina ny sivana"
     }
   },
   "loading": {

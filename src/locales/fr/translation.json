@@ -3,13 +3,31 @@
     "title": "Vos Événements",
     "createEvent": "Créer un Événement",
     "search": "Rechercher des événements...",
+    "loading": "Chargement...",
+    "filters": {
+      "status": "Statut",
+      "filter": "Filtrer",
+      "applied": "filtres appliqués",
+      "upcoming": "Événements à venir",
+      "ongoing": "Événements en cours",
+      "past": "Événements passés",
+      "full": "Événements complets",
+      "available": "Événements disponibles",
+      "sortBy": "Trier par"
+    },
+    "sort": {
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "title": "Nom de l'événement",
+      "totalPlaces": "Places totales",
+      "earnings": "Revenus",
+      "status": "Statut"
+    },
     "table": {
       "eventName": "Nom de l'événement",
       "startDate": "Date de début",
       "endDate": "Date de fin",
       "total": "Total",
-      "joined": "Inscrits",
-      "free": "Disponible",
       "earnings": "Gains",
       "status": "Statut",
       "action": "Action",
@@ -18,19 +36,34 @@
       "selectAll": "Sélectionner tous les événements",
       "deleteSelected": "Supprimer la sélection",
       "showing": "Affichage de {{count}} événements",
-      "selected": "{{count}} sélectionnés"
+      "selected": "{{count}} sélectionnés",
+      "occupancy": "Occupation",
+      "actions": {
+        "edit": "Modifier",
+        "delete": "Supprimer"
+      },
+      "noEvents": "Aucun événement",
+      "noSearchResults": "Aucun événement ne correspond à votre recherche",
+      "tryDifferentSearch": "Essayez d'ajuster vos termes de recherche",
+      "loading": "Chargement des événements..."
     },
     "status": {
       "closed": "Terminé",
       "ongoing": "En cours",
-      "upcoming": "À venir"
+      "upcoming": "À venir",
+      "full": "Complet",
+      "available": "{{count}} places disponibles",
+      "participants": "{{count}} participants",
+      "occupancyRate": "{{rate}}% d'occupation"
     },
     "stats": {
       "upcomingEvents": "Événements à venir",
       "next7Days": "7 prochains jours",
       "pastEvents": "Événements passés",
       "totalParticipants": "Total des participants",
-      "totalIncome": "Revenu total"
+      "totalIncome": "Revenu total",
+      "availablePlaces": "Places disponibles",
+      "averageOccupancy": "Taux d'occupation moyen"
     },
     "deleteModal": {
       "title": "Supprimer l'événement",
@@ -282,13 +315,31 @@
     },
     "list": {
       "title": "Événements",
-      "searchPlaceholder": "Rechercher des événements...",
+      "searchPlaceholder": "Rechercher par titre, description ou lieu...",
       "noEvents": "Aucun événement disponible",
       "noSearchResults": "Aucun événement ne correspond à votre recherche",
       "tryDifferentSearch": "Essayez d'ajuster vos termes de recherche ou parcourez tous les événements",
       "createFirstEvent": "Commencez par créer votre premier événement",
       "loadMore": "Charger plus d'événements",
       "loading": "Chargement des événements..."
+    },
+    "filters": {
+      "title": "Filtres de recherche",
+      "timeframe": "Période",
+      "timeframes": {
+        "all": "Tous les événements",
+        "nextWeek": "Semaine prochaine",
+        "nextMonth": "Mois prochain",
+        "custom": "Période personnalisée"
+      },
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "location": "Lieu",
+      "locationPlaceholder": "Entrez un lieu...",
+      "minPrice": "Prix minimum",
+      "maxPrice": "Prix maximum",
+      "onlyAvailable": "Afficher uniquement les événements avec des places disponibles",
+      "reset": "Réinitialiser les filtres"
     }
   },
   "loading": {

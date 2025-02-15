@@ -2,7 +2,7 @@ import React from 'react';
 
 interface StatCardProps {
   title: string;
-  value: number;
+  value: number | string;
   icon: React.ReactNode;
   className?: string;
 }
@@ -17,11 +17,8 @@ export function StatCard({ title, value, icon, className = '' }: StatCardProps) 
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>
           <p className="text-2xl font-semibold text-gray-900">
-            {isCurrency 
-              ? new Intl.NumberFormat(undefined, {
-                  style: 'currency',
-                  currency: 'USD'
-                }).format(value)
+            {typeof value === 'number' && isCurrency 
+              ? `$${value.toFixed(2)}`
               : value}
           </p>
         </div>
