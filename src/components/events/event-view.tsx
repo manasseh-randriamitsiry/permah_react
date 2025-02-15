@@ -82,7 +82,7 @@ export function EventView() {
 
   if (error || !event) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div className="w-full">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             {t('errors.eventNotFound.title')}
@@ -102,13 +102,13 @@ export function EventView() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
           <EventImage imageUrl={event.image_url} title={event.title} />
           
           <div className="p-6">
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
               <h1 className="text-3xl font-bold text-gray-900">{event.title}</h1>
               <div className="flex space-x-4">
                 {isOwner ? (

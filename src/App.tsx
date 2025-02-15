@@ -38,30 +38,32 @@ function App() {
   return (
     <ModalProvider>
       <Router future={{ v7_relativeSplatPath: true }}>
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <div className="flex min-h-screen flex-col bg-gray-50">
           <Header />
-          <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<LoginForm />} />
-              <Route path="/signup" element={<SignupForm />} />
-              
-              {/* Protected Routes */}
-              <Route path="/events" element={<ProtectedRoute><EventList /></ProtectedRoute>} />
-              <Route path="/events/new" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
-              <Route path="/events/:id" element={<ProtectedRoute><EventView /></ProtectedRoute>} />
-              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-              <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditForm /></ProtectedRoute>} />
-              <Route path="/events/:id/edit" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
-              
-              {/* Catch-all route for 404 */}
-              <Route path="*" element={
-                <div className="text-center py-16">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('errors.notFound.title')}</h2>
-                  <p className="text-gray-600">{t('errors.notFound.message')}</p>
-                </div>
-              } />
-            </Routes>
+          <main className="flex-1">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/signup" element={<SignupForm />} />
+                
+                {/* Protected Routes */}
+                <Route path="/events" element={<ProtectedRoute><EventList /></ProtectedRoute>} />
+                <Route path="/events/new" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
+                <Route path="/events/:id" element={<ProtectedRoute><EventView /></ProtectedRoute>} />
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/profile/edit" element={<ProtectedRoute><ProfileEditForm /></ProtectedRoute>} />
+                <Route path="/events/:id/edit" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
+                
+                {/* Catch-all route for 404 */}
+                <Route path="*" element={
+                  <div className="text-center py-16">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('errors.notFound.title')}</h2>
+                    <p className="text-gray-600">{t('errors.notFound.message')}</p>
+                  </div>
+                } />
+              </Routes>
+            </div>
           </main>
           <Footer />
         </div>
