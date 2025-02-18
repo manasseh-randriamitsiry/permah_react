@@ -8,16 +8,16 @@ export const validateUsername = (username: string): ValidationResult => {
     return { isValid: false, error: 'auth.validation.username.required' };
   }
 
-  if (username.length < 4) {
+  if (username.length < 2) {
     return { isValid: false, error: 'auth.validation.username.tooShort' };
   }
 
-  if (username.length > 50) {
+  if (username.length > 255) {
     return { isValid: false, error: 'auth.validation.username.tooLong' };
   }
 
-  // Allow letters, numbers, spaces, and common special characters
-  const usernameRegex = /^[a-zA-Z0-9\s\-_.']+$/;
+  // Allow letters, spaces, hyphens and apostrophes
+  const usernameRegex = /^[a-zA-Z\s\-']+$/;
   if (!usernameRegex.test(username)) {
     return { isValid: false, error: 'auth.validation.username.invalid' };
   }
@@ -28,6 +28,10 @@ export const validateUsername = (username: string): ValidationResult => {
 export const validateEmail = (email: string): ValidationResult => {
   if (!email) {
     return { isValid: false, error: 'auth.validation.email.required' };
+  }
+
+  if (email.length > 180) {
+    return { isValid: false, error: 'auth.validation.email.tooLong' };
   }
 
   // RFC 5322 compliant email regex
@@ -48,6 +52,18 @@ export const validatePassword = (password: string, isNewPassword: boolean = true
     if (password.length < 8) {
       return { isValid: false, error: 'auth.validation.password.tooShort' };
     }
+
+    if (password.length > 4096) {
+      return { isValid: false, error: 'auth.validation.password.tooLong' };
+    }
+
+    // Must contain at least one letter and one number
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+
+    if (!hasLetter || !hasNumber) {
+      return { isValid: false, error: 'auth.validation.password.requireLetterAndNumber' };
+    }
   }
 
   return { isValid: true };
@@ -60,6 +76,20 @@ export const validatePasswordConfirmation = (password: string, confirmation: str
 
   if (password !== confirmation) {
     return { isValid: false, error: 'auth.validation.passwordConfirmation.mismatch' };
+  }
+
+  return { isValid: true };
+};
+
+export const validateVerificationCode = (code: string): ValidationResult => {
+  if (!code) {
+    return { isValid: false, error: 'auth.validation.verificationCode.required' };
+  }
+
+  // Must be exactly 6 digits
+  const codeRegex = /^\d{6}$/;
+  if (!codeRegex.test(code)) {
+    return { isValid: false, error: 'auth.validation.verificationCode.invalid' };
   }
 
   return { isValid: true };

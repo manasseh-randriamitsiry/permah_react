@@ -10,11 +10,59 @@ interface UpdateProfileData {
     new_password?: string;
 }
 
+interface VerifyAccountResponse {
+    message: string;
+    user: {
+        id: number;
+        email: string;
+        name: string;
+        isVerified: boolean;
+    };
+}
+
 export class SecurityService {
     private static API_URL = API_URL;
 
+    private static clearAllData() {
+        console.log('SecurityService: Starting to clear all data...');
+        
+        // Log all keys before clearing
+        const localStorageKeys = Object.keys(localStorage);
+        const sessionStorageKeys = Object.keys(sessionStorage);
+        
+        console.log('Current localStorage keys:', localStorageKeys);
+        console.log('Current sessionStorage keys:', sessionStorageKeys);
+        
+        // Explicitly remove known keys first
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        
+        // Then clear everything
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // Verify clearing worked
+        const remainingLocalStorageKeys = Object.keys(localStorage);
+        const remainingSessionStorageKeys = Object.keys(sessionStorage);
+        
+        console.log('Remaining localStorage keys:', remainingLocalStorageKeys);
+        console.log('Remaining sessionStorage keys:', remainingSessionStorageKeys);
+        
+        if (remainingLocalStorageKeys.length > 0 || remainingSessionStorageKeys.length > 0) {
+            console.warn('Some storage keys could not be cleared:', {
+                localStorage: remainingLocalStorageKeys,
+                sessionStorage: remainingSessionStorageKeys
+            });
+        } else {
+            console.log('SecurityService: All data successfully cleared');
+        }
+    }
+
     static async login(email: string, password: string): Promise<LoginResponse> {
         try {
+            // Clear any existing data before login
+            this.clearAllData();
+            
             console.log('Attempting login with:', { email });
             
             const response = await fetch(`${this.API_URL}/api/auth/login`, {
@@ -76,12 +124,41 @@ export class SecurityService {
     }
 
     static clearAuth() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        this.clearAllData();
     }
 
     static async signup(data: { name: string; email: string; password: string }): Promise<SignupResponse> {
+        console.log('Starting signup process for:', { name: data.name, email: data.email });
+        
+        // Clear any existing data before signup
+        console.log('Clearing existing data before signup...');
+        this.clearAllData();
+        
+        console.log('Making signup request to:', `${this.API_URL}/api/auth/register`);
         const response = await fetch(`${this.API_URL}/api/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        console.log('Signup response status:', response.status);
+        
+        if (!response.ok) {
+            const error = await response.json();
+            console.error('Signup failed:', error);
+            throw new Error(error.message || 'Registration failed');
+        }
+
+        const responseData = await response.json();
+        console.log('Signup successful:', { user: responseData.user, hasToken: !!responseData.token });
+        return responseData;
+    }
+
+    static async verifyAccount(data: { email: string; code: string }): Promise<VerifyAccountResponse> {
+        const response = await fetch(`${this.API_URL}/api/auth/verify-account`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +169,64 @@ export class SecurityService {
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.message || 'Registration failed');
+            throw new Error(error.message || 'Account verification failed');
+        }
+
+        const responseData = await response.json();
+        return responseData;
+    }
+
+    static async requestPasswordReset(email: string): Promise<{ message: string }> {
+        const response = await fetch(`${this.API_URL}/api/auth/forgot-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to request password reset');
+        }
+
+        const responseData = await response.json();
+        return responseData;
+    }
+
+    static async verifyResetCode(data: { email: string; code: string }): Promise<{ message: string }> {
+        const response = await fetch(`${this.API_URL}/api/auth/verify-reset-code`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Invalid or expired verification code');
+        }
+
+        const responseData = await response.json();
+        return responseData;
+    }
+
+    static async resetPassword(data: { email: string; code: string; new_password: string }): Promise<{ message: string }> {
+        const response = await fetch(`${this.API_URL}/api/auth/reset-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to reset password');
         }
 
         const responseData = await response.json();
@@ -194,14 +328,23 @@ export class SecurityService {
     }
 
     static async logout(): Promise<void> {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
         try {
-            await fetch(`${this.API_URL}/api/auth/logout`, {
+            const response = await fetch(`${this.API_URL}/api/auth/logout`, {
                 method: 'POST',
-                headers: this.getAuthHeaders(),
-                credentials: 'include'
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
             });
-        } catch (error) {
-            console.error('Logout error:', error);
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Logout failed');
+            }
         } finally {
             this.clearAuth();
         }

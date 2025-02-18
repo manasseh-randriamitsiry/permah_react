@@ -315,7 +315,7 @@ export class EventService {
 
     static async getUpcomingEvents() {
         try {
-            const response = await fetch(`${API_URL}/events/upcoming`, {
+            const response = await fetch(`${API_URL}/events/my-created?type=upcoming`, {
                 method: 'GET',
                 headers: SecurityService.getAuthHeaders(),
                 credentials: 'include'
@@ -339,7 +339,7 @@ export class EventService {
 
     static async getPastEvents() {
         try {
-            const response = await fetch(`${API_URL}/events/past`, {
+            const response = await fetch(`${API_URL}/events/my-created?type=past`, {
                 method: 'GET',
                 headers: SecurityService.getAuthHeaders(),
                 credentials: 'include'
@@ -444,6 +444,54 @@ export class EventService {
             return await response.json();
         } catch (error: any) {
             console.error('Error in getEventParticipants:', error);
+            throw error;
+        }
+    }
+
+    static async getMyCreatedEvents() {
+        try {
+            const response = await fetch(`${API_URL}/events/my-created`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch created events');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getMyCreatedEvents:', error);
+            throw error;
+        }
+    }
+
+    static async getMyAttendedEvents() {
+        try {
+            const response = await fetch(`${API_URL}/events/my-attended`, {
+                method: 'GET',
+                headers: SecurityService.getAuthHeaders(),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    SecurityService.clearAuth();
+                    throw new Error('Please log in to continue');
+                }
+                const error = await response.json();
+                throw new Error(error.message || 'Failed to fetch attended events');
+            }
+
+            return await response.json();
+        } catch (error: any) {
+            console.error('Error in getMyAttendedEvents:', error);
             throw error;
         }
     }

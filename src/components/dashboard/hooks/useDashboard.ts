@@ -2,15 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventService } from '../../../services/event.service';
 import { useAuthStore } from '../../../store/auth-store';
-import type { EventData, EventStatistics } from '../../../types';
+import type { EventData, EventStatistics, EventWithStats, CreatedEventsResponse, AttendedEventsResponse } from '../../../types';
 import type { SortConfig, DashboardStats } from '../types';
 
 export function useDashboard() {
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
-  const [events, setEvents] = React.useState<EventData[]>([]);
-  const [upcomingEvents, setUpcomingEvents] = React.useState<EventData[]>([]);
-  const [pastEvents, setPastEvents] = React.useState<EventData[]>([]);
+  const [createdEvents, setCreatedEvents] = React.useState<EventWithStats[]>([]);
+  const [attendedEvents, setAttendedEvents] = React.useState<EventData[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = React.useState<EventWithStats[]>([]);
+  const [pastEvents, setPastEvents] = React.useState<EventWithStats[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -37,57 +38,43 @@ export function useDashboard() {
       setIsLoading(true);
       setError(null);
 
-      // Load upcoming and past events in parallel
-      const [upcoming, past] = await Promise.all([
-        EventService.getUpcomingEvents(),
-        EventService.getPastEvents()
+      // Load created and attended events in parallel
+      const [createdResponse, attendedResponse] = await Promise.all([
+        EventService.getMyCreatedEvents(),
+        EventService.getMyAttendedEvents()
       ]);
+
+      const created = createdResponse.events;
+      const attended = attendedResponse.events;
+
+      setCreatedEvents(created);
+      setAttendedEvents(attended);
+
+      // Split created events into upcoming and past
+      const now = new Date();
+      const upcoming = created.filter((event: EventWithStats) => new Date(event.endDate) > now);
+      const past = created.filter((event: EventWithStats) => new Date(event.endDate) <= now);
 
       setUpcomingEvents(upcoming);
       setPastEvents(past);
-      setEvents([...upcoming, ...past]);
 
-      // Calculate enhanced stats using the new endpoints
+      // Calculate enhanced stats
       const newStats: DashboardStats = {
         upcoming: upcoming.length,
-        incoming: upcoming.filter((event: EventData) => {
+        incoming: upcoming.filter((event: EventWithStats) => {
           const startDate = new Date(event.startDate);
           const nextWeek = new Date();
           nextWeek.setDate(nextWeek.getDate() + 7);
           return startDate <= nextWeek;
         }).length,
         past: past.length,
-        totalParticipants: 0,
-        totalIncome: 0,
-        totalAvailablePlaces: 0,
-        averageOccupancyRate: 0
+        totalParticipants: created.reduce((sum: number, event: EventWithStats) => sum + (event.attendees_count || 0), 0),
+        totalIncome: created.reduce((sum: number, event: EventWithStats) => sum + (event.price * (event.attendees_count || 0)), 0),
+        totalAvailablePlaces: created.reduce((sum: number, event: EventWithStats) => sum + event.available_places, 0),
+        averageOccupancyRate: created.length > 0 
+          ? created.reduce((sum: number, event: EventWithStats) => sum + ((event.attendees_count || 0) / event.available_places), 0) / created.length
+          : 0
       };
-
-      // Get detailed statistics for all events
-      const allEvents = [...upcoming, ...past];
-      const statsPromises = allEvents.map(event => 
-        EventService.getEventStatistics(event.id)
-          .catch(() => null)
-      );
-
-      const eventStats = await Promise.all(statsPromises);
-      let totalOccupancyRate = 0;
-      let validStatsCount = 0;
-
-      eventStats.forEach((stat, index) => {
-        if (stat) {
-          const event = allEvents[index];
-          newStats.totalParticipants += stat.attendees_count;
-          newStats.totalIncome += event.price * stat.attendees_count;
-          newStats.totalAvailablePlaces += stat.available_places;
-          totalOccupancyRate += stat.occupancy_rate;
-          validStatsCount++;
-        }
-      });
-
-      newStats.averageOccupancyRate = validStatsCount > 0 
-        ? totalOccupancyRate / validStatsCount 
-        : 0;
 
       setStats(newStats);
     } catch (error: any) {
@@ -126,7 +113,7 @@ export function useDashboard() {
         q: searchTerm,
       });
 
-      setEvents(searchResults);
+      setCreatedEvents(searchResults);
     } catch (error: any) {
       handleAuthError(error);
       setError(error);
@@ -160,7 +147,7 @@ export function useDashboard() {
   };
 
   const handleDeleteEvent = (eventId: number) => {
-    const event = events.find(e => e.id === eventId);
+    const event = createdEvents.find(e => e.id === eventId);
     if (event) {
       setEventToDelete(event);
       setShowDeleteModal(true);
@@ -194,7 +181,7 @@ export function useDashboard() {
 
   // Apply sorting and filtering
   const filteredAndSortedEvents = React.useMemo(() => {
-    let result = [...events];
+    let result = [...createdEvents];
     const now = new Date();
 
     // Apply search filter
@@ -260,7 +247,7 @@ export function useDashboard() {
     });
 
     return result;
-  }, [events, searchTerm, sortConfig, activeFilters]);
+  }, [createdEvents, searchTerm, sortConfig, activeFilters]);
 
   return {
     events: filteredAndSortedEvents,

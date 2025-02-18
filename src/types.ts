@@ -32,6 +32,7 @@ export interface LoginResponse {
 export interface SignupResponse {
   user: User;
   token: string;
+  message: string;
 }
 
 export type CreateEventRequest = Omit<EventData, 'id' | 'creator' | 'created_at' | 'updated_at' | 'createdAt' | 'updatedAt' | 'user' | 'attendees' | 'participants'>;
@@ -42,6 +43,21 @@ export interface EventStatistics {
     available_places: number;
     occupancy_rate: number;
     is_full: boolean;
+}
+
+export interface EventWithStats extends EventData {
+    attendees_count?: number;
+    is_full?: boolean;
+}
+
+export interface CreatedEventsResponse {
+    total: number;
+    events: EventWithStats[];
+}
+
+export interface AttendedEventsResponse {
+    total: number;
+    events: EventData[];
 }
 
 export interface EventParticipantsResponse {

@@ -6,6 +6,9 @@ import { Footer } from './components/layout/footer';
 import { LoginForm } from './components/auth/login-form';
 import { SignupForm } from './components/auth/signup-form';
 import { ProfileEditForm } from './components/auth/profile-edit-form';
+import { VerifyAccountForm } from './components/auth/verify-account-form';
+import { ForgotPasswordForm } from './components/auth/forgot-password-form';
+import { ResetPasswordForm } from './components/auth/reset-password-form';
 import { EventList } from './components/events/event-list';
 import { EventView } from './components/events/event-view';
 import { Dashboard } from './components/dashboard/Dashboard';
@@ -46,6 +49,9 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/signup" element={<SignupForm />} />
+                <Route path="/verify-account" element={<VerifyAccountForm />} />
+                <Route path="/forgot-password" element={<ForgotPasswordForm />} />
+                <Route path="/reset-password/verify" element={<ResetPasswordForm />} />
                 
                 {/* Protected Routes */}
                 <Route path="/events" element={<ProtectedRoute><EventList /></ProtectedRoute>} />

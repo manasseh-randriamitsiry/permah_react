@@ -3,6 +3,11 @@
     "title": "Your Events",
     "createEvent": "Create Event",
     "search": "Search events...",
+    "tabs": {
+      "created": "Events I Created",
+      "attending": "Events I'm Attending",
+      "all": "All Events"
+    },
     "filters": {
       "status": "Status",
       "filter": "Filter",
@@ -20,7 +25,9 @@
       "title": "Event Name",
       "totalPlaces": "Total Places",
       "earnings": "Earnings",
-      "status": "Status"
+      "status": "Status",
+      "participants": "Participants",
+      "occupancyRate": "Occupancy Rate"
     },
     "table": {
       "eventName": "Event Name",
@@ -38,13 +45,23 @@
       "deleteSelected": "Delete Selected",
       "showing": "Showing {{count}} events",
       "selected": "{{count}} selected",
-      "occupancy": "Occupancy"
+      "occupancy": "Occupancy",
+      "creator": "Created By",
+      "participants": "Participants",
+      "noEvents": {
+        "created": "You haven't created any events yet",
+        "attending": "You're not attending any events yet",
+        "createFirst": "Create your first event",
+        "browseEvents": "Browse available events"
+      }
     },
     "status": {
       "closed": "Closed",
       "ongoing": "Ongoing",
       "upcoming": "Upcoming",
-      "full": "Full"
+      "full": "Full",
+      "available": "Available",
+      "cancelled": "Cancelled"
     },
     "stats": {
       "upcomingEvents": "Upcoming Events",
@@ -53,7 +70,11 @@
       "totalParticipants": "Total Participants",
       "totalIncome": "Total Income",
       "availablePlaces": "Available Places",
-      "averageOccupancy": "Average Occupancy"
+      "averageOccupancy": "Average Occupancy",
+      "createdEvents": "Events Created",
+      "attendingEvents": "Events Attending",
+      "totalEvents": "Total Events",
+      "activeEvents": "Active Events"
     },
     "loading": "Loading...",
     "deleteModal": {
@@ -63,6 +84,13 @@
       "cancel": "Cancel",
       "confirmAriaLabel": "Delete event: {{title}}",
       "cancelAriaLabel": "Cancel deletion"
+    },
+    "errors": {
+      "loadFailed": "Failed to load events",
+      "createFailed": "Failed to create event",
+      "updateFailed": "Failed to update event",
+      "deleteFailed": "Failed to delete event",
+      "unauthorized": "You are not authorized to perform this action"
     }
   },
   "auth": {
@@ -72,7 +100,10 @@
       "email": "Email address",
       "password": "Password",
       "submit": "Sign in",
-      "loading": "Signing in..."
+      "loading": "Signing in...",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up"
     },
     "profile": {
       "title": "Edit Profile",
@@ -106,30 +137,34 @@
     },
     "validation": {
       "username": {
-        "required": "Username is required",
-        "tooShort": "Username must be at least 4 characters long",
-        "tooLong": "Username must be less than 50 characters long",
-        "invalid": "Username can only contain letters, numbers, spaces, and common special characters",
-        "hint": "4-50 characters, letters, numbers, and common special characters allowed"
+        "required": "Name is required",
+        "tooShort": "Name must be at least 2 characters long",
+        "tooLong": "Name must be less than 255 characters",
+        "invalid": "Name can only contain letters, spaces, hyphens and apostrophes",
+        "hint": "2-255 characters, letters, spaces, hyphens and apostrophes allowed"
       },
       "email": {
         "required": "Email is required",
+        "tooLong": "Email must be less than 180 characters",
         "invalid": "Please enter a valid email address",
         "hint": "Enter a valid email address (e.g., user@example.com)"
       },
       "password": {
         "required": "Password is required",
         "tooShort": "Password must be at least 8 characters long",
-        "requireUppercase": "Password must contain at least one uppercase letter",
-        "requireLowercase": "Password must contain at least one lowercase letter",
-        "requireNumber": "Password must contain at least one number",
-        "requireSpecial": "Password must contain at least one special character",
-        "hint": "At least 8 characters with uppercase, lowercase, number, and special character"
+        "tooLong": "Password must be less than 4096 characters",
+        "requireLetterAndNumber": "Password must contain at least one letter and one number",
+        "hint": "At least 8 characters with at least one letter and one number"
       },
       "passwordConfirmation": {
         "required": "Please confirm your password",
         "mismatch": "Passwords do not match",
         "hint": "Re-enter your password exactly as above"
+      },
+      "verificationCode": {
+        "required": "Verification code is required",
+        "invalid": "Please enter a valid 6-digit code",
+        "hint": "Enter the 6-digit code sent to your email"
       }
     },
     "signup": {
@@ -142,6 +177,49 @@
       "submit": "Sign up",
       "loading": "Signing up...",
       "success": "Account created successfully! Please log in."
+    },
+    "verify": {
+      "title": "Verify Your Account",
+      "subtitle": "Please enter the verification code sent to your email",
+      "code": "Verification Code",
+      "codePlaceholder": "Enter 6-digit code",
+      "codeHint": "Enter the 6-digit code sent to your email",
+      "emailPlaceholder": "Enter your email address",
+      "submit": "Verify Account",
+      "loading": "Verifying...",
+      "success": "Account verified successfully",
+      "error": "Failed to verify account",
+      "backToLogin": "Back to Login"
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email to receive a password reset code",
+      "emailPlaceholder": "Enter your email address",
+      "submit": "Send Reset Code",
+      "loading": "Sending...",
+      "success": "Reset code sent successfully",
+      "error": "Failed to send reset code",
+      "backToLogin": "Back to Login"
+    },
+    "resetPassword": {
+      "title": "Reset Your Password",
+      "subtitle": "Enter the verification code and your new password",
+      "code": "Verification Code",
+      "codePlaceholder": "Enter 6-digit code",
+      "codeHint": "Enter the 6-digit code sent to your email",
+      "emailPlaceholder": "Enter your email address",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter new password",
+      "verify": "Verify Code",
+      "verifying": "Verifying...",
+      "submit": "Reset Password",
+      "resetting": "Resetting...",
+      "success": "Password reset successfully",
+      "error": "Failed to reset password",
+      "verifyError": "Invalid or expired verification code",
+      "backToLogin": "Back to Login"
     }
   },
   "common": {
@@ -273,7 +351,9 @@
       "leave": "Leave Event",
       "processing": "Processing...",
       "full": "Event Full",
-      "loginToJoin": "Login to Join"
+      "loginToJoin": "Login to Join",
+      "share": "Share Event",
+      "report": "Report Issue"
     },
     "details": {
       "from": "From",
@@ -283,7 +363,39 @@
       "totalSpots": "{{count}} total spots",
       "location": "Location",
       "price": "Price",
-      "description": "Description"
+      "description": "Description",
+      "organizer": "Organizer",
+      "created": "Created",
+      "lastUpdated": "Last Updated"
+    },
+    "participants": {
+      "title": "Event Participants",
+      "empty": "No participants yet",
+      "total": "Total Participants: {{count}}",
+      "list": "Participant List",
+      "loading": "Loading participants...",
+      "error": "Failed to load participants",
+      "search": "Search participants",
+      "export": "Export List"
+    },
+    "attendance": {
+      "join": "Join Event",
+      "leave": "Leave Event",
+      "joined": "You're attending this event",
+      "full": "Event is full",
+      "past": "Event has ended",
+      "confirmLeave": {
+        "title": "Leave Event",
+        "message": "Are you sure you want to leave this event?",
+        "confirm": "Leave",
+        "cancel": "Cancel"
+      },
+      "confirmJoin": {
+        "title": "Join Event",
+        "message": "Would you like to join this event?",
+        "confirm": "Join",
+        "cancel": "Cancel"
+      }
     },
     "errors": {
       "loginRequired": "You must be logged in to join events",
@@ -291,38 +403,9 @@
       "alreadyJoined": "You are already registered for this event",
       "eventFull": "This event is already full",
       "pastEvent": "Cannot join past events",
-      "ownEvent": "You cannot join your own event"
-    },
-    "form": {
-      "title": "Title",
-      "description": "Description",
-      "startDate": "Start Date",
-      "endDate": "End Date",
-      "location": "Location",
-      "imageUrl": "Image URL",
-      "availablePlaces": "Available Places",
-      "price": "Price",
-      "create": "Create Event",
-      "update": "Update Event",
-      "saving": "Saving...",
-      "errors": {
-        "title": "Title is required",
-        "description": "Description is required",
-        "dates": "Start date must be before end date",
-        "location": "Location is required",
-        "places": "Available places must be at least 1",
-        "price": "Price must be 0 or greater",
-        "createFailed": "Failed to create event. Please try again.",
-        "updateFailed": "Failed to update event. Please try again.",
-        "invalidDates": "Invalid date range",
-        "invalidPrice": "Invalid price",
-        "invalidPlaces": "Invalid number of places",
-        "requiredFields": "Please fill in all required fields"
-      }
-    },
-    "participants": {
-      "title": "Event Participants",
-      "empty": "No participants yet"
+      "ownEvent": "You cannot join your own event",
+      "notFound": "Event not found",
+      "loadFailed": "Failed to load event details"
     }
   },
   "loading": {

@@ -29,9 +29,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    console.log('Auth store: starting logout process...');
+    // First clear the state
     set({ user: null, isAuthenticated: false });
+    // Then clear storage through SecurityService
+    SecurityService.clearAuth();
+    console.log('Auth store: logout complete');
   },
 
   updateProfile: async (data) => {
