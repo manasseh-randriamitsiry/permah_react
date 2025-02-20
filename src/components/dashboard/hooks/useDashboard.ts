@@ -47,14 +47,25 @@ export function useDashboard() {
       const created = createdResponse.events;
       const attended = attendedResponse.events;
 
-      setCreatedEvents(created);
-      setAttendedEvents(attended);
-
       // Split created events into upcoming and past
       const now = new Date();
       const upcoming = created.filter((event: EventWithStats) => new Date(event.endDate) > now);
       const past = created.filter((event: EventWithStats) => new Date(event.endDate) <= now);
 
+      // Fetch statistics only for upcoming events
+      const statsPromises = upcoming.map((event: EventWithStats) => EventService.getEventStatistics(event.id));
+      const eventStats = await Promise.all(statsPromises.map((p: Promise<EventStatistics>) => p.catch((e: Error) => null)));
+
+      console.log('Upcoming events:', upcoming.map((event: EventWithStats) => ({
+        id: event.id,
+        attendees_count: event.attendees_count,
+        available_places: event.available_places
+      })));
+
+      console.log('Event statistics:', eventStats);
+
+      setCreatedEvents(created);
+      setAttendedEvents(attended);
       setUpcomingEvents(upcoming);
       setPastEvents(past);
 
@@ -70,9 +81,18 @@ export function useDashboard() {
         past: past.length,
         totalParticipants: created.reduce((sum: number, event: EventWithStats) => sum + (event.attendees_count || 0), 0),
         totalIncome: created.reduce((sum: number, event: EventWithStats) => sum + (event.price * (event.attendees_count || 0)), 0),
-        totalAvailablePlaces: created.reduce((sum: number, event: EventWithStats) => sum + event.available_places, 0),
-        averageOccupancyRate: created.length > 0 
-          ? created.reduce((sum: number, event: EventWithStats) => sum + ((event.attendees_count || 0) / event.available_places), 0) / created.length
+        totalAvailablePlaces: eventStats.filter(Boolean).length > 0
+          ? eventStats.reduce((sum: number, stats) => {
+              if (!stats) return sum;
+              return sum + (stats.total_places - stats.attendees_count);
+            }, 0)
+          : 0,
+        averageOccupancyRate: eventStats.filter(Boolean).length > 0
+          ? eventStats.reduce((sum: number, stats) => {
+              if (!stats) return sum;
+              const occupancyRate = ((stats.total_places - stats.available_places) / stats.total_places) * 100;
+              return sum + occupancyRate;
+            }, 0) / eventStats.filter(Boolean).length
           : 0
       };
 

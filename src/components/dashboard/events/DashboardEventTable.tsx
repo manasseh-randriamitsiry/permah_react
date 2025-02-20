@@ -163,7 +163,17 @@ export function DashboardEventTable({
               <div className="text-sm text-gray-600">
                 <div className="flex justify-between items-center mb-1">
                   <span>{formatDate(event.startDate).date}</span>
-                  <span>{event.attendees?.length || 0} / {event.available_places}</span>
+                  <span>
+                    {loadingStats[event.id] ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <div className="h-3 w-3 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+                      </div>
+                    ) : eventStats[event.id] ? (
+                      `${eventStats[event.id].total_places - eventStats[event.id].available_places} / ${eventStats[event.id].total_places}`
+                    ) : (
+                      `${event.attendees?.length || 0} / ${event.available_places}`
+                    )}
+                  </span>
                 </div>
               </div>
 

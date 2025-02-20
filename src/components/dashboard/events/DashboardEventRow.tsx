@@ -95,7 +95,7 @@ export function DashboardEventRow({
         ) : stats ? (
           <div className="flex flex-col items-center">
             <span className="font-medium text-gray-900">
-              {stats.attendees_count} / {stats.available_places}
+              {stats.total_places - stats.available_places} / {stats.total_places}
             </span>
             {stats.is_full && (
               <span className="mt-1 inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-800">
