@@ -59,7 +59,7 @@ export function ForgotPasswordForm() {
 
                 <div className="space-y-2">
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                        {t('auth.email')}
+                        {t('auth.forgotPassword.email')}
                     </label>
                     <Input
                         id="email"

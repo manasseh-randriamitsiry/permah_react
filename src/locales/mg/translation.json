@@ -37,7 +37,16 @@
       "deleteSelected": "Hamafa ny voafidy",
       "showing": "Mampiseho {{count}}",
       "selected": "Voafidy {{count}}",
-      "occupancy": "Tahan'ny fahatafidirana"
+      "occupancy": "Tahan'ny fahatafidirana",
+      "joined": "Mpandray anjara",
+      "free": "Toerana malalaka",
+      "creator": "Mpanao",
+      "noEvents": {
+        "created": "Mbola tsy nanao hetsika ianao",
+        "attending": "Mbola tsy mandray anjara amin'ny hetsika ianao",
+        "createFirst": "Mamorona hetsika voalohany",
+        "browseEvents": "Hijery ny hetsika misy"
+      }
     },
     "status": {
       "closed": "Tapitra",
@@ -55,7 +64,11 @@
       "totalParticipants": "Mpandray anjara rehetra",
       "totalIncome": "Vola miditra rehetra",
       "availablePlaces": "Toerana malalaka",
-      "averageOccupancy": "Salan'isan'ny fahatafidirana"
+      "averageOccupancy": "Salan'isan'ny fahatafidirana",
+      "createdEvents": "Hetsika noforonina",
+      "attendingEvents": "Hetsika andraisana anjara",
+      "totalEvents": "Hetsika rehetra",
+      "activeEvents": "Hetsika mavitrika"
     },
     "deleteModal": {
       "title": "Hamafa hetsika",
@@ -64,16 +77,24 @@
       "cancel": "Tsia",
       "confirmAriaLabel": "Manaiky: {{title}}",
       "cancelAriaLabel": "Manda"
+    },
+    "tabs": {
+      "created": "Hetsika noforoniko",
+      "attending": "Hetsika handraisako anjara",
+      "all": "Hetsika rehetra"
     }
   },
   "auth": {
     "login": {
-      "title": "Tonga soa",
+      "title": "Tongasoa",
       "subtitle": "Azafady, midira amin'ny kaontinao",
       "email": "Adiresy mailaka",
       "password": "Teny miafina",
       "submit": "Hiditra",
-      "loading": "Eo am-pidirana..."
+      "loading": "Eo am-pidirana...",
+      "forgotPassword": "Hadino ny teny miafina?",
+      "noAccount": "Mbola tsy manana kaonty?",
+      "signupLink": "Hisoratra anarana"
     },
     "signup": {
       "title": "Hisoratra anarana",
@@ -91,6 +112,37 @@
         "invalidEmail": "Tsy mety io adiresy mailaka io",
         "weakPassword": "Ny teny miafina dia tsy maintsy ahitana farafahakeliny soratra 8"
       }
+    },
+    "forgotPassword": {
+      "title": "Hamerina teny miafina",
+      "subtitle": "Ampidiro ny mailakao mba handray kaody famerenana",
+      "email": "Adiresy mailaka",
+      "emailPlaceholder": "Ampidiro ny mailakao",
+      "submit": "Handefa kaody",
+      "loading": "Mandefa...",
+      "success": "Voalefa soa aman-tsara ny kaody",
+      "error": "Tsy tanteraka ny fandefasana kaody",
+      "backToLogin": "Hiverina amin'ny fidirana"
+    },
+    "resetPassword": {
+      "title": "Hamerina ny teny miafina",
+      "subtitle": "Ampidiro ny kaody fanamarinana sy ny teny miafina vaovao",
+      "code": "Kaody fanamarinana",
+      "codePlaceholder": "Ampidiro ny kaody 6 isa",
+      "codeHint": "Ampidiro ny kaody 6 isa nalefa tamin'ny mailakao",
+      "emailPlaceholder": "Ampidiro ny mailakao",
+      "newPassword": "Teny miafina vaovao",
+      "newPasswordPlaceholder": "Ampidiro ny teny miafina vaovao",
+      "confirmPassword": "Hamarino ny teny miafina",
+      "confirmPasswordPlaceholder": "Avereno ampidirina ny teny miafina vaovao",
+      "verify": "Hanamarina kaody",
+      "verifying": "Manamarina...",
+      "submit": "Hamerina teny miafina",
+      "resetting": "Mamerina...",
+      "success": "Voaverina soa aman-tsara ny teny miafina",
+      "error": "Tsy tanteraka ny famerenana teny miafina",
+      "verifyError": "Diso na efa lany daty ny kaody fanamarinana",
+      "backToLogin": "Hiverina amin'ny fidirana"
     },
     "errors": {
       "title": "Tsy nahomby ny fidirana",
@@ -125,29 +177,33 @@
     "validation": {
       "username": {
         "required": "Tsy maintsy fenoina ny anarana",
-        "tooShort": "Tsy maintsy mihoatra ny 4 ny isan'ny soratra amin'ny anarana",
-        "tooLong": "Tsy tokony hihoatra ny 50 ny isan'ny soratra amin'ny anarana",
-        "invalid": "Ny anarana dia tsy maintsy ahitana litera, isa, elanelana ary marika fanampiny mahazatra ihany",
-        "hint": "Soratra 4-50, litera, isa ary marika fanampiny azo ampiasaina"
+        "tooShort": "Tsy maintsy mihoatra ny 2 ny isan'ny soratra amin'ny anarana",
+        "tooLong": "Tsy tokony hihoatra ny 255 ny isan'ny soratra amin'ny anarana",
+        "invalid": "Ny anarana dia tsy maintsy ahitana litera, elanelana, tirets ary apostrophes ihany",
+        "hint": "2-255 soratra, litera, elanelana, tirets ary apostrophes azo ampiasaina"
       },
       "email": {
         "required": "Tsy maintsy fenoina ny mailaka",
+        "tooLong": "Tsy tokony hihoatra ny 180 ny isan'ny soratra amin'ny mailaka",
         "invalid": "Azafady, ampidiro mailaka marina",
         "hint": "Ampidiro mailaka marina (oh: mpampiasa@ohatra.com)"
       },
       "password": {
-        "required": "Tsy maintsy fenoina ny tenimiafina",
-        "tooShort": "Tsy maintsy mihoatra ny 8 ny isan'ny soratra amin'ny tenimiafina",
-        "requireUppercase": "Tsy maintsy misy litera lehibe iray farafahakeliny ny tenimiafina",
-        "requireLowercase": "Tsy maintsy misy litera kely iray farafahakeliny ny tenimiafina",
-        "requireNumber": "Tsy maintsy misy isa iray farafahakeliny ny tenimiafina",
-        "requireSpecial": "Tsy maintsy misy marika manokana iray farafahakeliny ny tenimiafina",
-        "hint": "Farafahakeliny soratra 8 misy litera lehibe, litera kely, isa ary marika manokana"
+        "required": "Tsy maintsy fenoina ny teny miafina",
+        "tooShort": "Tsy maintsy mihoatra ny 8 ny isan'ny soratra amin'ny teny miafina",
+        "tooLong": "Tsy tokony hihoatra ny 4096 ny isan'ny soratra amin'ny teny miafina",
+        "requireLetterAndNumber": "Ny teny miafina dia tsy maintsy ahitana litera iray farafahakeliny sy isa iray",
+        "hint": "Farafahakeliny soratra 8 misy litera iray sy isa iray"
       },
       "passwordConfirmation": {
-        "required": "Azafady, hamarino ny tenimiafina",
-        "mismatch": "Tsy mitovy ny tenimiafina",
-        "hint": "Avereno ampidirina mitovy amin'ny teo ambony ny tenimiafina"
+        "required": "Azafady, hamarino ny teny miafina",
+        "mismatch": "Tsy mitovy ny teny miafina",
+        "hint": "Avereno ampidirina mitovy amin'ny teo ambony ny teny miafina"
+      },
+      "verificationCode": {
+        "required": "Tsy maintsy fenoina ny kaody fanamarinana",
+        "invalid": "Azafady, ampidiro kaody 6 isa marina",
+        "hint": "Ampidiro ny kaody 6 isa nalefa tamin'ny mailakao"
       }
     }
   },

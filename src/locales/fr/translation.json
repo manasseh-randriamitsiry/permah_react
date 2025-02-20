@@ -21,7 +21,9 @@
       "title": "Nom de l'événement",
       "totalPlaces": "Places totales",
       "earnings": "Revenus",
-      "status": "Statut"
+      "status": "Statut",
+      "participants": "Participants",
+      "occupancyRate": "Taux d'occupation"
     },
     "table": {
       "eventName": "Nom de l'événement",
@@ -42,10 +44,19 @@
         "edit": "Modifier",
         "delete": "Supprimer"
       },
-      "noEvents": "Aucun événement",
+      "noEvents": {
+        "created": "Vous n'avez pas encore créé d'événements",
+        "attending": "Vous ne participez à aucun événement",
+        "createFirst": "Créer votre premier événement",
+        "browseEvents": "Parcourir les événements disponibles"
+      },
       "noSearchResults": "Aucun événement ne correspond à votre recherche",
       "tryDifferentSearch": "Essayez d'ajuster vos termes de recherche",
-      "loading": "Chargement des événements..."
+      "loading": "Chargement des événements...",
+      "joined": "Inscrits",
+      "free": "Disponibles",
+      "creator": "Créé par",
+      "participants": "Participants"
     },
     "status": {
       "closed": "Terminé",
@@ -63,7 +74,11 @@
       "totalParticipants": "Total des participants",
       "totalIncome": "Revenu total",
       "availablePlaces": "Places disponibles",
-      "averageOccupancy": "Taux d'occupation moyen"
+      "averageOccupancy": "Taux d'occupation moyen",
+      "createdEvents": "Événements créés",
+      "attendingEvents": "Événements auxquels je participe",
+      "totalEvents": "Total des événements",
+      "activeEvents": "Événements actifs"
     },
     "deleteModal": {
       "title": "Supprimer l'événement",
@@ -72,16 +87,24 @@
       "cancel": "Annuler",
       "confirmAriaLabel": "Supprimer l'événement : {{title}}",
       "cancelAriaLabel": "Annuler la suppression"
+    },
+    "tabs": {
+      "created": "Événements que j'ai créés",
+      "attending": "Événements auxquels je participe",
+      "all": "Tous les événements"
     }
   },
   "auth": {
     "login": {
-      "title": "Bon retour",
+      "title": "Bienvenue",
       "subtitle": "Veuillez vous connecter à votre compte",
       "email": "Adresse e-mail",
       "password": "Mot de passe",
       "submit": "Se connecter",
-      "loading": "Connexion en cours..."
+      "loading": "Connexion en cours...",
+      "forgotPassword": "Mot de passe oublié ?",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signupLink": "S'inscrire"
     },
     "signup": {
       "title": "Créer un compte",
@@ -153,6 +176,37 @@
         "required": "La confirmation du mot de passe est requise",
         "mismatch": "Les mots de passe ne correspondent pas"
       }
+    },
+    "forgotPassword": {
+      "title": "Réinitialiser le mot de passe",
+      "subtitle": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "submit": "Envoyer le code",
+      "loading": "Envoi en cours...",
+      "success": "Code envoyé avec succès",
+      "error": "Échec de l'envoi du code",
+      "backToLogin": "Retour à la connexion"
+    },
+    "resetPassword": {
+      "title": "Réinitialiser votre mot de passe",
+      "subtitle": "Entrez le code de vérification et votre nouveau mot de passe",
+      "code": "Code de vérification",
+      "codePlaceholder": "Entrez le code à 6 chiffres",
+      "codeHint": "Entrez le code à 6 chiffres envoyé à votre e-mail",
+      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Entrez le nouveau mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Confirmez le nouveau mot de passe",
+      "verify": "Vérifier le code",
+      "verifying": "Vérification...",
+      "submit": "Réinitialiser le mot de passe",
+      "resetting": "Réinitialisation...",
+      "success": "Mot de passe réinitialisé avec succès",
+      "error": "Échec de la réinitialisation du mot de passe",
+      "verifyError": "Code de vérification invalide ou expiré",
+      "backToLogin": "Retour à la connexion"
     }
   },
   "common": {

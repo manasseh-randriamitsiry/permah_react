@@ -17,7 +17,7 @@ export function LoginFields({ emailRef, passwordRef, isLoading }: LoginFieldsPro
     <>
       <div className="space-y-2">
         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          {t('auth.email')}
+          {t('auth.login.email')}
         </label>
         <Input
           id="email"
@@ -33,7 +33,7 @@ export function LoginFields({ emailRef, passwordRef, isLoading }: LoginFieldsPro
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            {t('auth.password')}
+            {t('auth.login.password')}
           </label>
           <Link
             to="/forgot-password"

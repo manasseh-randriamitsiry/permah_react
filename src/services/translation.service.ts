@@ -81,7 +81,7 @@ export class TranslationService {
     };
   }
 
-  static getCurrencyFormatter(locale: string, currency: string = 'USD') {
+  static getCurrencyFormatter(locale: string, currency: string = 'MGA') {
     return new Intl.NumberFormat(locale, {
       style: 'currency',
       currency
