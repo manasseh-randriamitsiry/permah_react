@@ -64,7 +64,7 @@ export function EventList() {
             case 'full':
               return isFull;
             case 'available':
-              return !isFull;
+              return !isFull && now <= endDate;
             default:
               return false;
           }

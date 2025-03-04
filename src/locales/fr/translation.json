@@ -155,33 +155,53 @@
     },
     "validation": {
       "username": {
-        "required": "Le nom d'utilisateur est requis",
-        "minLength": "Le nom d'utilisateur doit contenir au moins {{min}} caractères",
-        "maxLength": "Le nom d'utilisateur ne doit pas dépasser {{max}} caractères",
-        "invalidCharacters": "Le nom d'utilisateur ne peut contenir que des lettres, des chiffres et des tirets"
+        "required": "Le nom est requis",
+        "tooShort": "Le nom doit contenir au moins 2 caractères",
+        "tooLong": "Le nom ne doit pas dépasser 255 caractères",
+        "invalid": "Le nom ne peut contenir que des lettres, espaces, tirets et apostrophes",
+        "hint": "2-255 caractères, lettres, espaces, tirets et apostrophes autorisés"
       },
       "email": {
-        "required": "L'adresse e-mail est requise",
-        "invalid": "Veuillez entrer une adresse e-mail valide"
+        "required": "L'email est requis",
+        "tooLong": "L'email ne doit pas dépasser 180 caractères",
+        "invalid": "Veuillez entrer une adresse email valide",
+        "hint": "Entrez une adresse email valide (ex: utilisateur@exemple.com)"
       },
       "password": {
         "required": "Le mot de passe est requis",
-        "minLength": "Le mot de passe doit contenir au moins {{min}} caractères",
-        "requireUppercase": "Le mot de passe doit contenir au moins une lettre majuscule",
-        "requireLowercase": "Le mot de passe doit contenir au moins une lettre minuscule",
-        "requireNumber": "Le mot de passe doit contenir au moins un chiffre",
-        "requireSpecial": "Le mot de passe doit contenir au moins un caractère spécial"
+        "tooShort": "Le mot de passe doit contenir au moins 8 caractères",
+        "tooLong": "Le mot de passe ne doit pas dépasser 4096 caractères",
+        "requireLetterAndNumber": "Le mot de passe doit contenir au moins une lettre et un chiffre",
+        "hint": "Au moins 8 caractères avec au moins une lettre et un chiffre"
       },
-      "confirmPassword": {
-        "required": "La confirmation du mot de passe est requise",
-        "mismatch": "Les mots de passe ne correspondent pas"
+      "passwordConfirmation": {
+        "required": "Veuillez confirmer votre mot de passe",
+        "mismatch": "Les mots de passe ne correspondent pas",
+        "hint": "Saisissez à nouveau votre mot de passe exactement comme ci-dessus"
+      },
+      "verificationCode": {
+        "required": "Le code de vérification est requis",
+        "invalid": "Veuillez entrer un code à 6 chiffres valide",
+        "hint": "Entrez le code à 6 chiffres envoyé à votre email"
       }
+    },
+    "verify": {
+      "title": "Vérifiez votre compte",
+      "subtitle": "Veuillez entrer le code de vérification envoyé à votre email",
+      "code": "Code de vérification",
+      "codePlaceholder": "Entrez le code à 6 chiffres",
+      "codeHint": "Entrez le code à 6 chiffres envoyé à votre email",
+      "emailPlaceholder": "Entrez votre adresse email",
+      "submit": "Vérifier le compte",
+      "loading": "Vérification en cours...",
+      "success": "Compte vérifié avec succès",
+      "error": "Échec de la vérification du compte",
+      "backToLogin": "Retour à la connexion"
     },
     "forgotPassword": {
       "title": "Réinitialiser le mot de passe",
-      "subtitle": "Entrez votre adresse e-mail pour recevoir un code de réinitialisation",
-      "email": "Adresse e-mail",
-      "emailPlaceholder": "Entrez votre adresse e-mail",
+      "subtitle": "Entrez votre email pour recevoir un code de réinitialisation",
+      "emailPlaceholder": "Entrez votre adresse email",
       "submit": "Envoyer le code",
       "loading": "Envoi en cours...",
       "success": "Code envoyé avec succès",
@@ -398,6 +418,25 @@
     "participants": {
       "title": "Participants à l'événement",
       "empty": "Aucun participant pour le moment"
+    },
+    "attendance": {
+      "join": "Participer",
+      "leave": "Se désinscrire",
+      "joined": "Vous participez à cet événement",
+      "full": "L'événement est complet",
+      "past": "L'événement est terminé",
+      "confirmLeave": {
+        "title": "Se désinscrire de l'événement",
+        "message": "Êtes-vous sûr de vouloir vous désinscrire de cet événement ?",
+        "confirm": "Se désinscrire",
+        "cancel": "Annuler"
+      },
+      "confirmJoin": {
+        "title": "Participer à l'événement",
+        "message": "Souhaitez-vous participer à cet événement ?",
+        "confirm": "Participer",
+        "cancel": "Annuler"
+      }
     }
   },
   "loading": {
